@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.RegisterActivity">
+
+    <ImageView
+        android:id="@+id/img_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="手机号注册"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/Account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="80dp"
+        android:textColorHint="@color/white">
+
+        <AutoCompleteTextView
+            android:id="@+id/phoneOrEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_email"
+            android:inputType="phone|textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff"
+            android:textSize="20sp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/Verification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Account"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+
+        <android.support.design.widget.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white">
+
+            <EditText
+                android:id="@+id/code"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:hint="请输入验证码"
+                android:imeActionId="6"
+                android:imeOptions="actionUnspecified"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="20sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/sendCode"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/select_button_green"
+            android:gravity="center"
+            android:text="获取验证码"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Verification"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColorHint="@color/white">
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_password"
+            android:imeActionId="6"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionUnspecified"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff"
+            android:textSize="20sp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/email_sign_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/passwordInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/select_button_green"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</RelativeLayout>

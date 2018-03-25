@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg"
+    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.PersonalActivity">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_layout" />
+
+
+    <FrameLayout
+        android:id="@+id/mFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/textView"
+        android:layout_below="@+id/title"/>
+
+
+
+
+    <TextView
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/white"
+        android:layout_above="@+id/textView"
+        android:textColor="@color/red"
+        android:onClick="SingOut"
+        android:gravity="center"
+        android:text="退出登录"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/powered"
+        android:textColor="@color/white" />
+
+
+
+
+</RelativeLayout>

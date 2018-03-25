@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.embednet.wdluo.bleplatformsdkdemo.dfu.DfuActivity">
+
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_layout" />
+
+    <ListView
+        android:id="@+id/fileListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonLinearLayout"
+        android:layout_below="@+id/title"
+        android:minHeight="10dp" />
+
+    <LinearLayout
+        android:id="@+id/buttonLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/progressBar"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/getFirmwareFileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/getFirmwareButton"
+            android:layout_weight="1.0"
+            android:text="获取固件" />
+
+        <Button
+            android:id="@+id/selectDeviceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:text="选择设备" />
+
+        <Button
+            android:id="@+id/updateFirmwareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/getFirmwareFileButton"
+            android:layout_weight="1.0"
+            android:text="升级固件" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/statusTextView"
+        android:layout_alignEnd="@+id/buttonLinearLayout"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/blank_view"
+        android:layout_centerHorizontal="true"
+        android:text="Status Text" />
+
+    <View
+        android:id="@+id/blank_view"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_above="@+id/textView"
+        android:minHeight="100dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/powered" />
+
+
+</RelativeLayout>

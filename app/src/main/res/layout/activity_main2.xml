@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.Main2Activity">
+
+
+    <RelativeLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="60px"
+            android:layout_height="60px"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20px"
+            android:src="@mipmap/back" />
+
+
+        <TextView
+            android:id="@+id/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:textColor="@color/white"
+            android:textSize="45px" />
+
+
+        <ImageView
+            android:id="@+id/img_statistics"
+            android:layout_width="60px"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40px"
+            android:onClick="statistics"
+            android:src="@mipmap/icon_statistics" />
+
+        <ImageView
+            android:id="@+id/img_personal"
+            android:layout_width="60px"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="60px"
+            android:layout_toLeftOf="@+id/img_statistics"
+            android:onClick="personal"
+            android:src="@mipmap/img_prepore" />
+
+        <ImageView
+            android:id="@+id/img_share"
+            android:layout_width="60px"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="60px"
+            android:layout_toLeftOf="@+id/img_personal"
+            android:onClick="share"
+            android:src="@mipmap/share" />
+
+    </RelativeLayout>
+
+
+    <com.embednet.wdluo.bleplatformsdkdemo.ui.RoundDisPlayView
+        android:id="@+id/mRoundDisPlayView"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_below="@+id/titleLayout" />
+
+
+
+    <LinearLayout
+        android:layout_above="@+id/mColumnChartView"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="100dp"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:src="@mipmap/icon_statistics"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:text="运动里程"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/mColumnChartView"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="100dp"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:src="@mipmap/icon_statistics"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:text="运动消耗"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+    <lecho.lib.hellocharts.view.ColumnChartView
+        android:id="@+id/mColumnChartView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_above="@+id/textView"
+        />
+
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/powered"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

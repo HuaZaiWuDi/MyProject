@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    tools:context="com.embednet.wdluo.bleplatformsdkdemo.HistoryDataActivity">
+
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_layout" />
+    
+    
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/mLineChartView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+
+
+    <view
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"/>
+
+    <lecho.lib.hellocharts.view.ColumnChartView
+        android:id="@+id/mColumnChartView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+
+    
+</LinearLayout>

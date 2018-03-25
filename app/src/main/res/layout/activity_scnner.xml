@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg"
+    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.ScnnerActivity">
+
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_layout" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/email_sign_in_button"
+        android:layout_below="@+id/title"
+        android:orientation="vertical">
+
+        <com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView
+            android:id="@+id/circle_loading_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@drawable/connecting_svg" />
+
+
+        <TextView
+            android:id="@+id/bleStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="蓝牙未连接请先连接"
+            android:textColor="@color/white" />
+
+
+        <ListView
+            android:id="@+id/mListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/email_sign_in_button"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@+id/textView"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/select_button_blue"
+        android:onClick="login"
+        android:text="直接进入"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/powered"
+        android:textColor="@color/white" />
+</RelativeLayout>

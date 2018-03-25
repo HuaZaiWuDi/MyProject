@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.Login2Activity">
+
+    <ImageView
+        android:id="@+id/img_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/select_button_green"
+            android:gravity="center"
+            android:onClick="wechar">
+
+            <com.embednet.wdluo.bleplatformsdkdemo.ui.ImageTextView
+                android:id="@+id/email_sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:text="微信登录"
+                android:textColor="@color/white"
+                app:drawable="@mipmap/img_wechar"
+                app:drawableHeight="8dp"
+                app:drawableWidth="8dp"
+                app:position="left" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/linear"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:alpha="0.8"
+            android:background="@drawable/select_button_gray"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="WeiBo">
+
+
+                <ImageView
+                    android:id="@+id/WeiBo"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@mipmap/img_weibo" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="30dp"
+                android:background="@color/white" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="QQ">
+
+
+                <ImageView
+                    android:id="@+id/QQ"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@mipmap/img_qq" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear2"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/text_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="phoneOrEmail"
+                android:text="手机号登录"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                android:id="@+id/text_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:onClick="register"
+                android:text="手机号注册"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

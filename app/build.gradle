@@ -1,0 +1,91 @@
+apply plugin: 'com.android.application'
+def AAVersion = '4.4.0'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        applicationId "com.embednet.wdluo.bleplatformsdkdemo"
+        minSdkVersion 19
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        flavorDimensions "versionCode"
+        multiDexEnabled true
+
+        //  替换成你的qq_id
+        manifestPlaceholders = [
+                qq_id: "1106565969"
+        ]
+//        ndk {
+//            //设置支持的SO库架构
+//            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+//        }
+    }
+    buildTypes {
+        release {
+            buildConfigField "boolean", "IS_DEBUG", "false"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    //noinspection GradleCompatible
+    //https://github.com/Jasonchenlijian/FastBle
+    compile 'com.clj.fastble:FastBleLib:2.1.5'
+    //加载进度控件https://github.com/jlmd/AnimatedCircleLoadingView
+    compile 'com.github.jlmd:AnimatedCircleLoadingView:1.1.5@aar'
+    //进度条 https://github.com/dudu90/FreshDownloadView
+    compile 'com.pitt.fresh.library:freshdownloadview:1.0'
+    //注释掉原有bugly的仓库
+    //compile 'com.tencent.bugly:crashreport:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.3.2
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
+    //    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
+    //图表库
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
+    //Glide
+    compile 'com.github.bumptech.glide:glide:4.2.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+
+    //Bmob
+    //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
+    //    //bmob-sms ：Bmob单独为短信服务提供的包
+    //    implementation 'cn.bmob.android:bmob-sms:1.0.1'
+    //    implementation project(path: ':shareutil')
+    implementation('cn.bmob.android:bmob-sdk:3.5.9') {
+//        exclude module:'gson'
+    }
+
+    implementation project(path: ':jackupdate')
+    //注解
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    implementation "org.androidannotations:androidannotations-api:$AAVersion"
+    //解决重复依赖，分包处理
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation files('libs/libammsdk.jar')
+    implementation files('libs/open_sdk_r5886_lite.jar')
+    implementation files('libs/weiboSDKCore_3.1.4.jar')
+    compile project(path: ':filepicker-1.0')
+
+    //nordic DFU 升级
+    compile('no.nordicsemi.android:dfu:1.6.1') {
+        exclude module: 'gson'
+        exclude module: 'support-core-utils'
+    }
+//    compile 'com.google.code.gson:gson:2.8.0'
+}

@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    testCompile 'junit:junit:4.12'
+//    //rx retrofit
+//    compile 'io.reactivex:rxandroid:1.2.0'
+//    compile 'io.reactivex:rxjava:1.1.6'
+//    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+//    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+//    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+//    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+//    compile 'com.artemzin.rxjava:proguard-rules:1.1.0.0'
+
+    //Snackbar
+    compile 'com.android.support:design:25.3.1'
+    //    //权限引导
+//    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
+    //滑动退出
+    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
+    //简单好看的dialog
+    compile 'cn.pedant.sweetalert:library:1.3'
+}
+
+

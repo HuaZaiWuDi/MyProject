@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:icon="@mipmap/img_heard"
+        android:key="login"
+        android:summary="登录账号以同步数据"
+        android:textColor="@color/white"
+        android:title="用户" />
+
+    <EditTextPreference
+        android:textColor="@color/white"
+        android:defaultValue="用户"
+        android:key="UserName"
+        android:summary="请输入名字"
+        android:title="修改昵称" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="AutoConnect"
+        android:summaryOff="关"
+        android:summaryOn="开"
+        android:title="自动连接" />
+
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="AutoLogin"
+        android:summaryOff="关"
+        android:summaryOn="开"
+        android:title="自动登录" />
+
+
+
+
+</PreferenceScreen>

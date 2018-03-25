@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg"
+    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.UpdateDFUActivity">
+
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_layout" />
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/white" />
+
+
+    <com.pitt.library.fresh.FreshDownloadView
+        android:id="@+id/mFreshDownloadView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/color_bg" />
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/blank_view"
+        android:layout_centerHorizontal="true"
+        android:text="Status Text"
+        android:textColor="@color/white" />
+
+    <View
+        android:id="@+id/blank_view"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_above="@+id/textView"
+        android:minHeight="100dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/powered"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

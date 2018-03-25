@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Widget" />
+
+    <style name="Widget.ScannerSubtitle">
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <declare-styleable name="ImageTextView">
+        <attr name="drawable" format="reference" />
+        <attr name="drawableWidth" format="dimension" />
+        <attr name="drawableHeight" format="dimension" />
+        <attr name="position" format="enum">
+            <enum name="left" value="1" />
+            <enum name="right" value="3" />
+            <enum name="top" value="2" />
+            <enum name="bottom" value="4" />
+        </attr>
+    </declare-styleable>
+
+
+</resources>
