@@ -54,7 +54,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_app"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="icon,label,theme,allowBackup">
@@ -88,6 +88,21 @@
         <activity android:name=".app.ControlActivity" />
         <activity android:name=".app.ScnnerActivity" />
         <activity android:name=".app.UpdateDFUActivity" />
+
+
+        <!-- android7.0适配 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.embednet.wdluo.bleplatformsdkdemo"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <!-- 元数据 -->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
 
         <!-- Bugly自动更新 -->
         <activity
@@ -156,7 +171,12 @@
             android:targetActivity=".app.Login2Activity" />
 
         <activity android:name=".app.RegisterActivity" />
-        <activity android:name=".HistoryDataActivity"></activity>
+        <activity android:name=".app.HistoryDataActivity"></activity>
+
+        <service
+            android:name=".service.BleService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

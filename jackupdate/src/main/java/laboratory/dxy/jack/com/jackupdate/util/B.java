@@ -29,6 +29,13 @@ public class B {
         mContext.sendBroadcast(intent);
     }
 
+    public static void broadUpdate(Context mContext, final String action, String key, boolean value) {
+        final Intent intent = new Intent(action);
+        intent.putExtra(key, value);
+        intent.setPackage(mContext.getPackageName());
+        mContext.sendBroadcast(intent);
+    }
+
     public static void broadUpdate(Context mContext, final String action, String key, int value) {
         final Intent intent = new Intent(action);
         intent.putExtra(key, value);

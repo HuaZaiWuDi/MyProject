@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg"
+    android:background="#333333"
     tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.ControlActivity">
 
 
@@ -13,13 +13,24 @@
         layout="@layout/title_layout" />
 
 
-    <ImageView
-        android:id="@+id/img_switch"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:onClick="doSwitch"
-        android:src="@mipmap/img_icon_switch_on" />
+    <!--<ImageView-->
+    <!--android:id="@+id/img_switch"-->
+    <!--android:layout_width="60dp"-->
+    <!--android:layout_height="60dp"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:onClick="doSwitch"-->
+    <!--android:src="@mipmap/img_icon_switch_on" />-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/textView"
+        android:layout_below="@+id/title"
+        android:background="#333333">
+
+    </android.support.v7.widget.RecyclerView>
+
 
     <TextView
         android:id="@+id/textView"

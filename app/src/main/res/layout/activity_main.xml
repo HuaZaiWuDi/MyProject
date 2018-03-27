@@ -26,4 +26,6 @@
         android:layout_centerHorizontal="true"
         android:text="@string/powered"
         android:textColor="@color/white" />
+
+
 </RelativeLayout>

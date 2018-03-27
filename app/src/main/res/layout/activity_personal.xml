@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg"
     tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.PersonalActivity">
 
     <include
@@ -17,22 +16,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/textView"
-        android:layout_below="@+id/title"/>
-
-
+        android:layout_below="@+id/title" />
 
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/textView"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:background="@color/white"
-        android:layout_above="@+id/textView"
-        android:textColor="@color/red"
-        android:onClick="SingOut"
+        android:background="@color/ivory"
         android:gravity="center"
+        android:onClick="SingOut"
         android:text="退出登录"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:textColor="@color/red" />
 
 
     <TextView
@@ -42,9 +39,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/powered"
-        android:textColor="@color/white" />
-
-
+        android:textColor="@color/gray" />
 
 
 </RelativeLayout>

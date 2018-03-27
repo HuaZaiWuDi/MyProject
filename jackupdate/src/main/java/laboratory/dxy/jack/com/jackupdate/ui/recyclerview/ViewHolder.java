@@ -18,6 +18,7 @@ import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 /**
@@ -214,6 +215,13 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         view.setChecked(checked);
         return this;
     }
+
+    public ViewHolder setSwitch(int viewId, boolean checked) {
+        Switch view = (Switch) getView(viewId);
+        view.setChecked(checked);
+        return this;
+    }
+
 
     /**
      * 关于事件的

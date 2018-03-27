@@ -43,7 +43,7 @@ public class Login2Activity extends BaseAvtivity {
 
         if (sharedPreferences.getBoolean("AutoLogin", false)) {
             //登录成功
-            startActivity(new Intent(Login2Activity.this, ScnnerActivity.class));
+            startActivity(new Intent(Login2Activity.this, Main2Activity.class));
             finish();
             return;
         }

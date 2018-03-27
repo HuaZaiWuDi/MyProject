@@ -24,8 +24,8 @@ public class MainActivity extends BaseAvtivity {
     private List<Map<String, Object>> itemList;
     private SimpleAdapter sim_adapter;
     // 图片封装为一个数组
-    private int[] icon = {R.drawable.update, R.mipmap.img_control};
-    private String[] iconName = {"更新固件", "控制中心"};
+    private int[] icon = {R.drawable.update, R.mipmap.img_control, R.mipmap.icon_history_data};
+    private String[] iconName = {"更新固件", "控制中心", "历史数据"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,11 @@ public class MainActivity extends BaseAvtivity {
                         /* Create an Intent that will start the Main WordPress Activity. */
                         startActivity(new Intent(MainActivity.this,
                                 ControlActivity.class));
+                        break;
+                    case 2:
+                        /* Create an Intent that will start the Main WordPress Activity. */
+                        startActivity(new Intent(MainActivity.this,
+                                HistoryDataActivity.class));
                         break;
                     default:
                         break;

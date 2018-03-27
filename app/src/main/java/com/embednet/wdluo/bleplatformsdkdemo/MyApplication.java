@@ -62,12 +62,12 @@ public class MyApplication extends MultiDexApplication {
     }
 
 
-    private void initBLE() {
+    public static void initBLE() {
         bleManager = BleManager.getInstance();
-        bleManager.init(this);
+        bleManager.init(application);
 
         if (!bleManager.isSupportBle()) {
-            Toast.makeText(this, "该设备不支持蓝牙", Toast.LENGTH_SHORT).show();
+            Toast.makeText(application, "该设备不支持蓝牙", Toast.LENGTH_SHORT).show();
             return;
         }
         bleManager.enableBluetooth();

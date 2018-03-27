@@ -2,6 +2,7 @@ package com.embednet.wdluo.bleplatformsdkdemo.app;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.embednet.wdluo.bleplatformsdkdemo.Constants;
@@ -80,6 +81,7 @@ public class HistoryDataActivity extends BaseAvtivity {
         mColumnChartView.postDelayed(new Runnable() {
             @Override
             public void run() {
+                mColumnChartView.setVisibility(View.VISIBLE);
                 mColumnChartView.setZoomLevelWithAnimation(0, 0, 12f);
             }
         }, 1000);

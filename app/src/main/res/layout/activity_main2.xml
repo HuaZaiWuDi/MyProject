@@ -75,48 +75,72 @@
         android:layout_below="@+id/titleLayout" />
 
 
-
     <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
         android:layout_above="@+id/mColumnChartView"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_width="100dp"
-        android:layout_height="100dp">
+        android:orientation="vertical">
 
-        <ImageView
-            android:src="@mipmap/icon_statistics"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+        <!--<com.embednet.wdluo.bleplatformsdkdemo.ui.PowerIconView-->
+        <!--android:id="@+id/powerIcon"-->
+        <!--android:layout_width="60dp"-->
+        <!--android:layout_height="30dp" />-->
+
 
         <TextView
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            android:text="运动里程"
+            android:id="@+id/battery"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/battery"
+            android:text="电池电量"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
 
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_alignParentRight="true"
-        android:layout_above="@+id/mColumnChartView"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_width="100dp"
-        android:layout_height="100dp">
 
-        <ImageView
-            android:src="@mipmap/icon_statistics"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+    <LinearLayout
+        android:layout_marginRight="10dp"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_above="@+id/mColumnChartView"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!--<ImageView-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:src="@mipmap/icon_resistance" />-->
+
 
         <TextView
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            android:text="运动消耗"
+            android:id="@+id/resistance"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电阻阻值"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
 
 
     </LinearLayout>
@@ -127,8 +151,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_above="@+id/textView"
-        />
-
+        android:layout_margin="5dp" />
 
 
     <TextView

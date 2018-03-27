@@ -44,6 +44,9 @@ dependencies {
 //    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     //滑动退出
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
+
+    //弘扬的自定义布局
+    compile 'com.zhy:autolayout:1.4.5'
     //简单好看的dialog
     compile 'cn.pedant.sweetalert:library:1.3'
 }

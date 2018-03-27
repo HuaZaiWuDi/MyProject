@@ -13,7 +13,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.Base64;
 import android.view.View;
@@ -380,7 +379,7 @@ public class ImageTools {
     /**
      * 将图片存到本地
      */
-    public static Uri saveBitmap(Bitmap bm, String picName) {
+    public static File saveBitmap(Bitmap bm, String picName) {
         try {
             String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/share/" + picName + ".jpg";
             File f = new File(dir);
@@ -392,8 +391,7 @@ public class ImageTools {
             bm.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.flush();
             out.close();
-            Uri uri = Uri.fromFile(f);
-            return uri;
+            return f;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

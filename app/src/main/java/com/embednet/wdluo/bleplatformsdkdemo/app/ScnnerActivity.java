@@ -1,41 +1,42 @@
 package com.embednet.wdluo.bleplatformsdkdemo.app;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.clj.fastble.callback.BleGattCallback;
 import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.data.BleScanState;
-import com.clj.fastble.exception.BleException;
+import com.embednet.wdluo.bleplatformsdkdemo.Constants;
 import com.embednet.wdluo.bleplatformsdkdemo.R;
 import com.embednet.wdluo.bleplatformsdkdemo.ble.BleTools;
 import com.embednet.wdluo.bleplatformsdkdemo.scanner.DeviceListAdapter;
 import com.embednet.wdluo.bleplatformsdkdemo.scanner.ExtendedBluetoothDevice;
 import com.embednet.wdluo.bleplatformsdkdemo.scanner.ScannerServiceParser;
+import com.embednet.wdluo.bleplatformsdkdemo.service.BleService;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
 import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-import laboratory.dxy.jack.com.jackupdate.util.AnimUtils;
+import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
+import rx.functions.Action1;
 
 import static com.embednet.wdluo.bleplatformsdkdemo.MyApplication.bleManager;
 
@@ -48,6 +49,25 @@ public class ScnnerActivity extends BaseAvtivity {
     private BluetoothGattCharacteristic characteristic;
 
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Constants.ACTIVE_CONNECT_STATUE)) {
+                boolean connected = intent.getBooleanExtra(Constants.EXTRA_CONNECT_STATUE, false);
+                if (connected) {
+
+                    bleStatus.setText("连接成功");
+                    sharedPreferences.edit().putString("MAC", BleTools.bleDevice.getMac()).apply();
+                    circle_loading_view.stopOk();
+
+                } else {
+                    circle_loading_view.stopFailure();
+                    bleStatus.setText("连接失败");
+                }
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +77,10 @@ public class ScnnerActivity extends BaseAvtivity {
         setTitleText("搜索界面");
         setBack();
 
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.ACTIVE_CONNECT_STATUE);
+        registerReceiver(receiver, filter);
 
         circle_loading_view = (AnimatedCircleLoadingView) findViewById(R.id.circle_loading_view);
         circle_loading_view.setOnClickListener(new View.OnClickListener() {
@@ -79,13 +103,42 @@ public class ScnnerActivity extends BaseAvtivity {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 final ExtendedBluetoothDevice d = (ExtendedBluetoothDevice) mAdapter.getItem(position);
-                bleManager.connect(bleManager.convertBleDevice(d.device), connect);
+
+                BleTools.bleDevice = bleManager.convertBleDevice(d.device);
+                circle_loading_view.startIndeterminate();
+                circle_loading_view.resetLoading();
+                circle_loading_view.setBackgroundResource(0);
+                bleStatus.setText("开始连接");
+                bleManager.cancelScan();
+
+                startService(new Intent(ScnnerActivity.this, BleService.class));
             }
         });
         mListView.setDivider(new ColorDrawable(Color.WHITE));
         mListView.setDividerHeight(1);
         mBluetoothAdapter = bleManager.getBluetoothAdapter();
         addBondedDevices();
+    }
+
+
+    private void sheckPromission() {
+        //定位权限
+        if (Build.VERSION.SDK_INT >= 23)
+            new RxPermissions(this)
+                    .request(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    .subscribe(new Action1<Boolean>() {
+                        @Override
+                        public void call(Boolean aBoolean) {
+                            if (aBoolean) {
+                                L.d("权限请求成功");
+                                scan();
+                            } else {
+                                L.d("权限请求失败");
+                                RxToast.error("只要允许定位权限才能发现蓝牙设备哦！");
+                            }
+                        }
+                    });
+        else scan();
     }
 
 
@@ -117,15 +170,6 @@ public class ScnnerActivity extends BaseAvtivity {
 
     private void scan() {
 
-        if (sharedPreferences.getBoolean("AutoConnect", false)) {
-            String mac = sharedPreferences.getString("MAC", "");
-            if (BluetoothAdapter.checkBluetoothAddress(mac)) {
-                BluetoothDevice remoteDevice = bleManager.getBluetoothAdapter().getRemoteDevice(mac);
-                bleManager.connect(bleManager.convertBleDevice(remoteDevice), connect);
-                return;
-            }
-        }
-
         BleTools.getInstance().configScan();
 
         bleManager.scan(new BleScanCallback() {
@@ -133,7 +177,7 @@ public class ScnnerActivity extends BaseAvtivity {
             public void onScanStarted(boolean success) {
                 L.d("扫描开始:" + success);
                 bleStatus.setText("正在搜索设备...");
-                circle_loading_view.setAnimation(AnimationUtils.loadAnimation(ScnnerActivity.this,R.anim.rotate));
+                circle_loading_view.setAnimation(AnimationUtils.loadAnimation(ScnnerActivity.this, R.anim.rotate));
             }
 
             @Override
@@ -168,17 +212,11 @@ public class ScnnerActivity extends BaseAvtivity {
 
     }
 
-    private void roateAnimation(){
-//        AnimUtils.doRotateAnim(circle_loading_view,1000);
-
-    }
-
-
 
     @Override
     protected void onStart() {
         super.onStart();
-        scan();
+        sheckPromission();
     }
 
     @Override
@@ -190,58 +228,7 @@ public class ScnnerActivity extends BaseAvtivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(receiver);
     }
-
-    BleGattCallback connect = new BleGattCallback() {
-        @Override
-        public void onStartConnect() {
-            L.d("开始连接");
-            circle_loading_view.resetLoading();
-            circle_loading_view.startIndeterminate();
-            circle_loading_view.setBackgroundResource(0);
-            bleStatus.setText("开始连接");
-            bleManager.cancelScan();
-        }
-
-        @Override
-        public void onConnectFail(BleException exception) {
-            bleManager.handleException(exception);
-            circle_loading_view.stopFailure();
-            L.e("连接失败：" + exception.toString());
-            bleStatus.setText("连接失败");
-            scan();
-        }
-
-        @Override
-        public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
-            circle_loading_view.stopOk();
-            L.d("连接成功");
-            BleTools.bleDevice = bleDevice;
-//            BluetoothGattService service = gatt.getService(CHARACTERISTIC_CHANDEG);
-
-//            if (service != null)
-//                characteristic = service.getCharacteristic(CHARACTERISTIC_CHANDEG);
-//            if (characteristic != null) {
-            bleStatus.setText("连接成功");
-            sharedPreferences.edit().putString("MAC", bleDevice.getMac()).apply();
-
-            bleManager.cancelScan();
-//            BleTools.getInstance().openIndicate();
-            BleTools.getInstance().openNotify();
-
-
-//            }
-
-        }
-
-        @Override
-        public void onDisConnected(boolean isActiveDisConnected, BleDevice device, BluetoothGatt gatt, int status) {
-            L.d(isActiveDisConnected ? "主动断开连接" : "自动断开连接");
-
-//            if (!isActiveDisConnected) {
-                bleManager.connect(device, this);
-//            }
-        }
-    };
 
 }

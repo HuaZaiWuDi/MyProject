@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.embednet.wdluo.bleplatformsdkdemo.R;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
-import com.embednet.wdluo.bleplatformsdkdemo.util.StatusBarUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,7 +37,7 @@ public class BaseAvtivity extends AppCompatActivity {
         L.d("onCreate");
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         L.d("测试代码");
-        StatusBarUtils.from(this).setTransparentStatusbar(true).process();
+//        StatusBarUtils.from(this).setTransparentStatusbar(true).process();
     }
 
     public void setBack() {

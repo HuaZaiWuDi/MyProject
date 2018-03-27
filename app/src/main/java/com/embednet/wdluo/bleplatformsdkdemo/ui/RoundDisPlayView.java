@@ -68,6 +68,7 @@ public class RoundDisPlayView extends View {
     public RoundDisPlayView setLinesColor(@ColorInt int[] linesColor) {
         if (linesColor.length == 3)
             this.linesColor = linesColor;
+        postInvalidate();
         return this;
     }
 
@@ -76,17 +77,16 @@ public class RoundDisPlayView extends View {
         sweepAngle1 = sweepAngles[0];
         sweepAngle2 = sweepAngles[1];
         sweepAngle3 = sweepAngles[2];
+        postInvalidate();
         return this;
     }
 
     public RoundDisPlayView setBackground(@ColorInt int BackgroundColor) {
         this.BackgroundColor = BackgroundColor;
+        postInvalidate();
         return this;
     }
 
-    public void submit() {
-        postInvalidate();
-    }
 
 
     private void init() {

@@ -1,17 +1,26 @@
 package com.embednet.wdluo.bleplatformsdkdemo.app;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.embednet.wdluo.bleplatformsdkdemo.Constants;
+import com.embednet.wdluo.bleplatformsdkdemo.MyApplication;
 import com.embednet.wdluo.bleplatformsdkdemo.R;
+import com.embednet.wdluo.bleplatformsdkdemo.ble.BleAPI;
+import com.embednet.wdluo.bleplatformsdkdemo.ble.BleTools;
+import com.embednet.wdluo.bleplatformsdkdemo.ble.listener.BleCallBack;
+import com.embednet.wdluo.bleplatformsdkdemo.service.BleService;
 import com.embednet.wdluo.bleplatformsdkdemo.ui.RoundDisPlayView;
 import com.embednet.wdluo.bleplatformsdkdemo.util.ScreenUtil;
 import com.embednet.wdluo.bleplatformsdkdemo.util.ShareUtlis;
-import com.embednet.wdluo.bleplatformsdkdemo.util.Utils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -30,6 +39,47 @@ public class Main2Activity extends BaseAvtivity {
 
     RoundDisPlayView mRoundDisPlayView;
     ColumnChartView mColumnChartView;
+    TextView battery, resistance;
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Constants.ACTIVE_CONNECT_STATUE)) {
+                boolean connected = intent.getBooleanExtra(Constants.EXTRA_CONNECT_STATUE, false);
+                if (connected) {
+                    mRoundDisPlayView.setCentreText(0 / 60 + "", "", "正在同步数据");
+                    syncData();
+                } else {
+                    mRoundDisPlayView.setCentreText(0 / 60 + "", "", "设备连接失败");
+                }
+            }
+        }
+    };
+
+    private void syncData() {
+        BleAPI.getInstance().setDeviceTime(new BleCallBack() {
+            @Override
+            public void isSuccess(byte[] data) {
+                BleAPI.getInstance().getDeviceStatus(new BleCallBack() {
+                    @Override
+                    public void isSuccess(byte[] data) {
+                        BleAPI.getInstance().getWorkData(new BleCallBack() {
+                            @Override
+                            public void isSuccess(byte[] data) {
+                                BleAPI.getInstance().getHistroyData(new BleCallBack() {
+                                    @Override
+                                    public void isSuccess(byte[] data) {
+                                        mRoundDisPlayView.setCentreText(0 / 60 + "", "", "同步完成");
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +87,12 @@ public class Main2Activity extends BaseAvtivity {
         setContentView(R.layout.activity_main2);
 
 
-        setTitleText("功能界面");
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.ACTIVE_CONNECT_STATUE);
+        registerReceiver(receiver, filter);
+
+
+        setTitleText("首页");
         ImageView back = (ImageView) findViewById(R.id.back);
         back.setImageResource(R.mipmap.icon_scan);
         back.setOnClickListener(new View.OnClickListener() {
@@ -52,8 +107,7 @@ public class Main2Activity extends BaseAvtivity {
         mRoundDisPlayView = (RoundDisPlayView) findViewById(R.id.mRoundDisPlayView);
         mRoundDisPlayView.startAnimation();
         mRoundDisPlayView.setCentreText(0 / 60 + "", "", "今日数据")
-                .setBackground(Color.parseColor("#333333")).submit();
-
+                .setBackground(Color.parseColor("#333333"));
         mRoundDisPlayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,8 +115,20 @@ public class Main2Activity extends BaseAvtivity {
             }
         });
 
+        battery = findViewById(R.id.battery);
+        resistance = findViewById(R.id.resistance);
 
         setmColumnChartView();
+
+
+        String mac = sharedPreferences.getString("MAC", "");
+        try {
+            BleTools.bleDevice = BleTools.getInstance().setMAC(mac);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        startService(new Intent(Main2Activity.this, BleService.class));
+        mRoundDisPlayView.setCentreText(0 / 60 + "", "", "正在连接设备...");
 
     }
 
@@ -130,11 +196,16 @@ public class Main2Activity extends BaseAvtivity {
         return new DecimalFormat(format).format(value);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
 
     //分享
     public void share(View v) {
         Bitmap bitmap = ScreenUtil.snapShotWithoutStatusBar(this);
-        ShareUtlis.smpleShareImage(this, bitmap);
+        ShareUtlis.smpleShareImage(MyApplication.getApplication(), bitmap);
     }
 
     //个人中心
