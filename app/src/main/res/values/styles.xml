@@ -12,6 +12,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <declare-styleable name="ImageTextView">
         <attr name="drawable" format="reference" />
         <attr name="drawableWidth" format="dimension" />
@@ -24,5 +28,10 @@
         </attr>
     </declare-styleable>
 
+
+    <style name="popAnim">
+        <item name="android:windowEnterAnimation">@anim/layout_in</item>
+        <item name="android:windowExitAnimation">@anim/layout_out</item>
+    </style>
 
 </resources>

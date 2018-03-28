@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Telephony;
@@ -293,17 +292,17 @@ public class RegisterActivity extends BaseAvtivity {
 
 
     private void doLoginSuccess() {
-        SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putString(Constants.UserPasswrod, password);
-        edit.putString(Constants.UserPhone, phone);
-        edit.putBoolean("AutoLogin", true);
-        edit.apply();
+//        SharedPreferences.Editor edit = sharedPreferences.edit();
+//        edit.putString(Constants.UserPasswrod, password);
+//        edit.putString(Constants.UserPhone, phone);
+//        edit.putBoolean("AutoLogin", true);
+//        edit.apply();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 //登录成功
-                startActivity(new Intent(RegisterActivity.this, ScnnerActivity.class));
+                startActivity(new Intent(RegisterActivity.this, Login2Activity.class));
                 finish();
             }
         }, 500);

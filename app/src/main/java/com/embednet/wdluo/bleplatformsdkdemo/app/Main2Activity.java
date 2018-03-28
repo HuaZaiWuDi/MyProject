@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -12,15 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.embednet.wdluo.bleplatformsdkdemo.Constants;
-import com.embednet.wdluo.bleplatformsdkdemo.MyApplication;
 import com.embednet.wdluo.bleplatformsdkdemo.R;
 import com.embednet.wdluo.bleplatformsdkdemo.ble.BleAPI;
 import com.embednet.wdluo.bleplatformsdkdemo.ble.BleTools;
 import com.embednet.wdluo.bleplatformsdkdemo.ble.listener.BleCallBack;
 import com.embednet.wdluo.bleplatformsdkdemo.service.BleService;
-import com.embednet.wdluo.bleplatformsdkdemo.ui.RoundDisPlayView;
-import com.embednet.wdluo.bleplatformsdkdemo.util.ScreenUtil;
-import com.embednet.wdluo.bleplatformsdkdemo.util.ShareUtlis;
+import com.embednet.wdluo.bleplatformsdkdemo.ui.RoundView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -37,7 +33,7 @@ import lecho.lib.hellocharts.view.ColumnChartView;
 
 public class Main2Activity extends BaseAvtivity {
 
-    RoundDisPlayView mRoundDisPlayView;
+    RoundView mRoundDisPlayView;
     ColumnChartView mColumnChartView;
     TextView battery, resistance;
 
@@ -52,6 +48,7 @@ public class Main2Activity extends BaseAvtivity {
                 } else {
                     mRoundDisPlayView.setCentreText(0 / 60 + "", "", "设备连接失败");
                 }
+                mRoundDisPlayView.stopAnimation();
             }
         }
     };
@@ -69,7 +66,7 @@ public class Main2Activity extends BaseAvtivity {
                                 BleAPI.getInstance().getHistroyData(new BleCallBack() {
                                     @Override
                                     public void isSuccess(byte[] data) {
-                                        mRoundDisPlayView.setCentreText(0 / 60 + "", "", "同步完成");
+                                        mRoundDisPlayView.setCentreText(0 / 60 + "", "步", "同步完成");
                                     }
                                 });
                             }
@@ -85,7 +82,6 @@ public class Main2Activity extends BaseAvtivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.ACTIVE_CONNECT_STATUE);
@@ -104,9 +100,8 @@ public class Main2Activity extends BaseAvtivity {
             }
         });
 
-        mRoundDisPlayView = (RoundDisPlayView) findViewById(R.id.mRoundDisPlayView);
-        mRoundDisPlayView.startAnimation();
-        mRoundDisPlayView.setCentreText(0 / 60 + "", "", "今日数据")
+        mRoundDisPlayView = findViewById(R.id.mRoundDisPlayView);
+        mRoundDisPlayView.setCentreText(0 / 60 + "", "步", "目标5000步")
                 .setBackground(Color.parseColor("#333333"));
         mRoundDisPlayView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +138,7 @@ public class Main2Activity extends BaseAvtivity {
             Random random = new Random();
             int steps = random.nextInt(100);
             List<SubcolumnValue> values = new ArrayList<>();
-            values.add(new SubcolumnValue(steps, Color.parseColor("#F0CF17")).setLabel(steps + ""));
+            values.add(new SubcolumnValue(steps, Color.parseColor("#70BF52")).setLabel(steps + ""));
 
             Column column = new Column(values);
             column.setHasLabels(true);//标签
@@ -151,9 +146,9 @@ public class Main2Activity extends BaseAvtivity {
             columns.add(column);
 
             if (i % 6 == 0)
-                axisValues.add(new AxisValue(i).setLabel(setFormat(i, "00")));
+                axisValues.add(new AxisValue(i).setLabel(setFormat(i, "00") + ":00"));
         }
-        axisValues.add(new AxisValue(23).setLabel(setFormat(23, "00")));
+        axisValues.add(new AxisValue(23).setLabel(setFormat(23, "00") + ":00"));
         axisYValues.add(new AxisValue(50).setLabel(50 + ""));
 
         data = new ColumnChartData(columns);
@@ -204,8 +199,8 @@ public class Main2Activity extends BaseAvtivity {
 
     //分享
     public void share(View v) {
-        Bitmap bitmap = ScreenUtil.snapShotWithoutStatusBar(this);
-        ShareUtlis.smpleShareImage(MyApplication.getApplication(), bitmap);
+
+        startActivity(new Intent(this, ShareActivity.class));
     }
 
     //个人中心
@@ -216,7 +211,7 @@ public class Main2Activity extends BaseAvtivity {
 
     //统计
     public void statistics(View v) {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, HistoryDataActivity.class));
 //        Utils.navigateWithRippleCompat(this, new Intent(this, MainActivity.class), v, R.color.orange);
     }
 

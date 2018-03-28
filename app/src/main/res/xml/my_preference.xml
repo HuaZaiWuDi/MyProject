@@ -9,11 +9,12 @@
         android:title="用户" />
 
     <EditTextPreference
-        android:textColor="@color/white"
         android:defaultValue="用户"
         android:key="UserName"
-        android:summary="请输入名字"
-        android:title="修改昵称" />
+        android:summary="运动目标"
+        android:textColor="@color/white"
+        android:title="5000步" />
+
 
     <SwitchPreference
         android:defaultValue="false"
@@ -29,8 +30,6 @@
         android:summaryOff="关"
         android:summaryOn="开"
         android:title="自动登录" />
-
-
 
 
 </PreferenceScreen>

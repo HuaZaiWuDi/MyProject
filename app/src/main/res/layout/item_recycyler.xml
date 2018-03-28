@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_view"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="#333333"
-    android:id="@+id/item_view"
     android:padding="10dp">
 
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:src="@mipmap/icon_statistics" />
+    <!--<ImageView-->
+    <!--android:id="@+id/icon"-->
+    <!--android:layout_width="30dp"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:src="@mipmap/icon_statistics" />-->
 
 
     <TextView
@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/icon"
         android:text="Title"
         android:textColor="@color/white"
         android:textSize="17dp"
@@ -32,19 +31,12 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/icon"
-        android:text="text"
-        android:textColor="@color/white" />
-
-
-    <Switch
-        android:id="@+id/switchgear"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp" />
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:text="Title"
+        android:textColor="@color/white"
+        android:textSize="17dp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

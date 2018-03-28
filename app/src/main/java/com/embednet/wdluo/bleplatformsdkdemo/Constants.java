@@ -25,6 +25,8 @@ public class Constants {
 
 
 
+
+
     ///////////////////////////////////////////////////////////////////////////
     // 第三方登录信息
     ///////////////////////////////////////////////////////////////////////////
@@ -52,6 +54,13 @@ public class Constants {
     //bugly
     public static String BUGLY_APP_ID = "8dfebf15bd";
 
+
+
+    public static final String MSM = "com.android.mms";
+    public static final String QQ = "com.tencent.mobileqq";
+    public static final String WECHAR = "com.tencent.mm";
+    public static final String WHATSAPP = "com.whatsapp";
+    public static final String WEIBO = "com.sina.weibo";
 
     ///////////////////////////////////////////////////////////////////////////
     // OTA Config

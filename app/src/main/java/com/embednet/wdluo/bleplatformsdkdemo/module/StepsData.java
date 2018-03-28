@@ -1,6 +1,6 @@
 package com.embednet.wdluo.bleplatformsdkdemo.module;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by MacBook on 18/3/19.
@@ -9,12 +9,12 @@ import java.util.Map;
 public class StepsData {
 
 
-    public Map<String,DayStepsTab> map;
+    public List<DayStepsTab> list;
 
     @Override
     public String toString() {
         return "StepsData{" +
-                "map=" + map +
+                "map=" + list +
                 '}';
     }
 }

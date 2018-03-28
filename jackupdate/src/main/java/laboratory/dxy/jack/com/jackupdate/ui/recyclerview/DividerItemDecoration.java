@@ -19,6 +19,7 @@ package laboratory.dxy.jack.com.jackupdate.ui.recyclerview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
@@ -80,7 +81,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     public void drawVertical(Canvas c, RecyclerView parent) {
-        c.drawColor(itemColor);
+
         final int left = parent.getPaddingLeft();
         final int right = parent.getWidth() - parent.getPaddingRight();
 
@@ -95,12 +96,12 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             final int top = child.getBottom() + params.bottomMargin;
             final int bottom = top + mDivider.getIntrinsicHeight();
             mDivider.setBounds(left, top, right, bottom);
+
             mDivider.draw(c);
         }
     }
 
     public void drawHorizontal(Canvas c, RecyclerView parent) {
-        c.drawColor(itemColor);
         final int top = parent.getPaddingTop();
         final int bottom = parent.getHeight() - parent.getPaddingBottom();
 
@@ -119,8 +120,10 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, int itemPosition,
                                RecyclerView parent) {
+        mDivider.setColorFilter(itemColor, PorterDuff.Mode.ADD);
         if (mOrientation == VERTICAL_LIST) {
             outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+
         } else {
             outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
         }

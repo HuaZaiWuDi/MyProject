@@ -10,10 +10,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.embednet.wdluo.bleplatformsdkdemo.Constants;
+import com.embednet.wdluo.bleplatformsdkdemo.MyApplication;
 import com.embednet.wdluo.bleplatformsdkdemo.R;
 import com.embednet.wdluo.bleplatformsdkdemo.login.QQlogin;
 import com.embednet.wdluo.bleplatformsdkdemo.login.WeiBoLogin;
 import com.embednet.wdluo.bleplatformsdkdemo.login.WeiXinLogin;
+import com.embednet.wdluo.bleplatformsdkdemo.module.UserInfo;
 import com.embednet.wdluo.bleplatformsdkdemo.module.result.LoginResult;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -120,9 +122,9 @@ public class Login2Activity extends BaseAvtivity {
         public void onNext(LoginResult result) {
             L.d("登录成功:" + result.getUserInfo().getNickname());
             L.d("登录成功:" + result.getUserInfo().getHeadImageUrl());
-            com.embednet.wdluo.bleplatformsdkdemo.util.L.d("登录成功:" + result.getUserInfo().getHeadImageUrlLarge());
-            com.embednet.wdluo.bleplatformsdkdemo.util.L.d("登录成功:" + result.getUserInfo().getOpenId());
-            com.embednet.wdluo.bleplatformsdkdemo.util.L.d("登录成功:" + result.getUserInfo().getSex());
+            L.d("登录成功:" + result.getUserInfo().getHeadImageUrlLarge());
+            L.d("登录成功:" + result.getUserInfo().getOpenId());
+            L.d("登录成功:" + result.getUserInfo().getSex());
 
             doLoginSuccess(result);
         }
@@ -176,11 +178,15 @@ public class Login2Activity extends BaseAvtivity {
     private void doLoginSuccess(LoginResult result) {
         RxToast.success("登录成功");
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putInt(Constants.UserSex, result.getUserInfo().getSex());
-        edit.putString(Constants.UserName, result.getUserInfo().getNickname());
-        edit.putString(Constants.UserImgHeard, result.getUserInfo().getHeadImageUrl());
         edit.putBoolean(Constants.AutoLogin, true);
         edit.apply();
+
+        UserInfo info = new UserInfo();
+        info.sex = result.getUserInfo().getSex() - 1;
+        info.name = result.getUserInfo().getNickname();
+        info.heardImgUrl = result.getUserInfo().getHeadImageUrl();
+
+        MyApplication.aCache.put("UserInfo", info);
 
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -5,6 +5,7 @@ import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
+import com.embednet.wdluo.bleplatformsdkdemo.cache.ACache;
 import com.tencent.bugly.Bugly;
 
 import cn.bmob.v3.Bmob;
@@ -20,6 +21,7 @@ import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 public class MyApplication extends MultiDexApplication {
 
     public static BleManager bleManager;
+    public static ACache aCache;
 
     private static Application application;
 
@@ -32,7 +34,7 @@ public class MyApplication extends MultiDexApplication {
         initBLE();
         initBugly();
         initBmob();
-
+        aCache = ACache.get(this);
 
     }
 

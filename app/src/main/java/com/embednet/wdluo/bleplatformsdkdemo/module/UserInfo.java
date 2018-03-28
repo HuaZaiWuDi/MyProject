@@ -8,17 +8,16 @@ import cn.bmob.v3.BmobUser;
  * 创建人：oden
  * 创建时间：2018/1/23
  */
-public class UserInfo extends BmobUser{
+public class UserInfo extends BmobUser {
 
-
-    public String name;
-    public String pwd;
+    public String name = "用户";
+    public String phone = "";
+    public String pwd = "";
+    public String heardImgUrl = "";
     public int id;
-
-    public UserInfo(String name, String pwd) {
-        this.name = name;
-        this.pwd = pwd;
-    }
-
+    public int sex = 0;
+    public int age = 20;
+    public int height = 175;
+    public int weight = 60;
 
 }

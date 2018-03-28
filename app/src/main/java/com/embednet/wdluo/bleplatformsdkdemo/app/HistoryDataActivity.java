@@ -2,6 +2,9 @@ package com.embednet.wdluo.bleplatformsdkdemo.app;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,24 +18,22 @@ import com.embednet.wdluo.bleplatformsdkdemo.util.Utils;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import laboratory.dxy.jack.com.jackupdate.ui.recyclerview.CommonAdapter;
+import laboratory.dxy.jack.com.jackupdate.ui.recyclerview.ViewHolder;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.ColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
-import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ColumnChartView;
-import lecho.lib.hellocharts.view.LineChartView;
 
 public class HistoryDataActivity extends BaseAvtivity {
     TextView dateTitle;
@@ -40,21 +41,19 @@ public class HistoryDataActivity extends BaseAvtivity {
     StepsData stepsData;
 
 
-    Calendar calendarDay = Calendar.getInstance();
-
-
-    Map<String, DayStepsTab> map;
+    List<DayStepsTab> lists = new ArrayList<>();
 
     ColumnChartView mColumnChartView;
 
 
-    String[] date = new String[90];
+    String[] dates = new String[90];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_data);
 
+        Calendar calendarDay = Calendar.getInstance();
         dateTitle = findViewById(R.id.dateTitle);
         dateTitle.setText(Utils.formatData(calendarDay.getTime(), Constants.DATE_FORMAT));
         setTitleText("历史数据");
@@ -71,20 +70,41 @@ public class HistoryDataActivity extends BaseAvtivity {
 //        tab.date
 //        map.put("2018-03-19", );
 
+        lists.clear();
+
+
+        for (int i = 0; i < 90; i++) {
+            if (i != 0)
+                calendarDay.add(Calendar.DATE, -1);
+            String date = Utils.formatData(calendarDay.getTime(), Constants.DATE_FORMAT);
+
+            Random random = new Random();
+            int steps = random.nextInt(30000);
+
+            DayStepsTab tab = new DayStepsTab();
+            tab.Total = steps;
+            tab.date = date;
+
+            dates[i] = Utils.formatData(calendarDay.getTime(), "MM/dd");
+            lists.add(tab);
+        }
+        L.d("list：" + lists);
 
         setRecyclerView();
         setmColumnChartView();
-        generateInitialLineData();
-        setUpdateValue();
-        generateLineData(Color.parseColor("#F0CF17"));
+        setUpdateValue(lists);
 
         mColumnChartView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mColumnChartView.setVisibility(View.VISIBLE);
                 mColumnChartView.setZoomLevelWithAnimation(0, 0, 12f);
+
+                adapter.notifyDataSetChanged();
             }
         }, 1000);
+
+
     }
 
 
@@ -97,22 +117,17 @@ public class HistoryDataActivity extends BaseAvtivity {
         List<AxisValue> axisValues = new ArrayList<>();
         List<AxisValue> axisYValues = new ArrayList<>();
         for (int i = 0; i < 90; i++) {
-            Random random = new Random();
-            int steps = random.nextInt(100);
             List<SubcolumnValue> values = new ArrayList<>();
-            values.add(new SubcolumnValue(steps, ChartUtils.pickColor()).setLabel(steps + ""));
+            values.add(new SubcolumnValue(0, ChartUtils.pickColor()).setLabel(0 + ""));
 
             Column column = new Column(values);
             column.setHasLabels(true);//标签
             column.setHasLabelsOnlyForSelected(true);
             columns.add(column);
 
-            if (i != 0)
-                calendarDay.add(Calendar.DATE, -1);
-            date[i] = Utils.formatData(calendarDay.getTime(), Constants.DATE_FORMAT);
-            axisValues.add(new AxisValue(i).setLabel(Utils.formatData(calendarDay.getTime(), "MM/dd")));
+            axisValues.add(new AxisValue(i).setLabel(dates[i]));
         }
-        axisYValues.add(new AxisValue(50).setLabel(50 + ""));
+        axisYValues.add(new AxisValue(5000).setLabel(5000 + ""));
 
         data = new ColumnChartData(columns);
         // Set stacked flag.叠加
@@ -132,11 +147,11 @@ public class HistoryDataActivity extends BaseAvtivity {
             @Override
             public void onValueSelected(int i, int i1, SubcolumnValue subcolumnValue) {
 
-//                generateLineData(subcolumnValue.getColor(), map.get(date[i]) != null ? map.get(date[i]).dayData : null);
-                generateLineData(subcolumnValue.getColor());
+////                generateLineData(subcolumnValue.getColor(), map.get(date[i]) != null ? map.get(date[i]).dayData : null);
+//                generateLineData(subcolumnValue.getColor());
                 L.d("点击的条目:" + i);
                 L.d("点击的条目:" + mColumnChartView.getZoomLevel());
-                dateTitle.setText(date[i]);
+                dateTitle.setText(dates[i]);
             }
 
             @Override
@@ -146,24 +161,31 @@ public class HistoryDataActivity extends BaseAvtivity {
         });
     }
 
-    private void setUpdateValue(Map<String, DayStepsTab> map) {
+    private void setUpdateValue(List<DayStepsTab> lists) {
+        L.d("数据之一：" + lists.size());
         mColumnChartView.cancelDataAnimation();
 
-        for (Column column : data.getColumns()) {
-            List<SubcolumnValue> values = column.getValues();
-            for (int i = 0; i < values.size(); i++) {
-                if (map.get(date[i]) != null)
-                    values.get(i).setTarget(map.get(date[i]).Total).setLabel(map.get(date[i]).Total + "");
-                else values.get(i).setTarget(0);
+
+        List<Column> columns = data.getColumns();
+        for (int i = 0; i < columns.size(); i++) {
+            for (SubcolumnValue value : columns.get(i).getValues()) {
+                if (lists.get(i) != null) {
+                    value.setTarget(lists.get(i).Total).setLabel(lists.get(i).Total + "");
+                } else value.setTarget(0);
             }
         }
+
         mColumnChartView.startDataAnimation();
+
+
     }
 
     private void setUpdateValue() {
         mColumnChartView.cancelDataAnimation();
         for (Column column : data.getColumns()) {
+            L.d("数据之一：" + data.getColumns().size());
             for (SubcolumnValue value : column.getValues()) {
+                L.d("数据之一：" + column.getValues().size());
                 int v = (int) (Math.random() * 100);
                 value.setTarget(v).setLabel(v + "");
             }
@@ -171,97 +193,42 @@ public class HistoryDataActivity extends BaseAvtivity {
         mColumnChartView.startDataAnimation();
     }
 
-    LineChartData lineData;
-    LineChartView chartView;
 
-    /**
-     * Generates initial data for line chart. At the begining all Y values are equals 0. That will change when user
-     * will select value on column chart.
-     */
-    private void generateInitialLineData() {
-        chartView = findViewById(R.id.mLineChartView);
-
-        List<AxisValue> axisValues = new ArrayList<AxisValue>();
-        List<PointValue> values = new ArrayList<PointValue>();
-        for (int i = 0; i < 24; ++i) {
-            values.add(new PointValue(i, 0));
-
-            if (i % 6 == 0)
-                axisValues.add(new AxisValue(i).setLabel(setFormat(i, "00")));
-        }
-        axisValues.add(new AxisValue(23).setLabel(setFormat(23, "00")));
-
-        Line line = new Line(values);
-        line.setColor(ChartUtils.COLOR_GREEN).setCubic(true);
-
-        List<Line> lines = new ArrayList<Line>();
-        lines.add(line);
-        line.setCubic(false);
-        lineData = new LineChartData(lines);
-        lineData.setAxisXBottom(new Axis(axisValues));
-        line.setHasLabels(true);
-        line.setHasLabelsOnlyForSelected(true);
-        lineData.setAxisYLeft(new Axis().setHasLines(true).setMaxLabelChars(5));
-        chartView.setLineChartData(lineData);
-
-        chartView.setValueSelectionEnabled(true);
-        chartView.setSelected(true);
-        // For build-up animation you have to disable viewport recalculation.
-        chartView.setViewportCalculationEnabled(false);
-
-        // And set initial max viewport and current viewport- remember to set viewports after data.
-        Viewport v = new Viewport(0, 100, 24, 0);
-        chartView.setMaximumViewport(v);
-        chartView.setCurrentViewport(v);
-
-        chartView.setZoomEnabled(false);
-
-    }
-
-    public void generateLineData(int color, int[] dayValue) {
-        chartView.cancelDataAnimation();
-
-        Line line = lineData.getLines().get(0);// For this example there is always only one line.
-        line.setColor(color);
-        if (dayValue == null) {
-            return;
-        }
-        List<PointValue> values = line.getValues();
-
-        for (int i = 0; i < values.size(); i++) {
-            PointValue value = values.get(i);
-            value.setTarget(value.getX(), dayValue[i]);
-            value.setLabel(dayValue[i] + "");
-        }
-
-        chartView.startDataAnimation(300);
-    }
-
-    public void generateLineData(int color) {
-        chartView.cancelDataAnimation();
-
-        Line line = lineData.getLines().get(0);// For this example there is always only one line.
-        line.setColor(color);
-
-        List<PointValue> values = line.getValues();
-
-        for (int i = 0; i < values.size(); i++) {
-            PointValue value = values.get(i);
-            int data = (int) (Math.random() * 100);
-            value.setTarget(value.getX(), (float) (Math.random() * 100)).setLabel(data + "");
-        }
-
-        chartView.startDataAnimation(300);
-    }
-
+    CommonAdapter adapter;
 
     private void setRecyclerView() {
-
+        RecyclerView mRecyclerView = findViewById(R.id.mRecyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        adapter = new CommonAdapter<DayStepsTab>(this, R.layout.item_recycyler, lists) {
+            @Override
+            public void convert(ViewHolder holder, DayStepsTab dayStepsTab, int position) {
+                holder.setText(R.id.title, dayStepsTab.Total + "步");
+                holder.setText(R.id.text, dayStepsTab.date);
+                if (dayStepsTab.Total > 5000) {
+                    holder.setTextColor(R.id.title, Color.YELLOW);
+                    holder.setTextColor(R.id.text, Color.YELLOW);
+                } else {
+                    holder.setTextColor(R.id.title, Color.WHITE);
+                    holder.setTextColor(R.id.text, Color.WHITE);
+                }
+            }
+        };
+        mRecyclerView.setAdapter(adapter);
     }
 
     public static String setFormat(long value, String format) {
 
         return new DecimalFormat(format).format(value);
+    }
+
+
+    public List<DayStepsTab> Map2List(Map<String, DayStepsTab> map) {
+        Collection<DayStepsTab> valueCollection = map.values();
+        final int size = valueCollection.size();
+
+        List<DayStepsTab> valueList = new ArrayList(valueCollection);
+        return valueList;
     }
 
 }

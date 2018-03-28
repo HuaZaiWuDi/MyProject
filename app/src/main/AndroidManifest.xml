@@ -89,7 +89,6 @@
         <activity android:name=".app.ScnnerActivity" />
         <activity android:name=".app.UpdateDFUActivity" />
 
-
         <!-- android7.0适配 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -102,7 +101,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
         </provider>
-
 
         <!-- Bugly自动更新 -->
         <activity
@@ -171,12 +169,15 @@
             android:targetActivity=".app.Login2Activity" />
 
         <activity android:name=".app.RegisterActivity" />
-        <activity android:name=".app.HistoryDataActivity"></activity>
+        <activity android:name=".app.HistoryDataActivity" />
 
         <service
             android:name=".service.BleService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".app.UserInfoActivity" />
+        <activity android:name=".app.ShareActivity"></activity>
     </application>
 
 </manifest>

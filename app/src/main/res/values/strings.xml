@@ -110,4 +110,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string name="settingUserInfo">Please set gender</string>
+    <string name="settingHeight">Please set height</string>
+    <string name="settingWeight">Please set weight</string>
+    <string name="settingAge">Please set age</string>
+    <string name="settingSteps">Please set the target steps</string>
+    <string name="settingSex">Please set the Sex</string>
+
+
 </resources>
