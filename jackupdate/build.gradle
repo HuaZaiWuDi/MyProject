@@ -47,8 +47,8 @@ dependencies {
 
     //弘扬的自定义布局
     compile 'com.zhy:autolayout:1.4.5'
-    //简单好看的dialog
-    compile 'cn.pedant.sweetalert:library:1.3'
+//    //简单好看的dialog
+//    compile 'cn.pedant.sweetalert:library:1.3'
 }
 
 

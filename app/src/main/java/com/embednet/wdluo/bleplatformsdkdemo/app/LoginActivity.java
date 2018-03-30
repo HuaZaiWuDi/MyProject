@@ -133,11 +133,11 @@ public class LoginActivity extends BaseAvtivity {
             timeOut--;
             if (timeOut < 0) {
                 timer.stopTimer();
-                sendCode.setText("获取验证码");
+                sendCode.setText(R.string.getSms);
                 sendCode.setAlpha(1f);
                 sendCode.setEnabled(true);
             } else {
-                sendCode.setText(timeOut + "秒后重发");
+                sendCode.setText(getString(R.string.reStart, timeOut));
                 sendCode.setAlpha(0.5f);
                 sendCode.setEnabled(false);
             }
@@ -182,7 +182,7 @@ public class LoginActivity extends BaseAvtivity {
 
         if (RxRegUtils.isUsername(password)) return true;
         else {
-            mPasswordView.setError("取值范围a-z,A-Z,0-9,必须是6-20位");
+            mPasswordView.setError(getString(R.string.ValueRange));
             return false;
         }
     }
@@ -199,7 +199,7 @@ public class LoginActivity extends BaseAvtivity {
     private void sendSMS() {
 
         if (!Utils.isCanUseSim(this)) {
-            RxToast.warning("SIM卡无效");
+            RxToast.warning(getString(R.string.SimunValid));
             return;
         }
 
@@ -224,11 +224,11 @@ public class LoginActivity extends BaseAvtivity {
                 L.d("requestId:" + integer);
                 if (e == null) {
                     L.d("验证码发送成功");
-                    RxToast.success("验证码发送成功");
+                    RxToast.success(getString(R.string.SmsSendSuccess));
 
                 } else {
                     L.d("验证码发送失败：" + e.getLocalizedMessage());
-                    RxToast.error("验证码发送失败" + SMSResultCode.ErrorInfo(e.getErrorCode()));
+                    RxToast.error(getString(R.string.SmsSendFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
                 }
             }
         });
@@ -260,7 +260,7 @@ public class LoginActivity extends BaseAvtivity {
                         doLoginSuccess(info);
                     } else {
                         L.d("登录失败：" + e.toString());
-                        RxToast.error("登录失败" + SMSResultCode.ErrorInfo(e.getErrorCode()));
+                        RxToast.error(getString(R.string.loginFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
                     }
                 }
             });
@@ -293,7 +293,7 @@ public class LoginActivity extends BaseAvtivity {
                         doLoginSuccess(info);
                     } else {
                         L.d("登录失败：" + e.toString());
-                        RxToast.error("登录失败" + SMSResultCode.ErrorInfo(e.getErrorCode()));
+                        RxToast.error(getString(R.string.loginFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
                     }
                 }
             });
@@ -302,7 +302,7 @@ public class LoginActivity extends BaseAvtivity {
 
 
     private void doLoginSuccess(UserInfo info) {
-        RxToast.success("登录成功");
+        RxToast.success(getString(R.string.loginSuccess));
 
         MyApplication.aCache.put("UserInfo", info);
         new Handler().postDelayed(new Runnable() {
@@ -365,7 +365,7 @@ public class LoginActivity extends BaseAvtivity {
             edit.apply();
 
             UserInfo info = new UserInfo();
-            info.sex = result.getUserInfo().getSex()-1;
+            info.sex = result.getUserInfo().getSex() - 1;
             info.name = result.getUserInfo().getNickname();
             info.heardImgUrl = result.getUserInfo().getHeadImageUrl();
 

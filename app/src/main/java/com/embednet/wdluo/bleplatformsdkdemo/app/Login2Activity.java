@@ -107,6 +107,11 @@ public class Login2Activity extends BaseAvtivity {
         mTencent.login(this, Constants.SCOPE, new QQlogin(subscriber));
     }
 
+    //非死不可
+    public void facebook(View v) {
+
+    }
+
     Subscriber<LoginResult> subscriber = new Subscriber<LoginResult>() {
         @Override
         public void onCompleted() {
@@ -176,7 +181,7 @@ public class Login2Activity extends BaseAvtivity {
 
 
     private void doLoginSuccess(LoginResult result) {
-        RxToast.success("登录成功");
+        RxToast.success(getString(R.string.loginSuccess));
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putBoolean(Constants.AutoLogin, true);
         edit.apply();

@@ -1,17 +1,21 @@
 package com.embednet.wdluo.bleplatformsdkdemo.app;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.embednet.wdluo.bleplatformsdkdemo.Constants;
 import com.embednet.wdluo.bleplatformsdkdemo.R;
 import com.embednet.wdluo.bleplatformsdkdemo.module.DayStepsTab;
-import com.embednet.wdluo.bleplatformsdkdemo.module.StepsData;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
 import com.embednet.wdluo.bleplatformsdkdemo.util.Utils;
 
@@ -23,8 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import laboratory.dxy.jack.com.jackupdate.ui.recyclerview.CommonAdapter;
-import laboratory.dxy.jack.com.jackupdate.ui.recyclerview.ViewHolder;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.ColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
@@ -38,25 +40,27 @@ import lecho.lib.hellocharts.view.ColumnChartView;
 public class HistoryDataActivity extends BaseAvtivity {
     TextView dateTitle;
 
-    StepsData stepsData;
-
 
     List<DayStepsTab> lists = new ArrayList<>();
 
     ColumnChartView mColumnChartView;
 
+    RecyclerView mRecyclerView;
+
+    Calendar calendarDay = Calendar.getInstance();
+
 
     String[] dates = new String[90];
 
+    View heardView;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_data);
 
-        Calendar calendarDay = Calendar.getInstance();
-        dateTitle = findViewById(R.id.dateTitle);
-        dateTitle.setText(Utils.formatData(calendarDay.getTime(), Constants.DATE_FORMAT));
-        setTitleText("历史数据");
+        setTitleText(R.string.historyData);
         setBack();
 
 //        stepsData = (StepsData) MyApplication.getACache().getAsObject(Constants.SIGN_STEPS);
@@ -90,6 +94,11 @@ public class HistoryDataActivity extends BaseAvtivity {
         }
         L.d("list：" + lists);
 
+
+        heardView = LayoutInflater.from(this).inflate(R.layout.item_heard_recycler, null);
+        dateTitle = heardView.findViewById(R.id.dateTitle);
+        dateTitle.setText(Utils.formatData(calendarDay.getTime(), Constants.DATE_FORMAT));
+
         setRecyclerView();
         setmColumnChartView();
         setUpdateValue(lists);
@@ -105,6 +114,21 @@ public class HistoryDataActivity extends BaseAvtivity {
         }, 1000);
 
 
+        mColumnChartView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        //允许ScrollView截断点击事件，ScrollView可滑动
+                        mRecyclerView.requestDisallowInterceptTouchEvent(false);
+                    } else {
+                        //不允许ScrollView截断点击事件，点击事件由子View处理
+                        mRecyclerView.requestDisallowInterceptTouchEvent(true);
+                    }
+                    return false;
+                }
+            }
+        );
+
     }
 
 
@@ -112,7 +136,7 @@ public class HistoryDataActivity extends BaseAvtivity {
 
     private void setmColumnChartView() {
 
-        mColumnChartView = (ColumnChartView) findViewById(R.id.mColumnChartView);
+        mColumnChartView = heardView.findViewById(R.id.mColumnChartView);
         List<Column> columns = new ArrayList<>();
         List<AxisValue> axisValues = new ArrayList<>();
         List<AxisValue> axisYValues = new ArrayList<>();
@@ -194,16 +218,22 @@ public class HistoryDataActivity extends BaseAvtivity {
     }
 
 
-    CommonAdapter adapter;
+    BaseQuickAdapter adapter;
+
 
     private void setRecyclerView() {
-        RecyclerView mRecyclerView = findViewById(R.id.mRecyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView = findViewById(R.id.mRecyclerView);
+        final TextView subtitle = findViewById(R.id.subtitle);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        adapter = new CommonAdapter<DayStepsTab>(this, R.layout.item_recycyler, lists) {
+
+
+        adapter = new BaseQuickAdapter<DayStepsTab, BaseViewHolder>(R.layout.item_recycyler, lists) {
             @Override
-            public void convert(ViewHolder holder, DayStepsTab dayStepsTab, int position) {
-                holder.setText(R.id.title, dayStepsTab.Total + "步");
+            protected void convert(BaseViewHolder holder, DayStepsTab dayStepsTab) {
+                holder.setText(R.id.title, dayStepsTab.Total + getString(R.string.step));
                 holder.setText(R.id.text, dayStepsTab.date);
                 if (dayStepsTab.Total > 5000) {
                     holder.setTextColor(R.id.title, Color.YELLOW);
@@ -214,7 +244,29 @@ public class HistoryDataActivity extends BaseAvtivity {
                 }
             }
         };
+
+        adapter.addHeaderView(heardView);
+
         mRecyclerView.setAdapter(adapter);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                View view = layoutManager.findViewByPosition(0);
+                if (view != null) {
+                    if (subtitle.getVisibility() == View.VISIBLE)
+                        subtitle.setVisibility(View.GONE);
+                } else {
+                    if (subtitle.getVisibility() == View.GONE)
+                        subtitle.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
     }
 
     public static String setFormat(long value, String format) {

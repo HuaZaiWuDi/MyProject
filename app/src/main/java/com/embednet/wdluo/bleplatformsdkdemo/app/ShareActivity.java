@@ -24,11 +24,13 @@ public class ShareActivity extends BaseAvtivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
 
-        setTitleText("分享界面");
+        setTitleText(R.string.sharePage);
         setBack();
 
         mRoundDisPlayView = findViewById(R.id.mRoundDisPlayView);
-        mRoundDisPlayView.setCentreText(0 / 60 + "", "步", "目标5000步");
+        mRoundDisPlayView.setCentreText(0 / 60 + "", getString(R.string.stepsTarget, 5000))
+                .setUnit(getString(R.string.step));
+
 
     }
 
@@ -80,7 +82,7 @@ public class ShareActivity extends BaseAvtivity {
 
         String name = ApplicationInfoUtil.getProgramNameByPackageName(this, appPackage);
         if (TextUtils.isEmpty(name)) {
-            RxToast.warning("未安装");
+            RxToast.warning(getString(R.string.uninstall));
             return false;
         }
         return true;

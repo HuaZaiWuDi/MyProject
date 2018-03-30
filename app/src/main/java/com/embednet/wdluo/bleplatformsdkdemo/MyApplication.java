@@ -69,7 +69,7 @@ public class MyApplication extends MultiDexApplication {
         bleManager.init(application);
 
         if (!bleManager.isSupportBle()) {
-            Toast.makeText(application, "该设备不支持蓝牙", Toast.LENGTH_SHORT).show();
+            Toast.makeText(application, R.string.unSupportBle, Toast.LENGTH_SHORT).show();
             return;
         }
         bleManager.enableBluetooth();

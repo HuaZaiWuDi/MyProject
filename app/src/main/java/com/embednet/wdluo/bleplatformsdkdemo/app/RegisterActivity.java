@@ -171,11 +171,11 @@ public class RegisterActivity extends BaseAvtivity {
             timeOut--;
             if (timeOut < 0) {
                 timer.stopTimer();
-                sendCode.setText("获取验证码");
+                sendCode.setText(R.string.getSms);
                 sendCode.setAlpha(1f);
                 sendCode.setEnabled(true);
             } else {
-                sendCode.setText(timeOut + "秒后重发");
+                sendCode.setText(getString(R.string.reStart, timeOut));
                 sendCode.setAlpha(0.5f);
                 sendCode.setEnabled(false);
             }
@@ -193,12 +193,12 @@ public class RegisterActivity extends BaseAvtivity {
     private boolean attemptLogin() {
         phone = phoneOrEmail.getText().toString();
         if (TextUtils.isEmpty(phone)) {
-            phoneOrEmail.setError("请输入正确的手机号码");
+            phoneOrEmail.setError(getString(R.string.inputPhone));
             return false;
         }
 
         if (!isPhoneValid(phone)) {
-            phoneOrEmail.setError("请输入正确的手机号码");
+            phoneOrEmail.setError(getString(R.string.inputPhone));
             return false;
         }
 
@@ -220,7 +220,7 @@ public class RegisterActivity extends BaseAvtivity {
 
         if (RxRegUtils.isUsername(password)) return true;
         else {
-            passwordEdit.setError("取值范围a-z,A-Z,0-9,必须是6-20位");
+            passwordEdit.setError(getString(R.string.ValueRange));
             return false;
         }
     }

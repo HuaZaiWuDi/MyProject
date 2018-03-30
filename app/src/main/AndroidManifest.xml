@@ -8,6 +8,14 @@
         android:minSdkVersion="19"
         android:targetSdkVersion="22" />
 
+    <!--  -->
+    <!-- 兼容全面屏比例， -->
+    <!-- 传统屏幕16/9=1.778 -->
+    <!-- 全面屏 18.5/9=2.056 -->
+    <meta-data
+        android:name="android.max_aspect"
+        android:value="2.1" />
+
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
@@ -55,7 +63,7 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon_app"
-        android:label="@string/app_name"
+        android:label="@string/appName"
         android:theme="@style/AppTheme"
         tools:replace="icon,label,theme,allowBackup">
         <activity
@@ -177,7 +185,8 @@
             android:exported="true" />
 
         <activity android:name=".app.UserInfoActivity" />
-        <activity android:name=".app.ShareActivity"></activity>
+        <activity android:name=".app.ShareActivity" />
+        <activity android:name=".app.AboutActivity"></activity>
     </application>
 
 </manifest>

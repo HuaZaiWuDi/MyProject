@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/userImg"
-                android:text="点击登录"
+                android:text="@string/selectLogin"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -52,7 +52,7 @@
                 android:layout_below="@+id/UserName"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/userImg"
-                android:text="登录账号以同步数据"
+                android:text="@string/loginSyncDate"
                 android:textColor="@color/gray" />
 
 
@@ -76,9 +76,9 @@
                 android:id="@+id/stepsTarget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="目标步数"
+                android:text="@string/targetSteps"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/stepsTarget"
                 android:layout_centerVertical="true"
-                android:text="5000步"
+                android:text="5000"
                 android:textColor="@color/white" />
 
 
@@ -122,9 +122,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="步数成绩通知"
+                android:text="@string/NotifySteps"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
 
@@ -161,9 +161,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="计步功能"
+                android:text="@string/FunctionSteps"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
 
@@ -200,9 +200,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="个人资料"
+                android:text="@string/personalInfo"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
 
@@ -236,9 +236,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="设备中心"
+                android:text="@string/deviceControl"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
 
@@ -272,9 +272,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="帮助"
+                android:text="@string/help"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
 
@@ -310,7 +310,7 @@
         android:background="@drawable/select_button_blue"
         android:gravity="center"
         android:onClick="SingOut"
-        android:text="退出登录"
+        android:text="@string/logOff"
         android:textColor="@color/red" />
 
 

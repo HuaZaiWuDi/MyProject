@@ -1,22 +1,13 @@
 package com.embednet.wdluo.bleplatformsdkdemo.app;
 
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.clj.fastble.data.BleDevice;
 import com.embednet.wdluo.bleplatformsdkdemo.BuildConfig;
 import com.embednet.wdluo.bleplatformsdkdemo.Constants;
 import com.embednet.wdluo.bleplatformsdkdemo.R;
-import com.embednet.wdluo.bleplatformsdkdemo.ble.BleAPI;
 import com.embednet.wdluo.bleplatformsdkdemo.ble.BleTools;
 import com.embednet.wdluo.bleplatformsdkdemo.dfu.DfuService;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
@@ -26,14 +17,10 @@ import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.pitt.library.fresh.FreshDownloadView;
 
-import java.util.List;
-
 import no.nordicsemi.android.dfu.DfuProgressListenerAdapter;
 import no.nordicsemi.android.dfu.DfuServiceController;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
-
-import static com.embednet.wdluo.bleplatformsdkdemo.MyApplication.bleManager;
 
 public class UpdateDFUActivity extends BaseAvtivity {
 
@@ -56,21 +43,21 @@ public class UpdateDFUActivity extends BaseAvtivity {
             super.onDeviceDisconnected(deviceAddress);
             L.d("onDeviceDisconnected：" + deviceAddress);
 //            startMyDFU();
-            text_title.setText("升级过程中请勿让设备远离手机");
+            text_title.setText(R.string.NearPhone);
         }
 
         @Override
         public void onDfuAborted(String deviceAddress) {
             super.onDfuAborted(deviceAddress);
             L.d("onDfuAborted：" + deviceAddress);
-            text_title.setText("正在升级，请稍后");
+            text_title.setText(R.string.UpdateWaiting);
         }
 
         @Override
         public void onDfuProcessStarted(String deviceAddress) {
             super.onDfuProcessStarted(deviceAddress);
             L.d("onDfuProcessStarted");
-            text_title.setText("正在升级，请稍等片刻");
+            text_title.setText(R.string.UpdateWaiting2);
             mFreshDownloadView.startDownload();
         }
 
@@ -78,7 +65,7 @@ public class UpdateDFUActivity extends BaseAvtivity {
         public void onDfuProcessStarting(String deviceAddress) {
             super.onDfuProcessStarting(deviceAddress);
             L.d("onDfuProcessStarting");
-            text_title.setText("文件校对成功，正在升级");
+            text_title.setText(R.string.FileOkUpdating);
         }
 
         @Override
@@ -98,14 +85,14 @@ public class UpdateDFUActivity extends BaseAvtivity {
         public void onDfuCompleted(String deviceAddress) {
             super.onDfuCompleted(deviceAddress);
             L.d("onDfuCompleted");
-            text_title.setText("升级完成");
+            text_title.setText(R.string.UpdateSuccess);
         }
 
         @Override
         public void onEnablingDfuMode(String deviceAddress) {
             super.onEnablingDfuMode(deviceAddress);
             L.d("onEnablingDfuMode");
-            text_title.setText("升级过程中请勿让设备远离手机");
+            text_title.setText(R.string.NearPhone);
         }
 
         @Override
@@ -120,7 +107,7 @@ public class UpdateDFUActivity extends BaseAvtivity {
         public void onFirmwareValidating(String deviceAddress) {
             super.onFirmwareValidating(deviceAddress);
             L.d("onFirmwareValidating");
-            text_title.setText("正在校验文件");
+            text_title.setText(R.string.FileOkUpdating);
 
         }
 
@@ -138,20 +125,20 @@ public class UpdateDFUActivity extends BaseAvtivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_dfu);
 
-        setTitleText("空中升级");
+        setTitleText(R.string.DFU);
         setBack();
 
 
         mStatusTextView = (TextView) findViewById(R.id.statusTextView);
         text_title = (TextView) findViewById(R.id.text_title);
-        if (BuildConfig.DEBUG)
-            text_title.setText("正在获取固件请稍后");
-        else text_title.setText("点击右上角获取文件");
+        if (!BuildConfig.DEBUG)
+            text_title.setText(R.string.LoadingFile);
+        else text_title.setText(R.string.selectAndFile);
 
         text_title.postDelayed(new Runnable() {
             @Override
             public void run() {
-                text_title.setText("升级过程中请勿让设备远离手机");
+                text_title.setText(R.string.NearPhone);
             }
         }, 1500);
 
@@ -189,19 +176,19 @@ public class UpdateDFUActivity extends BaseAvtivity {
     private void startMyDFU() {
         if (BleTools.bleDevice == null) {
             mFreshDownloadView.showDownloadError();
-            mStatusTextView.setText("未连接设备");
+            mStatusTextView.setText(R.string.disconnect);
 
             return;
         }
         if (OTAFilePath == null || OTAFilePath.equals("")) {
             mFreshDownloadView.showDownloadError();
-            mStatusTextView.setText("未获取升级文件");
+            mStatusTextView.setText(R.string.NoFile);
             return;
         }
 
-        if(!OTAFilePath.endsWith(".zip")){
+        if (!OTAFilePath.endsWith(".zip")) {
             mFreshDownloadView.showDownloadError();
-            mStatusTextView.setText("文件格式不对，请添加正确格式文件");
+            mStatusTextView.setText(R.string.FileFormatWrong);
             return;
         }
 
@@ -236,7 +223,7 @@ public class UpdateDFUActivity extends BaseAvtivity {
         properties.extensions = Constants.FILE_Extensions;
         FilePickerDialog dialog = new FilePickerDialog(this, properties);
 
-        dialog.setTitle("选择文件");
+        dialog.setTitle(R.string.chooseFile);
         dialog.setDialogSelectionListener(new DialogSelectionListener() {
             @Override
             public void onSelectedFilePaths(String[] files) {

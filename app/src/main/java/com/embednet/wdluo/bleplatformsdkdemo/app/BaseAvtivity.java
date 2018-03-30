@@ -36,7 +36,7 @@ public class BaseAvtivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         L.d("onCreate");
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        L.d("测试代码");
+//        L.d("测试代码");
 //        StatusBarUtils.from(this).setTransparentStatusbar(true).process();
     }
 
@@ -53,6 +53,12 @@ public class BaseAvtivity extends AppCompatActivity {
 
 
     public void setTitleText(String titleText) {
+        TextView title = (TextView) findViewById(R.id.Title);
+        if (title != null)
+            title.setText(titleText);
+    }
+
+    public void setTitleText(int titleText) {
         TextView title = (TextView) findViewById(R.id.Title);
         if (title != null)
             title.setText(titleText);

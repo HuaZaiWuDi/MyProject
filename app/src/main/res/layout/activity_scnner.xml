@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="蓝牙未连接请先连接"
+            android:text="@string/selectAndReSearch"
             android:textColor="@color/white" />
 
 
@@ -59,7 +59,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/select_button_blue"
         android:onClick="login"
-        android:text="直接进入"
+        android:text="@string/DirectEntry"
         android:textStyle="bold" />
 
 

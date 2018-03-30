@@ -14,6 +14,7 @@ import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
 import com.clj.fastble.utils.HexUtil;
+import com.embednet.wdluo.bleplatformsdkdemo.R;
 import com.embednet.wdluo.bleplatformsdkdemo.ble.listener.BleChartChangeCallBack;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
 
@@ -22,6 +23,7 @@ import java.util.UUID;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 
 import static com.embednet.wdluo.bleplatformsdkdemo.MyApplication.bleManager;
+import static com.embednet.wdluo.bleplatformsdkdemo.MyApplication.getApplication;
 
 /**
  * 项目名称：BLEPlatformSDKDemo
@@ -58,7 +60,7 @@ public class BleTools {
             L.d("重新写");
             currentCount++;
             if (currentCount > reWriteCount) {
-                RxToast.error("操作失败");
+                RxToast.error(getApplication().getString(R.string.doFail));
                 currentCount = 0;
             } else
                 writeBle(bytes, bleChartChange);
@@ -67,7 +69,7 @@ public class BleTools {
 
     public void writeBle(final byte[] bytes, final BleChartChangeCallBack bleChartChange) {
         if (bleDevice == null || !bleManager.isConnected(bleDevice)) {
-            RxToast.warning("蓝牙未连接");
+            RxToast.warning(getApplication().getString(R.string.disconnect));
             return;
         }
         this.bleChartChange = bleChartChange;
@@ -90,7 +92,7 @@ public class BleTools {
 
     public void readBle() {
         if (bleDevice == null || !bleManager.isConnected(bleDevice)) {
-            RxToast.warning("蓝牙未连接");
+            RxToast.warning(getApplication().getString(R.string.disconnect));
             return;
         }
         bleManager.read(bleDevice, CHARACTERISTIC, CHARACTERISTIC, new BleReadCallback() {
@@ -109,7 +111,7 @@ public class BleTools {
 
     public void openNotify() {
         if (bleDevice == null || !bleManager.isConnected(bleDevice)) {
-            RxToast.warning("蓝牙未连接");
+            RxToast.warning(getApplication().getString(R.string.disconnect));
             return;
         }
         bleManager.notify(bleDevice, CHARACTERISTIC, CHARACTERISTIC, new BleNotifyCallback() {
@@ -136,7 +138,7 @@ public class BleTools {
 
     public void openIndicate() {
         if (bleDevice == null || !bleManager.isConnected(bleDevice)) {
-            RxToast.warning("蓝牙未连接");
+            RxToast.warning(getApplication().getString(R.string.disconnect));
             return;
         }
         bleManager.indicate(bleDevice, CHARACTERISTIC, CHARACTERISTIC, new BleIndicateCallback() {
@@ -164,7 +166,7 @@ public class BleTools {
 
     public void readRssi() {
         if (bleDevice == null || !bleManager.isConnected(bleDevice)) {
-            RxToast.warning("蓝牙未连接");
+            RxToast.warning(getApplication().getString(R.string.disconnect));
             return;
         }
         bleManager.readRssi(bleDevice, new BleRssiCallback() {
@@ -183,7 +185,7 @@ public class BleTools {
 
     public void ondestroy() {
         if (bleDevice == null || !bleManager.isConnected(bleDevice)) {
-            RxToast.warning("蓝牙未连接");
+            RxToast.warning(getApplication().getString(R.string.disconnect));
             return;
         }
         bleManager.destroy();

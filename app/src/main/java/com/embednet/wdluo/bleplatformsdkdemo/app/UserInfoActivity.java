@@ -2,6 +2,7 @@ package com.embednet.wdluo.bleplatformsdkdemo.app;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -12,9 +13,12 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.embednet.wdluo.bleplatformsdkdemo.MyApplication;
 import com.embednet.wdluo.bleplatformsdkdemo.R;
 import com.embednet.wdluo.bleplatformsdkdemo.module.UserInfo;
+import com.embednet.wdluo.bleplatformsdkdemo.ui.CircleImageView;
 import com.embednet.wdluo.bleplatformsdkdemo.ui.PickerView;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
 import com.embednet.wdluo.bleplatformsdkdemo.util.ScreenUtil;
@@ -38,6 +42,19 @@ public class UserInfoActivity extends BaseAvtivity {
         StatusBarUtils.from(this).setTransparentStatusbar(true).setHindStatusBar(true).process();
 
 
+        final CircleImageView fab = findViewById(R.id.fab);
+        AppBarLayout app_bar = findViewById(R.id.app_bar);
+        app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset) == Math.abs(appBarLayout.getTotalScrollRange())) {
+                    fab.setVisibility(View.GONE);
+                } else {
+                    fab.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         text_weight = findViewById(R.id.text_weight);
         text_height = findViewById(R.id.text_height);
         text_sex = findViewById(R.id.text_sex);
@@ -50,12 +67,19 @@ public class UserInfoActivity extends BaseAvtivity {
 
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
-        if (info != null)
+        if (info != null) {
             toolbar.setTitle(info.name);
+            Glide.with(this)
+                    .asDrawable()
+                    .apply(RequestOptions.placeholderOf(R.mipmap.img_heard))
+                    .load(info.heardImgUrl)
+                    .into(fab);
+
+        }
 
 
-        text_sex.setText(info.sex == 0 ? "男" : info.sex == 1 ? "女" : "未知");
-        text_age.setText(info.age + "岁");
+        text_sex.setText(info.sex == 0 ? getString(R.string.man) : info.sex == 1 ? getString(R.string.woman) : getString(R.string.noknown));
+        text_age.setText(getString(R.string.year, info.age));
         text_height.setText(info.height + "cm");
         text_weight.setText(info.weight + "kg");
     }
@@ -154,8 +178,8 @@ public class UserInfoActivity extends BaseAvtivity {
                 data.clear();
                 dataInt = info.sex;
                 if (dataInt < 0) dataInt = 0;
-                data.add("男");
-                data.add("女");
+                data.add(getString(R.string.man));
+                data.add(getString(R.string.woman));
                 pickerView.setData(data);
                 pickerView.setSelected(dataInt);
                 break;
@@ -168,7 +192,7 @@ public class UserInfoActivity extends BaseAvtivity {
                 L.d("(year-dataInt):" + dataInt);
                 if (position == 0) {
                     text_sex.setText(text);
-                    info.sex = text == "男" ? 0 : 1;
+                    info.sex = text == getString(R.string.man) ? 0 : 1;
                 }
                 try {
                     if (!TextUtils.isEmpty(text)) {
@@ -177,7 +201,7 @@ public class UserInfoActivity extends BaseAvtivity {
                         switch (position) {
 
                             case 1:
-                                text_age.setText(dataInt + "岁");
+                                text_age.setText(getString(R.string.year, dataInt));
                                 info.age = dataInt;
                                 break;
                             case 2:

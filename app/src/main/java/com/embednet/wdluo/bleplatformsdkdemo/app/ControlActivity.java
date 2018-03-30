@@ -6,16 +6,12 @@ import android.view.View;
 
 import com.embednet.wdluo.bleplatformsdkdemo.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import laboratory.dxy.jack.com.jackupdate.ui.recyclerview.CommonAdapter;
 
 public class ControlActivity extends BaseAvtivity {
 
 
     String TGA = ControlActivity.class.getSimpleName();
-
 
 
     CommonAdapter adapter;
@@ -25,7 +21,7 @@ public class ControlActivity extends BaseAvtivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
 
-        setTitleText("控制界面");
+        setTitleText(R.string.controlCenter);
         setBack();
 
     }
@@ -43,12 +39,13 @@ public class ControlActivity extends BaseAvtivity {
 
     }
 
-    public void device(View v) {
+    public void deviceCanter(View v) {
+        startActivity(new Intent(this, ControlActivity.class));
 
     }
 
-    public void DFU(View v) {
-        startActivity(new Intent(this, UpdateDFUActivity.class));
+    public void help(View v) {
+        startActivity(new Intent(this, AboutActivity.class));
     }
 
 

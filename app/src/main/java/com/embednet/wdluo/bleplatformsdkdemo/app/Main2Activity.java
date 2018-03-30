@@ -43,10 +43,10 @@ public class Main2Activity extends BaseAvtivity {
             if (intent.getAction().equals(Constants.ACTIVE_CONNECT_STATUE)) {
                 boolean connected = intent.getBooleanExtra(Constants.EXTRA_CONNECT_STATUE, false);
                 if (connected) {
-                    mRoundDisPlayView.setCentreText(0 / 60 + "", "", "正在同步数据");
+                    mRoundDisPlayView.setCentreText(0 / 60 + "", getString(R.string.SyncSteps));
                     syncData();
                 } else {
-                    mRoundDisPlayView.setCentreText(0 / 60 + "", "", "设备连接失败");
+                    mRoundDisPlayView.setCentreText(0 / 60 + "", getString(R.string.connectFail));
                 }
                 mRoundDisPlayView.stopAnimation();
             }
@@ -66,7 +66,7 @@ public class Main2Activity extends BaseAvtivity {
                                 BleAPI.getInstance().getHistroyData(new BleCallBack() {
                                     @Override
                                     public void isSuccess(byte[] data) {
-                                        mRoundDisPlayView.setCentreText(0 / 60 + "", "步", "同步完成");
+                                        mRoundDisPlayView.setCentreText(0 / 60 + "", getString(R.string.SyncComplete));
                                     }
                                 });
                             }
@@ -88,7 +88,7 @@ public class Main2Activity extends BaseAvtivity {
         registerReceiver(receiver, filter);
 
 
-        setTitleText("首页");
+        setTitleText(R.string.FirstPage);
         ImageView back = (ImageView) findViewById(R.id.back);
         back.setImageResource(R.mipmap.icon_scan);
         back.setOnClickListener(new View.OnClickListener() {
@@ -101,8 +101,9 @@ public class Main2Activity extends BaseAvtivity {
         });
 
         mRoundDisPlayView = findViewById(R.id.mRoundDisPlayView);
-        mRoundDisPlayView.setCentreText(0 / 60 + "", "步", "目标5000步")
-                .setBackground(Color.parseColor("#333333"));
+        mRoundDisPlayView.setCentreText(0 / 60 + "", getString(R.string.stepsTarget, 5000));
+
+        mRoundDisPlayView.setUnit(getString(R.string.step));
         mRoundDisPlayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +124,7 @@ public class Main2Activity extends BaseAvtivity {
             throwable.printStackTrace();
         }
         startService(new Intent(Main2Activity.this, BleService.class));
-        mRoundDisPlayView.setCentreText(0 / 60 + "", "", "正在连接设备...");
+        mRoundDisPlayView.setCentreText(0 / 60 + "", getString(R.string.connecting));
 
     }
 

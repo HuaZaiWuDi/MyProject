@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="手机号登录"
+        android:text="@string/phoneLogin"
         android:textColor="@color/white"
         android:textSize="30sp" />
 
@@ -98,7 +98,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:hint="请输入验证码"
+                    android:hint="@string/inputSms"
                     android:imeActionId="6"
                     android:imeOptions="actionUnspecified"
                     android:inputType="number"
@@ -117,7 +117,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/select_button_green"
                 android:gravity="center"
-                android:text="获取验证码"
+                android:text="@string/getSms"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
@@ -134,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="loginmode"
-                android:text="密码登录"
+                android:text="@string/passwordLogin"
                 android:textColor="@color/white" />
 
             <TextView
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:onClick="register"
-                android:text="立即注册"
+                android:text="@string/rsgistering"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
@@ -188,7 +188,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="0.8"
-                android:text="其他登录方式"
+                android:text="@string/otherLogin"
                 android:textColor="@color/white" />
 
             <View

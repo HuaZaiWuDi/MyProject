@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
-                android:text="微信登录"
+                android:text="@string/wxLogin"
                 android:textColor="@color/white"
                 app:drawable="@mipmap/img_wechar"
                 app:drawableHeight="8dp"
@@ -75,6 +75,9 @@
             </LinearLayout>
 
 
+
+
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="30dp"
@@ -97,6 +100,29 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="2dp"
+                android:layout_height="30dp"
+                android:background="@color/white" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="facebook">
+
+
+                <ImageView
+                    android:id="@+id/facebook"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@mipmap/facebook" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <RelativeLayout
@@ -110,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="phoneOrEmail"
-                android:text="手机号登录"
+                android:text="@string/phoneLogin"
                 android:textColor="@color/white" />
 
 
@@ -120,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:onClick="register"
-                android:text="手机号注册"
+                android:text="@string/phoneRegister"
                 android:textColor="@color/white" />
 
         </RelativeLayout>

@@ -58,10 +58,16 @@ public class RoundView extends View {
         init();
     }
 
-    public RoundView setCentreText(String currentNum, String unit, String hitText) {
+    public RoundView setCentreText(String currentNum, String hitText) {
         this.currentNum = currentNum;
-        this.unit = unit;
         this.hitText = hitText;
+        return this;
+    }
+
+
+    public RoundView setUnit(String unit) {
+        this.unit = unit;
+        postInvalidate();
         return this;
     }
 

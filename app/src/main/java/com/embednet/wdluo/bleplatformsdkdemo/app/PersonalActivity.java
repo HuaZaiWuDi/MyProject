@@ -20,7 +20,7 @@ public class PersonalActivity extends BaseAvtivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
 
-        setTitleText("个人中心");
+        setTitleText(R.string.Usercontrol);
         setBack();
 
         UserInfo info = (UserInfo) MyApplication.aCache.getAsObject("UserInfo");
@@ -85,6 +85,6 @@ public class PersonalActivity extends BaseAvtivity {
     }
 
     public void help(View v) {
-
+        startActivity(new Intent(this, AboutActivity.class));
     }
 }

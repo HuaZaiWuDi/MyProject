@@ -56,13 +56,13 @@ public class ScnnerActivity extends BaseAvtivity {
                 boolean connected = intent.getBooleanExtra(Constants.EXTRA_CONNECT_STATUE, false);
                 if (connected) {
 
-                    bleStatus.setText("连接成功");
+                    bleStatus.setText(R.string.connectSuccess);
                     sharedPreferences.edit().putString("MAC", BleTools.bleDevice.getMac()).apply();
                     circle_loading_view.stopOk();
 
                 } else {
                     circle_loading_view.stopFailure();
-                    bleStatus.setText("连接失败");
+                    bleStatus.setText(R.string.connectFail);
                 }
             }
         }
@@ -74,7 +74,7 @@ public class ScnnerActivity extends BaseAvtivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scnner);
 
-        setTitleText("搜索界面");
+        setTitleText(R.string.searchPage);
         setBack();
 
 
@@ -108,7 +108,7 @@ public class ScnnerActivity extends BaseAvtivity {
                 circle_loading_view.startIndeterminate();
                 circle_loading_view.resetLoading();
                 circle_loading_view.setBackgroundResource(0);
-                bleStatus.setText("开始连接");
+                bleStatus.setText(R.string.connecting);
                 bleManager.cancelScan();
 
                 startService(new Intent(ScnnerActivity.this, BleService.class));
@@ -134,7 +134,7 @@ public class ScnnerActivity extends BaseAvtivity {
                                 scan();
                             } else {
                                 L.d("权限请求失败");
-                                RxToast.error("只要允许定位权限才能发现蓝牙设备哦！");
+                                RxToast.error(getString(R.string.premissBle));
                             }
                         }
                     });
@@ -176,7 +176,7 @@ public class ScnnerActivity extends BaseAvtivity {
             @Override
             public void onScanStarted(boolean success) {
                 L.d("扫描开始:" + success);
-                bleStatus.setText("正在搜索设备...");
+                bleStatus.setText(R.string.searching);
                 circle_loading_view.setAnimation(AnimationUtils.loadAnimation(ScnnerActivity.this, R.anim.rotate));
             }
 
@@ -205,7 +205,7 @@ public class ScnnerActivity extends BaseAvtivity {
             @Override
             public void onScanFinished(List<BleDevice> scanResultList) {
                 L.d("扫描结束:" + scanResultList.size());
-                bleStatus.setText("点击上面图标重新搜索");
+                bleStatus.setText(R.string.selectAndReSearch);
                 circle_loading_view.clearAnimation();
             }
         });

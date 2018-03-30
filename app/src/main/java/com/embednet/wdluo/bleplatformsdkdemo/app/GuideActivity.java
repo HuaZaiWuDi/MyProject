@@ -29,7 +29,7 @@ public class GuideActivity extends AppCompatActivity {
         splashImg = (ImageView) findViewById(R.id.splashImg);
         splashText = (TextView) findViewById(R.id.splashText);
 
-        splashText.setText(R.string.app_name);
+        splashText.setText(R.string.appName);
         img_bg.setImageResource(R.drawable.pic_bg_ocean);
         splashImg.startAnimation(AnimationUtils.loadAnimation(this, R.anim.layout_up));
 
@@ -62,7 +62,7 @@ public class GuideActivity extends AppCompatActivity {
                                 L.d("权限请求成功");
                             } else {
                                 L.d("权限请求失败");
-                                RxToast.error("权限请求失败！");
+                                RxToast.error(getString(R.string.NoPromiss));
                             }
                         }
                     });

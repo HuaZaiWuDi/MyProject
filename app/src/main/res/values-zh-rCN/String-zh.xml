@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="appName">智能模块</string>
+
+    <!--界面标题-->
+    <string name="controlCenter">控制中心</string>
+    <string name="historyData">历史数据</string>
+
+    <string name="settingUserInfo">请设置性别</string>
+    <string name="settingHeight">请设置身高</string>
+    <string name="settingWeight">请设置体重</string>
+    <string name="settingAge">请设置年龄</string>
+    <string name="settingSteps">请设置目标步数</string>
+
+    <string name="NoPromiss">权限拒绝 !</string>
+    <string name="step">步</string>
+    <string name="loginSuccess">登录成功</string>
+    <string name="loginFail">登录失败</string>
+    <string name="SmsSendSuccess">验证码发送成功</string>
+    <string name="SmsSendFail">验证码发送失败</string>
+    <string name="getSms">获取验证码</string>
+    <string name="inputSms">请输入验证码</string>
+    <string name="reStart">%1$d秒后重试重试</string>
+    <string name="ValueRange">取值范围a-z,A-Z,0-9,必须是6-20位</string>
+    <string name="SyncSteps">正在同步数据</string>
+    <string name="SyncComplete">同步完成</string>
+    <string name="connectFail">设备连接失败</string>
+    <string name="connectSuccess">设备连接成功</string>
+    <string name="connecting">正在连接设备...</string>
+    <string name="disconnect">未连接设备</string>
+    <string name="searching">正在搜索设备...</string>
+    <string name="unSupportBle">设备不支持蓝牙</string>
+    <string name="selectAndReSearch">点击上面图标重新搜索</string>
+
+    <string name="uninstall">未安装</string>
+    <string name="doFail">操作失败</string>
+
+    <string name="FirstPage">首页</string>
+    <string name="stepsTarget">目标%1$d步</string>
+    <string name="Usercontrol">用户中心</string>
+    <string name="inputPhone">请输入正确的电话号码</string>
+    <string name="SimunValid">SIM卡无效</string>
+    <string name="searchPage">搜索界面</string>
+    <string name="premissBle">只要允许定位权限才能发现蓝牙设备哦</string>
+    <string name="FileOkUpdating">文件校对成功，正在升级</string>
+    <string name="UpdateSuccess">升级完成</string>
+    <string name="UpdateFail">升级失败</string>
+    <string name="DFU">空中升级</string>
+    <string name="LoadingFile">正在获取固件请稍后</string>
+    <string name="selectAndFile">点击右上角获取文件</string>
+    <string name="NoFile">未获取升级文件</string>
+    <string name="FileFormatWrong">文件格式不对，请添加正确格式文件</string>
+    <string name="chooseFile">选择文件</string>
+
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string name="noknown">未知</string>
+    <string name="year">%1$d岁</string>
+
+    <!--DFU-->
+    <string name="NearPhone">升级过程中请勿让设备远离手机</string>
+    <string name="UpdateWaiting">正在升级，请稍后</string>
+    <string name="UpdateWaiting2">正在升级，请稍等片刻</string>
+
+    <!--function-->
+    <string name="powerState">开关机状态</string>
+    <string name="BoradState">广播状态</string>
+    <string name="LoadResistance">负载阻值</string>
+    <string name="deviceType">设备类型</string>
+    <string name="FirmwareVersion">固件版本</string>
+    <string name="APPVersion">APP版本</string>
+    <string name="on">开启</string>
+    <string name="off">关闭</string>
+    <string name="today">今天</string>
+    <string name="wxLogin">微信登录</string>
+    <string name="phoneLogin">手机号登录</string>
+    <string name="phoneRegister">手机号注册</string>
+    <string name="passwordLogin">密码登录</string>
+    <string name="selectLogin">点击登录</string>
+    <string name="loginSyncDate">登录账号以同步数据</string>
+    <string name="rsgistering">立即注册</string>
+    <string name="rsgisterPhone">手机号注册</string>
+    <string name="otherLogin">其他登录方式</string>
+    <string name="batteryValue">电池电量(%)</string>
+    <string name="ResistanceValue">电阻阻值(欧姆)</string>
+    <string name="targetSteps">目标步数</string>
+    <string name="NotifySteps">步数成绩通知</string>
+    <string name="FunctionSteps">计步功能</string>
+    <string name="personalInfo">个人资料</string>
+    <string name="deviceControl">设备中心</string>
+    <string name="logOff">退出登录</string>
+
+    <string name="ok">确定</string>
+    <string name="yes">是</string>
+    <string name="no">不</string>
+    <string name="cancel">取消</string>
+    <string name="DirectEntry">直接进入</string>
+    <string name="sharePage">分享界面</string>
+    <string name="todayDate">今日数据</string>
+    <string name="help">关于</string>
+
+    <string name="sex">性别</string>
+    <string name="age">年龄</string>
+    <string name="height">身高</string>
+    <string name="weight">体重</string>
+</resources>
