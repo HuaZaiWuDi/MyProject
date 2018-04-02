@@ -57,7 +57,6 @@ public class HistoryDataActivity extends BaseAvtivity {
 
 
 
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
