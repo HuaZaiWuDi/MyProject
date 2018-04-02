@@ -1,6 +1,7 @@
 package com.embednet.wdluo.bleplatformsdkdemo.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,13 +10,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.embednet.wdluo.bleplatformsdkdemo.R;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
+import com.zhy.autolayout.AutoFrameLayout;
+import com.zhy.autolayout.AutoLayoutActivity;
+import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,10 +29,10 @@ import java.util.Locale;
 /**
  * 项目名称：BLEPlatformSDKDemo
  * 类描述：
- * 创建人：oden
+ * 创建人：Jack
  * 创建时间：2018/1/11
  */
-public class BaseAvtivity extends AppCompatActivity {
+public class BaseAvtivity extends AutoLayoutActivity {
 
     protected SharedPreferences sharedPreferences;
 
@@ -122,5 +127,31 @@ public class BaseAvtivity extends AppCompatActivity {
         return format.format(new Date());
     }
 
+
+    //--------------------------------------------适配屏幕
+    private static final String LAYOUT_LINEARLAYOUT = "LinearLayout";
+    private static final String LAYOUT_FRAMELAYOUT = "FrameLayout";
+    private static final String LAYOUT_RELATIVELAYOUT = "RelativeLayout";
+
+
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs) {
+        View view = null;
+        if (name.equals(LAYOUT_FRAMELAYOUT)) {
+            view = new AutoFrameLayout(context, attrs);
+        }
+
+        if (name.equals(LAYOUT_LINEARLAYOUT)) {
+            view = new AutoLinearLayout(context, attrs);
+        }
+
+        if (name.equals(LAYOUT_RELATIVELAYOUT)) {
+            view = new AutoRelativeLayout(context, attrs);
+        }
+
+        if (view != null) return view;
+
+        return super.onCreateView(name, context, attrs);
+    }
 
 }

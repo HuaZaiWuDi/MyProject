@@ -23,7 +23,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="100px"
             android:onClick="isOpen">
 
 
@@ -33,10 +33,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/powerState"
                 android:textColor="@color/white"
-                android:textSize="15dp"
+                android:textSize="40px"
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_marginTop="10px"
+                android:textSize="35px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sex"
@@ -47,7 +49,7 @@
 
             <Switch
                 android:layout_width="100dp"
-                android:layout_height="20dp"
+                android:layout_height="40px"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
@@ -78,10 +80,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/BoradState"
                 android:textColor="@color/white"
-                android:textSize="15dp"
+                android:textSize="40px"
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_marginTop="10px"
+                android:textSize="35px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/height"
@@ -92,7 +96,7 @@
 
             <Switch
                 android:layout_width="100dp"
-                android:layout_height="20dp"
+                android:layout_height="40px"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
@@ -123,10 +127,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/LoadResistance"
                 android:textColor="@color/white"
-                android:textSize="15dp"
+                android:textSize="40px"
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_marginTop="10px"
+                android:textSize="35px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/age"
@@ -136,8 +142,8 @@
 
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="40px"
+                android:layout_height="40px"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
@@ -155,91 +161,6 @@
             android:layout_marginTop="10dp"
             android:background="@color/gray" />
 
-        <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:onClick="device">-->
-
-
-        <!--<TextView-->
-        <!--android:id="@+id/weight"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/deviceType"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="20dp"-->
-        <!--android:textStyle="bold" />-->
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/weight"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:text="01"-->
-        <!--android:textColor="@color/white" />-->
-
-
-        <!--<ImageView-->
-        <!--android:layout_width="20dp"-->
-        <!--android:layout_height="20dp"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:src="@mipmap/icon_right" />-->
-
-        <!--</RelativeLayout>-->
-
-
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:layout_below="@+id/layout1"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:background="@color/gray" />-->
-
-        <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:onClick="DFU">-->
-
-
-        <!--<TextView-->
-        <!--android:id="@+id/DFU"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/FirmwareVersion"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="20dp"-->
-        <!--android:textStyle="bold" />-->
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/DFU"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:text="01"-->
-        <!--android:textColor="@color/white" />-->
-
-
-        <!--<ImageView-->
-        <!--android:layout_width="20dp"-->
-        <!--android:layout_height="20dp"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:src="@mipmap/icon_right" />-->
-
-        <!--</RelativeLayout>-->
-
-
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:layout_below="@+id/layout1"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:background="@color/gray" />-->
 
     </LinearLayout>
 

@@ -64,7 +64,7 @@ public class LoginActivity extends BaseAvtivity {
     private Button mEmailSignInButton;
     private RelativeLayout Login2Code;
     private TextInputLayout login2Password;
-    private TextView sendCode;
+    private TextView sendCode, loginMode;
     private boolean isPassword = false;
     private String SMSCode;
     private String password;
@@ -83,6 +83,7 @@ public class LoginActivity extends BaseAvtivity {
 //        setBack();
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mPasswordView = (EditText) findViewById(R.id.password);
+        loginMode = findViewById(R.id.loginMode);
 
 
         login2Password = findViewById(R.id.login2Password);
@@ -412,10 +413,12 @@ public class LoginActivity extends BaseAvtivity {
             isPassword = true;
             Login2Code.setVisibility(View.GONE);
             login2Password.setVisibility(View.VISIBLE);
+            loginMode.setText(R.string.passwordLogin);
         } else {
             isPassword = false;
             Login2Code.setVisibility(View.VISIBLE);
             login2Password.setVisibility(View.GONE);
+            loginMode.setText(R.string.phoneLogin);
         }
     }
 

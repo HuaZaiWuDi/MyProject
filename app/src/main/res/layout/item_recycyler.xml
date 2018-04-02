@@ -2,28 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_view"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="180px"
     android:background="#333333"
     android:padding="10dp">
-
-
-    <!--<ImageView-->
-    <!--android:id="@+id/icon"-->
-    <!--android:layout_width="30dp"-->
-    <!--android:layout_height="30dp"-->
-    <!--android:layout_centerVertical="true"-->
-    <!--android:src="@mipmap/icon_statistics" />-->
 
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40px"
         android:text="Title"
         android:textColor="@color/white"
-        android:textSize="17dp"
+        android:textSize="60px"
         android:textStyle="bold" />
 
 
@@ -36,7 +28,7 @@
         android:layout_marginRight="10dp"
         android:text="Title"
         android:textColor="@color/white"
-        android:textSize="17dp"
+        android:textSize="50px"
         android:textStyle="bold" />
 
 </RelativeLayout>

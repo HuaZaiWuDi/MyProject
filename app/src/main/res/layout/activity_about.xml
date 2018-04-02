@@ -22,15 +22,15 @@
 
 
         <com.embednet.wdluo.bleplatformsdkdemo.ui.CircleImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="160px"
+            android:layout_height="160px"
             android:src="@mipmap/icon_app" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40px"
             android:text="@string/appName"
             android:textColor="@color/white"
             android:textStyle="bold" />
@@ -43,7 +43,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/heard"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="32px">
 
 
         <View
@@ -51,12 +51,12 @@
             android:layout_height="1dp"
 
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20px"
             android:background="@color/gray" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="100px"
             android:layout_below="@+id/heard"
             android:onClick="device">
 
@@ -67,10 +67,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/deviceType"
                 android:textColor="@color/white"
-                android:textSize="15dp"
+                android:textSize="40px"
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_marginTop="10px"
+                android:textSize="35px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/weight"
@@ -80,8 +82,8 @@
 
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="40px"
+                android:layout_height="40px"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
@@ -110,10 +112,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/FirmwareVersion"
                 android:textColor="@color/white"
-                android:textSize="15dp"
+                android:textSize="40px"
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_marginTop="10px"
+                android:textSize="35px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/DFU"
@@ -123,8 +127,8 @@
 
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="40px"
+                android:layout_height="40px"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
@@ -154,10 +158,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/APPVersion"
                 android:textColor="@color/white"
-                android:textSize="15dp"
+                android:textSize="40px"
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_marginTop="10px"
+                android:textSize="35px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/APP"
@@ -167,8 +173,8 @@
 
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="40px"
+                android:layout_height="40px"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"

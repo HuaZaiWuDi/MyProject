@@ -133,7 +133,7 @@ public class RoundView extends View {
         } else {
             mHeight = dp2px(200);
         }
-
+        setMeasuredDimension(mWidth, mHeight);
     }
 
 

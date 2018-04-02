@@ -115,18 +115,18 @@ public class HistoryDataActivity extends BaseAvtivity {
 
 
         mColumnChartView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        //允许ScrollView截断点击事件，ScrollView可滑动
-                        mRecyclerView.requestDisallowInterceptTouchEvent(false);
-                    } else {
-                        //不允许ScrollView截断点击事件，点击事件由子View处理
-                        mRecyclerView.requestDisallowInterceptTouchEvent(true);
-                    }
-                    return false;
-                }
-            }
+                                                @Override
+                                                public boolean onTouch(View view, MotionEvent event) {
+                                                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                                                        //允许ScrollView截断点击事件，ScrollView可滑动
+                                                        mRecyclerView.requestDisallowInterceptTouchEvent(false);
+                                                    } else {
+                                                        //不允许ScrollView截断点击事件，点击事件由子View处理
+                                                        mRecyclerView.requestDisallowInterceptTouchEvent(true);
+                                                    }
+                                                    return false;
+                                                }
+                                            }
         );
 
     }

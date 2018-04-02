@@ -1,15 +1,15 @@
 package com.embednet.wdluo.bleplatformsdkdemo.app;
 
-import android.graphics.drawable.ColorDrawable;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -21,7 +21,6 @@ import com.embednet.wdluo.bleplatformsdkdemo.module.UserInfo;
 import com.embednet.wdluo.bleplatformsdkdemo.ui.CircleImageView;
 import com.embednet.wdluo.bleplatformsdkdemo.ui.PickerView;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
-import com.embednet.wdluo.bleplatformsdkdemo.util.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,61 +84,36 @@ public class UserInfoActivity extends BaseAvtivity {
     }
 
     public void sex(View v) {
-        setUserNamePopW(getString(R.string.settingSex), 0);
-        ScreenUtil.setBackgroundAlpha(UserInfoActivity.this, 0.5f);
-        UserNamePopW.showAtLocation(parentView, Gravity.BOTTOM, 0, -90);
+        setUserNameDialog(getString(R.string.settingSex), 0);
     }
 
     public void age(View v) {
-        setUserNamePopW(getString(R.string.settingAge), 1);
-        ScreenUtil.setBackgroundAlpha(UserInfoActivity.this, 0.5f);
-        UserNamePopW.showAtLocation(parentView, Gravity.BOTTOM, 0, -90);
+        setUserNameDialog(getString(R.string.settingAge), 1);
     }
 
     public void height(View v) {
-        setUserNamePopW(getString(R.string.settingHeight), 2);
-        ScreenUtil.setBackgroundAlpha(UserInfoActivity.this, 0.5f);
-        UserNamePopW.showAtLocation(parentView, Gravity.BOTTOM, 0, -90);
+        setUserNameDialog(getString(R.string.settingHeight), 2);
     }
 
     public void weight(View v) {
-        setUserNamePopW(getString(R.string.settingWeight), 3);
-        ScreenUtil.setBackgroundAlpha(UserInfoActivity.this, 0.5f);
-        UserNamePopW.showAtLocation(parentView, Gravity.BOTTOM, 0, -90);
+        setUserNameDialog(getString(R.string.settingWeight), 3);
 
     }
 
 
     int dataInt = 0;
 
-    private void setUserNamePopW(final String Title, final int position) {
+
+    private void setUserNameDialog(final String Title, final int position) {
         View view = LayoutInflater.from(this).inflate(R.layout.pop_username, null, false);
-        UserNamePopW = new PopupWindow(this);
-        UserNamePopW.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        UserNamePopW.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        UserNamePopW.setBackgroundDrawable(new ColorDrawable(0x00000000));
-        UserNamePopW.setFocusable(true);
-        UserNamePopW.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);//解决popup被输入法挡住的问题
-        UserNamePopW.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        UserNamePopW.setOutsideTouchable(true);
-        UserNamePopW.setContentView(view);
-        UserNamePopW.setAnimationStyle(R.style.popAnim);
-
-        UserNamePopW.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                ScreenUtil.setBackgroundAlpha(UserInfoActivity.this, 1.0f);
-            }
-        });
-
-        final TextView title = (TextView) view.findViewById(R.id.title);
-        TextView ok = (TextView) view.findViewById(R.id.ok);
-        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-
-        PickerView pickerView = (PickerView) view.findViewById(R.id.mPickerView);
 
 
-        title.setText(Title);
+        PickerView pickerView = new PickerView(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600);
+        pickerView.setLayoutParams(params);
+
+//        PickerView pickerView = view.findViewById(R.id.mPickerView);
+
 
         final List<String> data = new ArrayList<>();
 
@@ -220,21 +194,19 @@ public class UserInfoActivity extends BaseAvtivity {
             }
         });
 
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UserNamePopW.dismiss();
-                MyApplication.aCache.put("UserInfo", info);
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UserNamePopW.dismiss();
-            }
-        });
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        MyApplication.aCache.put("UserInfo", info);
+                    }
+                })
+                .setTitle(Title)
+                .setNegativeButton(R.string.cancel, null)
+                .setView(pickerView)
+                .show();
 
     }
+
 
 }

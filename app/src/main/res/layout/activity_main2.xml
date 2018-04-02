@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/titleLayout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="130px"
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
 
@@ -68,7 +68,7 @@
     <com.embednet.wdluo.bleplatformsdkdemo.ui.RoundView
         android:id="@+id/mRoundDisPlayView"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="900px"
         android:layout_below="@+id/titleLayout"
         android:layout_margin="5dp" />
 
@@ -77,25 +77,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="160px"
         android:text="@string/today"
         android:textColor="@color/white"
-        android:textSize="15dp" />
+        android:textSize="40px" />
 
 
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_above="@+id/mColumnChartView"
+        android:layout_height="160px"
+        android:layout_below="@+id/mRoundDisPlayView"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="80dp"
-
-            android:layout_marginLeft="30dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -107,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:text="0.0"
                 android:textColor="@color/white"
-                android:textSize="25dp"
+                android:textSize="70px"
                 android:textStyle="bold" />
 
 
@@ -117,20 +116,20 @@
                 android:layout_below="@+id/battery"
                 android:text="@string/batteryValue"
                 android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:textSize="40px" />
 
 
         </LinearLayout>
 
         <View
-            android:layout_width="1dp"
-            android:layout_height="30dp"
+            android:layout_width="2dp"
+            android:layout_height="80px"
             android:layout_gravity="center_vertical"
             android:background="@color/white" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
             android:layout_above="@+id/mColumnChartView"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
@@ -145,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:text="0.0"
                 android:textColor="@color/white"
-                android:textSize="25dp"
+                android:textSize="70px"
                 android:textStyle="bold" />
 
             <TextView
@@ -153,27 +152,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ResistanceValue"
                 android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:textSize="40px" />
 
 
         </LinearLayout>
     </LinearLayout>
 
 
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0.1dp"-->
-    <!--android:layout_above="@+id/mColumnChartView"-->
-    <!--android:layout_marginLeft="15dp"-->
-    <!--android:layout_marginRight="15dp"-->
-    <!--android:background="@color/gray" />-->
-
     <lecho.lib.hellocharts.view.ColumnChartView
         android:id="@+id/mColumnChartView"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="500px"
         android:layout_above="@+id/textView"
-        android:layout_margin="10dp" />
+        android:layout_below="@+id/linear"
+        android:layout_margin="20px" />
 
 
     <TextView

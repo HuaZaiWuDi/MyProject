@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="120px"
         android:textColor="@color/white" />
 
 
@@ -33,17 +33,12 @@
         android:id="@+id/statusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/blank_view"
+        android:layout_above="@+id/textView"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200px"
         android:text="Status Text"
         android:textColor="@color/white" />
 
-    <View
-        android:id="@+id/blank_view"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_above="@+id/textView"
-        android:minHeight="100dp" />
 
     <TextView
         android:id="@+id/textView"

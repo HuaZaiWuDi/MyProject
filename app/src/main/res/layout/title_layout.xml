@@ -6,7 +6,7 @@
     <RelativeLayout
         android:id="@+id/titleLayout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="130px"
         android:layout_alignParentTop="true"
         android:background="#333333"
         android:orientation="horizontal">

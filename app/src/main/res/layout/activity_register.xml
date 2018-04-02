@@ -20,10 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="200px"
         android:text="@string/rsgisterPhone"
         android:textColor="@color/white"
-        android:textSize="30sp" />
+        android:textSize="80px" />
 
 
     <android.support.design.widget.TextInputLayout
@@ -32,9 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginLeft="60px"
+        android:layout_marginRight="60px"
+        android:layout_marginTop="150px"
         android:textColorHint="@color/white">
 
         <AutoCompleteTextView
@@ -47,7 +47,7 @@
             android:singleLine="true"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff"
-            android:textSize="20sp" />
+            android:textSize="50px" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -57,8 +57,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Account"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
+        android:layout_marginLeft="70px"
+        android:layout_marginRight="70px">
 
         <android.support.design.widget.TextInputLayout
 
@@ -68,7 +68,7 @@
 
             <EditText
                 android:id="@+id/code"
-                android:layout_width="150dp"
+                android:layout_width="650px"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:hint="@string/inputSms"
@@ -84,8 +84,8 @@
 
         <TextView
             android:id="@+id/sendCode"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="200px"
+            android:layout_height="100px"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/select_button_green"
@@ -101,8 +101,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Verification"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="70px"
+        android:layout_marginRight="70px"
         android:textColorHint="@color/white">
 
         <EditText
@@ -118,7 +118,7 @@
             android:singleLine="true"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff"
-            android:textSize="20sp" />
+            android:textSize="50px" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -126,12 +126,10 @@
     <Button
         android:id="@+id/email_sign_in_button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="120px"
         android:layout_below="@+id/passwordInput"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="60px"
         android:background="@drawable/select_button_green"
         android:text="@string/ok"
         android:textColor="@color/white"
