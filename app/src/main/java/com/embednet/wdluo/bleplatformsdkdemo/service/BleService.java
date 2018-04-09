@@ -24,6 +24,12 @@ public class BleService extends Service {
 
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         L.d("onStartCommand");
 
@@ -65,6 +71,7 @@ public class BleService extends Service {
                     L.d("连接成功");
                     currentCount = 0;
                     B.broadUpdate(BleService.this, Constants.ACTIVE_CONNECT_STATUE, Constants.EXTRA_CONNECT_STATUE, true);
+                    BleTools.getInstance().openNotify();
                 }
 
                 @Override

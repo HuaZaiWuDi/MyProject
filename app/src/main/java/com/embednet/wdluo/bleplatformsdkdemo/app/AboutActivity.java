@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.embednet.wdluo.bleplatformsdkdemo.R;
-import com.embednet.wdluo.bleplatformsdkdemo.ui.SweetDialog;
+//import com.embednet.wdluo.bleplatformsdkdemo.ui.SweetDialog;
 
 
 public class AboutActivity extends BaseAvtivity {
@@ -26,10 +26,10 @@ public class AboutActivity extends BaseAvtivity {
 
 
     public void APP(View v) {
-        new SweetDialog(this)
-                .setDaration(2000)
-                .setTitleText("已经是最新版本了！")
-                .show();
+//        new SweetDialog(this)
+//                .setDaration(2000)
+//                .setTitleText("已经是最新版本了！")
+//                .show();
 
     }
 

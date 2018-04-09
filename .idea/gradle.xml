@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/filepicker-1.0" />
             <option value="$PROJECT_DIR$/jackupdate" />
-            <option value="$PROJECT_DIR$/library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

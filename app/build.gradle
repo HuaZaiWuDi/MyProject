@@ -91,7 +91,6 @@ dependencies {
 
     //权限引导
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
-    compile project(path: ':library')
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'

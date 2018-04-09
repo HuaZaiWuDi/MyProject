@@ -40,13 +40,18 @@ public class BleTools {
     public static final UUID CHARACTERISTIC_CHANDEG = UUID.fromString("00001523-1212-efde-1523-785feabcd123");
     private static final String CHARACTERISTIC = "00001523-1212-efde-1523-785feabcd123";
 
-
     public static synchronized BleTools getInstance() {
         if (bleTools == null) {
             bleTools = new BleTools();
         }
         return bleTools;
     }
+
+    private static final String Battery_UUID="";
+
+    public  static final String SERVICE_UUID="6e400001-b5a3-f393-e0a9-e50e24dcca9e";
+    public  static final String WRITE_UUID="6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+    public  static final String NOTIFY_UUID="6e400003-b5a3-f393-e0a9-e50e24dcca9e";
 
     private BleChartChangeCallBack bleChartChange;
     private byte[] bytes;
@@ -76,10 +81,10 @@ public class BleTools {
         this.bytes = bytes;
         TimeOut.postDelayed(reWrite, timeOut);
 
-        bleManager.write(bleDevice, CHARACTERISTIC, CHARACTERISTIC, bytes, new BleWriteCallback() {
+        bleManager.write(bleDevice, SERVICE_UUID, WRITE_UUID, bytes, new BleWriteCallback() {
             @Override
             public void onWriteSuccess() {
-                L.e("写成功");
+                L.e("写成功:"+HexUtil.encodeHexStr(bytes));
             }
 
             @Override
@@ -114,7 +119,7 @@ public class BleTools {
             RxToast.warning(getApplication().getString(R.string.disconnect));
             return;
         }
-        bleManager.notify(bleDevice, CHARACTERISTIC, CHARACTERISTIC, new BleNotifyCallback() {
+        bleManager.notify(bleDevice, SERVICE_UUID, NOTIFY_UUID, new BleNotifyCallback() {
             @Override
             public void onNotifySuccess() {
                 L.e("打开通知成功");
