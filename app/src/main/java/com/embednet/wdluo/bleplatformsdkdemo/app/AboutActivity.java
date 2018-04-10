@@ -1,11 +1,16 @@
 package com.embednet.wdluo.bleplatformsdkdemo.app;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.embednet.wdluo.bleplatformsdkdemo.R;
-import com.embednet.wdluo.bleplatformsdkdemo.ui.SweetDialog;
+import com.embednet.wdluo.bleplatformsdkdemo.adapter.HelpCardAdapter;
+import com.embednet.wdluo.bleplatformsdkdemo.module.CardItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import laboratory.dxy.jack.com.jackupdate.ui.cardstack.RxCardStackView;
+import lecho.lib.hellocharts.util.ChartUtils;
 
 
 public class AboutActivity extends BaseAvtivity {
@@ -19,9 +24,12 @@ public class AboutActivity extends BaseAvtivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        title = getResources().getStringArray(R.array.help_title);
+        text = getResources().getStringArray(R.array.hlep_text);
 //        StatusBarUtils.from(this).setTransparentStatusbar(true).process();
         setTitleText(R.string.help);
         setBack();
+        initRxCard();
     }
 
     private void initRxCard() {
@@ -34,15 +42,8 @@ public class AboutActivity extends BaseAvtivity {
             @Override
             public void onItemExpend(boolean expend) {
 
-    }
-
-
-    public void APP(View v) {
-        new SweetDialog(this)
-                .setDaration(2000)
-                .setTitleText("已经是最新版本了！")
-                .show();
-
+            }
+        });
     }
 
     private void initData() {
@@ -51,5 +52,4 @@ public class AboutActivity extends BaseAvtivity {
             data.add(new CardItem(ChartUtils.nextColor(), title[i], text[i]));
         }
     }
-
 }
