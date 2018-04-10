@@ -22,7 +22,7 @@
         android:orientation="vertical">
 
 
-        <com.embednet.wdluo.bleplatformsdkdemo.ui.CircleImageView
+        <com.embednet.wdluo.JackYan.ui.CircleImageView
             android:id="@+id/userImg"
             android:layout_width="160px"
             android:layout_height="160px"
@@ -65,6 +65,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:textSize="35px"
                 android:id="@+id/text_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,8 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/layout1"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10px"
+            android:layout_marginTop="10px"
             android:background="@color/gray" />
 
         <RelativeLayout
@@ -110,6 +111,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:textSize="35px"
                 android:id="@+id/text_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -135,8 +137,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/layout1"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10px"
+            android:layout_marginTop="10px"
             android:background="@color/gray" />
 
         <RelativeLayout
@@ -155,6 +157,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:textSize="35px"
                 android:id="@+id/text_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -180,8 +183,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/layout1"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10px"
+            android:layout_marginTop="10px"
             android:background="@color/gray" />
 
         <RelativeLayout
@@ -200,6 +203,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:textSize="35px"
                 android:id="@+id/text_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -224,8 +228,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/layout1"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10px"
+            android:layout_marginTop="10px"
             android:background="@color/gray" />
 
     </LinearLayout>

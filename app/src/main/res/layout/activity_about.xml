@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333333"
-    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.AboutActivity">
+    tools:context="com.embednet.wdluo.JackYan.app.AboutActivity">
 
 
     <include

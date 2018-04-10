@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.GuideActivity">
+    tools:context="com.embednet.wdluo.JackYan.app.GuideActivity">
 
 
     <ImageView

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#333333"
     android:orientation="vertical"
-    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.HistoryDataActivity">
+    tools:context="com.embednet.wdluo.JackYan.app.HistoryDataActivity">
 
 
     <RelativeLayout
@@ -46,7 +46,7 @@
             android:layout_toLeftOf="@+id/img_mode"
             android:gravity="center"
             android:onClick="bottom"
-            android:text="日视图"
+            android:text="@string/View_Day"
             android:textColor="@color/white" />
 
         <ImageView
@@ -60,11 +60,11 @@
 
 
         <View
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:background="@color/gray"
+            android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:layout_height="1px"/>
+            android:background="@color/gray"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
@@ -124,7 +124,7 @@
 
 
                 <TextView
-                    android:id="@+id/battery"
+                    android:id="@+id/CountSteps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.0"
@@ -136,8 +136,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/battery"
-                    android:text="@string/batteryValue"
+                    android:layout_below="@+id/CountSteps"
+                    android:text="@string/CountSteps"
                     android:textColor="@color/gray"
                     android:textSize="40px" />
 
@@ -159,7 +159,7 @@
 
 
                 <TextView
-                    android:id="@+id/resistance"
+                    android:id="@+id/CountKm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.0"
@@ -170,7 +170,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ResistanceValue"
+                    android:text="@string/CountKm"
                     android:textColor="@color/gray"
                     android:textSize="40px" />
 
@@ -192,7 +192,7 @@
 
 
                 <TextView
-                    android:id="@+id/kcal"
+                    android:id="@+id/targetSteps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.0"
@@ -203,7 +203,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="卡路里（千卡）"
+                    android:text="@string/targetSteps"
                     android:textColor="@color/gray"
                     android:textSize="40px" />
 

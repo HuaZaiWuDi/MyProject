@@ -68,7 +68,7 @@
     </RelativeLayout>
 
 
-    <com.embednet.wdluo.bleplatformsdkdemo.ui.RoundView
+    <com.embednet.wdluo.JackYan.ui.RoundView
         android:id="@+id/mRoundDisPlayView"
         android:layout_width="match_parent"
         android:layout_height="900px"

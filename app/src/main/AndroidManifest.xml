@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.embednet.wdluo.bleplatformsdkdemo">
+    package="com.embednet.wdluo.JackYan">
 
     <uses-sdk
         android:maxSdkVersion="22"
@@ -60,7 +60,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.embednet.wdluo.JackYan.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon_app"
         android:label="@string/appName"
@@ -77,25 +77,25 @@
 
 
         <activity
-            android:name=".app.MainActivity"
+            android:name="com.embednet.wdluo.JackYan.app.MainActivity"
             android:label="@string/app_name" />
         <!-- <activity -->
         <!-- android:name=".dfu.DfuActivity" -->
         <!-- android:label="@string/title_activity_dfu" /> -->
         <activity
-            android:name=".dfu.NotificationActivity"
+            android:name="com.embednet.wdluo.JackYan.dfu.NotificationActivity"
             android:label="@string/title_activity_dfu" />
 
         <service
-            android:name=".dfu.DfuService"
+            android:name="com.embednet.wdluo.JackYan.dfu.DfuService"
             android:exported="true"
             android:label="@string/dfu_service_title" />
 
         <activity
-            android:name=".app.LoginActivity"
+            android:name="com.embednet.wdluo.JackYan.app.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".app.GuideActivity"
+            android:name="com.embednet.wdluo.JackYan.app.GuideActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -103,14 +103,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.ControlActivity" />
-        <activity android:name=".app.ScnnerActivity" />
-        <activity android:name=".app.UpdateDFUActivity" />
+        <activity android:name="com.embednet.wdluo.JackYan.app.ControlActivity" />
+        <activity android:name="com.embednet.wdluo.JackYan.app.ScnnerActivity" />
+        <activity android:name="com.embednet.wdluo.JackYan.app.UpdateDFUActivity" />
 
         <!-- android7.0适配 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.embednet.wdluo.bleplatformsdkdemo"
+            android:authorities="com.embednet.wdluo.JackYan"
             android:exported="false"
             android:grantUriPermissions="true">
 
@@ -160,11 +160,11 @@
         <!-- 第三方登录 -->
 
         <activity
-            android:name=".app.Main2Activity"
+            android:name="com.embednet.wdluo.JackYan.app.Main2Activity"
             android:launchMode="singleTask" />
-        <activity android:name=".app.PersonalActivity" />
+        <activity android:name="com.embednet.wdluo.JackYan.app.PersonalActivity" />
         <activity
-            android:name=".app.Login2Activity"
+            android:name="com.embednet.wdluo.JackYan.app.Login2Activity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
@@ -184,19 +184,19 @@
         <activity-alias
             android:name="${applicationId}.wxapi.WXEntryActivity"
             android:exported="true"
-            android:targetActivity=".app.Login2Activity" />
+            android:targetActivity="com.embednet.wdluo.JackYan.app.Login2Activity" />
 
-        <activity android:name=".app.RegisterActivity" />
-        <activity android:name=".app.HistoryDataActivity" />
+        <activity android:name="com.embednet.wdluo.JackYan.app.RegisterActivity" />
+        <activity android:name="com.embednet.wdluo.JackYan.app.HistoryDataActivity" />
 
         <service
-            android:name=".service.BleService"
+            android:name="com.embednet.wdluo.JackYan.service.BleService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".app.UserInfoActivity" />
-        <activity android:name=".app.ShareActivity" />
-        <activity android:name=".app.AboutActivity"></activity>
+        <activity android:name="com.embednet.wdluo.JackYan.app.UserInfoActivity" />
+        <activity android:name="com.embednet.wdluo.JackYan.app.ShareActivity" />
+        <activity android:name="com.embednet.wdluo.JackYan.app.AboutActivity"></activity>
     </application>
 
 </manifest>

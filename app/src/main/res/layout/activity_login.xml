@@ -5,7 +5,7 @@
     android:background="#333333"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.LoginActivity">
+    tools:context="com.embednet.wdluo.JackYan.app.LoginActivity">
 
 
     <ImageView

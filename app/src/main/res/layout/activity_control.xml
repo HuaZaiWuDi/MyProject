@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333333"
-    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.ControlActivity">
+    tools:context="com.embednet.wdluo.JackYan.app.ControlActivity">
 
 
     <include
@@ -171,7 +171,7 @@
 
 
             <TextView
-                android:id="@+id/age"
+                android:id="@+id/inputPower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/LoadResistance"
@@ -180,9 +180,10 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/powerValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/age"
+                android:layout_below="@+id/inputPower"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="10px"
                 android:text="20"

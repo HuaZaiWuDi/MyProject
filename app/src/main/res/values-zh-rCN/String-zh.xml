@@ -117,5 +117,28 @@
     <string name="takePhoto">拍照</string>
     <string name="sumDaySteps">累计运动第%1$d天</string>
 
+    <string name="View_Day">日视图</string>
+    <string name="View_Week">周视图</string>
+    <string name="View_Month">月视图</string>
+
+
+    <string name="Today">今天</string>
+    <string name="Yesterday">昨天</string>
+    <string name="thisWeek">本周</string>
+    <string name="LastWeek">上周</string>
+    <string name="thisMonth">本月</string>
+    <string name="LastMonth">上月</string>
+
+
+    <string name="CountSteps">当前步数</string>
+    <string name="CountKm">当前里程</string>
+
+    <string-array name="inputPower">
+        <item>全功率</item>
+        <item>高</item>
+        <item>中</item>
+        <item>低</item>
+    </string-array>
+
 
 </resources>

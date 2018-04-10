@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333333"
-    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.PersonalActivity">
+    tools:context="com.embednet.wdluo.JackYan.app.PersonalActivity">
 
     <include
         android:id="@+id/title"
@@ -29,7 +29,7 @@
             android:layout_height="120px"
             android:onClick="login">
 
-            <com.embednet.wdluo.bleplatformsdkdemo.ui.CircleImageView
+            <com.embednet.wdluo.JackYan.ui.CircleImageView
                 android:id="@+id/userImg"
                 android:layout_width="120px"
                 android:layout_height="match_parent"

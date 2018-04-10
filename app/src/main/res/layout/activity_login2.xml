@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.Login2Activity">
+    tools:context="com.embednet.wdluo.JackYan.app.Login2Activity">
 
     <ImageView
         android:id="@+id/img_bg"
@@ -30,7 +30,7 @@
             android:gravity="center"
             android:onClick="wechar">
 
-            <com.embednet.wdluo.bleplatformsdkdemo.ui.ImageTextView
+            <com.embednet.wdluo.JackYan.ui.ImageTextView
                 android:id="@+id/email_sign_in_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

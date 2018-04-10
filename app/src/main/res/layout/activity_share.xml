@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333333"
-    tools:context="com.embednet.wdluo.bleplatformsdkdemo.app.ShareActivity">
+    tools:context="com.embednet.wdluo.JackYan.app.ShareActivity">
 
 
     <include
@@ -29,7 +29,7 @@
             android:layout_centerVertical="true"
             android:onClick="userInfo">
 
-            <com.embednet.wdluo.bleplatformsdkdemo.ui.CircleImageView
+            <com.embednet.wdluo.JackYan.ui.CircleImageView
                 android:id="@+id/userImg"
                 android:layout_width="120px"
                 android:layout_height="match_parent"
@@ -89,7 +89,7 @@
         android:orientation="vertical">
 
 
-        <com.embednet.wdluo.bleplatformsdkdemo.ui.RoundView
+        <com.embednet.wdluo.JackYan.ui.RoundView
             android:id="@+id/mRoundDisPlayView"
             android:layout_width="match_parent"
             android:layout_height="800px"
