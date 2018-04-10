@@ -4,7 +4,7 @@
     <string name="appName">智能模块</string>
 
     <!--界面标题-->
-    <string name="controlCenter">控制中心</string>
+    <string name="controlCenter">设备中心</string>
     <string name="historyData">历史数据</string>
 
     <string name="settingUserInfo">请设置性别</string>
@@ -12,6 +12,7 @@
     <string name="settingWeight">请设置体重</string>
     <string name="settingAge">请设置年龄</string>
     <string name="settingSteps">请设置目标步数</string>
+    <string name="settingSex">请设置性别</string>
 
     <string name="NoPromiss">权限拒绝 !</string>
     <string name="step">步</string>
@@ -36,7 +37,7 @@
     <string name="uninstall">未安装</string>
     <string name="doFail">操作失败</string>
 
-    <string name="FirstPage">首页</string>
+    <string name="FirstPage">计步器</string>
     <string name="stepsTarget">目标%1$d步</string>
     <string name="Usercontrol">用户中心</string>
     <string name="inputPhone">请输入正确的电话号码</string>
@@ -56,7 +57,7 @@
     <string name="man">男</string>
     <string name="woman">女</string>
     <string name="noknown">未知</string>
-    <string name="year">%1$d岁</string>
+    <string name="year">岁</string>
 
     <!--DFU-->
     <string name="NearPhone">升级过程中请勿让设备远离手机</string>
@@ -66,10 +67,11 @@
     <!--function-->
     <string name="powerState">开关机状态</string>
     <string name="BoradState">广播状态</string>
-    <string name="LoadResistance">负载阻值</string>
+    <string name="LoadResistance">输出功率</string>
     <string name="deviceType">设备类型</string>
     <string name="FirmwareVersion">固件版本</string>
     <string name="APPVersion">APP版本</string>
+    <string name="DeviceInfo">设备信息</string>
     <string name="on">开启</string>
     <string name="off">关闭</string>
     <string name="today">今天</string>
@@ -83,12 +85,13 @@
     <string name="rsgisterPhone">手机号注册</string>
     <string name="otherLogin">其他登录方式</string>
     <string name="batteryValue">电池电量(%)</string>
-    <string name="ResistanceValue">电阻阻值(欧姆)</string>
+    <string name="ResistanceValue">电阻阻值(Ω)</string>
     <string name="targetSteps">目标步数</string>
     <string name="NotifySteps">步数成绩通知</string>
     <string name="FunctionSteps">计步功能</string>
     <string name="personalInfo">个人资料</string>
     <string name="deviceControl">设备中心</string>
+    <string name="addDevice">搜索设备</string>
     <string name="logOff">退出登录</string>
 
     <string name="ok">确定</string>
@@ -98,10 +101,21 @@
     <string name="DirectEntry">直接进入</string>
     <string name="sharePage">分享界面</string>
     <string name="todayDate">今日数据</string>
-    <string name="help">关于</string>
+    <string name="help">帮助</string>
 
     <string name="sex">性别</string>
     <string name="age">年龄</string>
     <string name="height">身高</string>
     <string name="weight">体重</string>
+
+    <string name="ChoosePhotographMode">请选择拍照模式</string>
+    <string name="keyPhotograph">按键拍照</string>
+    <string name="shakePhotograph">摇一摇拍照</string>
+    <string name="choosePhoto">选择头像</string>
+    <string name="choosePhotoMode">请选择头像获取方式</string>
+    <string name="changeByAlbum">从相册中选择</string>
+    <string name="takePhoto">拍照</string>
+    <string name="sumDaySteps">累计运动第%1$d天</string>
+
+
 </resources>

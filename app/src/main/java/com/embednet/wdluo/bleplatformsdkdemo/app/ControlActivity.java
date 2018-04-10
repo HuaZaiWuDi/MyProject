@@ -3,8 +3,10 @@ package com.embednet.wdluo.bleplatformsdkdemo.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.embednet.wdluo.bleplatformsdkdemo.R;
+import com.embednet.wdluo.bleplatformsdkdemo.ui.SweetDialog;
 
 import laboratory.dxy.jack.com.jackupdate.ui.recyclerview.CommonAdapter;
 
@@ -16,6 +18,9 @@ public class ControlActivity extends BaseAvtivity {
 
     CommonAdapter adapter;
 
+    ImageView power, broad;
+    boolean isPower, isBroad;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +29,16 @@ public class ControlActivity extends BaseAvtivity {
         setTitleText(R.string.controlCenter);
         setBack();
 
+        power = findViewById(R.id.power);
+        broad = findViewById(R.id.broad);
+        isPower = isBroad = true;
+
     }
 
 
     public void isOpen(View v) {
-
+        isPower = !isPower;
+        power.setBackgroundResource(isPower ? R.mipmap.icon_on : R.mipmap.icon_off);
     }
 
     public void value(View v) {
@@ -36,7 +46,8 @@ public class ControlActivity extends BaseAvtivity {
     }
 
     public void broad(View v) {
-
+        isBroad = !isBroad;
+        broad.setBackgroundResource(isBroad ? R.mipmap.icon_on : R.mipmap.icon_off);
     }
 
     public void deviceCanter(View v) {
@@ -46,6 +57,25 @@ public class ControlActivity extends BaseAvtivity {
 
     public void help(View v) {
         startActivity(new Intent(this, AboutActivity.class));
+    }
+
+    public void APP(View v) {
+        new SweetDialog(this)
+                .setDaration(2000)
+                .setTitleText("已经是最新版本了！")
+                .show();
+    }
+
+    public void DFU(View v) {
+        startActivity(new Intent(this, UpdateDFUActivity.class));
+    }
+
+    public void DeviceInfo(View v) {
+        new SweetDialog(this)
+                .setDaration(2000)
+                .setTitleText(getString(R.string.DeviceInfo))
+                .setContentText("设备名称：" + "\n" + "设备型号：" + "\n" + "设备SN序列号:" + "\n" + "设备固件版本号：" + "\n")
+                .show();
     }
 
 

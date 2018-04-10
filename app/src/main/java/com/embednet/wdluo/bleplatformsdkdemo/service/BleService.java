@@ -33,6 +33,7 @@ public class BleService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         L.d("onStartCommand");
 
+
         if (!bleManager.isConnected(BleTools.bleDevice))
             setAutoConnect();
         return START_STICKY;

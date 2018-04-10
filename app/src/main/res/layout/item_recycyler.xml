@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_view"
     android:layout_width="match_parent"
-    android:layout_height="180px"
+    android:layout_height="150px"
     android:background="#333333"
     android:padding="10dp">
 
@@ -15,7 +15,7 @@
         android:layout_marginLeft="40px"
         android:text="Title"
         android:textColor="@color/white"
-        android:textSize="60px"
+        android:textSize="50px"
         android:textStyle="bold" />
 
 
@@ -28,7 +28,7 @@
         android:layout_marginRight="10dp"
         android:text="Title"
         android:textColor="@color/white"
-        android:textSize="50px"
+        android:textSize="40px"
         android:textStyle="bold" />
 
 </RelativeLayout>

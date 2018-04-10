@@ -42,7 +42,7 @@ public class RoundView extends View {
     private int sweepAngle1 = 0;
     private int sweepAngle2 = 0;
     private int sweepAngle3 = 0;
-    private String currentNum = 9527 + "";//中间的文字
+    private int currentNum = 9527;//中间的文字
     private int[] linesColor = {Color.parseColor("#F4479D"), Color.parseColor("#43B7FD"), Color.parseColor("#F5CC36")};
 
     public RoundView(Context context) {
@@ -58,9 +58,10 @@ public class RoundView extends View {
         init();
     }
 
-    public RoundView setCentreText(String currentNum, String hitText) {
+    public RoundView setCentreText(int currentNum, String hitText) {
         this.currentNum = currentNum;
         this.hitText = hitText;
+        numberAnimation(currentNum);
         return this;
     }
 
@@ -102,7 +103,7 @@ public class RoundView extends View {
         sweepAngle3 = 270;
 
         lineWidth = dp2px(1);
-        ProgressWidth = dp2px(10);
+        ProgressWidth = dp2px(15);
         w = dp2px(13);
 
         paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -144,9 +145,9 @@ public class RoundView extends View {
         //绘制背景
 //        canvas.drawColor(BackgroundColor);
 
-        radius = getMeasuredWidth() / 4; //不要在构造方法里初始化，那时还没测量宽高
+        radius = (int) (mWidth * 0.23); //不要在构造方法里初始化，那时还没测量宽高
         canvas.save();
-        canvas.translate(mWidth / 2, (mWidth) / 2);
+        canvas.translate(mWidth / 2, (mHeight) / 2);
 //        //画最里面的圈
 //        drawRound1(canvas);
 //        //画中间的圈
@@ -240,13 +241,15 @@ public class RoundView extends View {
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
-        if (hasWindowFocus)
+        if (hasWindowFocus) {
             startAnimation(ValueAnimator.INFINITE, 360);
+            numberAnimation(currentNum);
+        }
     }
 
 
     ValueAnimator cgAnima1;
-    ValueAnimator cgAnima3;
+    ValueAnimator cgAnima2;
 
     //    public void startAnimation() {
 //        if (cgAnima1 == null || cgAnima3 == null) {
@@ -289,19 +292,38 @@ public class RoundView extends View {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     sweepAngle1 = (int) cgAnima1.getAnimatedValue();
+
                     postInvalidate();
                 }
             });
-
         }
         cgAnima1.start();
 
     }
 
 
+    public void numberAnimation(final int num) {
+        if (cgAnima2 == null) {
+            cgAnima2 = ValueAnimator.ofInt(0, num);
+            cgAnima2.setDuration(2000);
+            cgAnima2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    currentNum = (int) cgAnima2.getAnimatedValue();
+                    postInvalidate();
+                }
+            });
+        }
+        cgAnima2.start();
+
+    }
+
     public void stopAnimation() {
         if (cgAnima1 != null) {
             cgAnima1.end();
+        }
+        if (cgAnima2 != null) {
+            cgAnima2.end();
         }
     }
 

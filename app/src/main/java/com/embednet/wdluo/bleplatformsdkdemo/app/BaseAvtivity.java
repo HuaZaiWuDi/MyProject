@@ -17,11 +17,13 @@ import android.widget.TextView;
 
 import com.embednet.wdluo.bleplatformsdkdemo.R;
 import com.embednet.wdluo.bleplatformsdkdemo.util.L;
+import com.embednet.wdluo.bleplatformsdkdemo.util.RxActivityUtils;
 import com.zhy.autolayout.AutoFrameLayout;
 import com.zhy.autolayout.AutoLayoutActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -36,6 +38,7 @@ public class BaseAvtivity extends AutoLayoutActivity {
 
     protected SharedPreferences sharedPreferences;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +46,11 @@ public class BaseAvtivity extends AutoLayoutActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        L.d("测试代码");
 //        StatusBarUtils.from(this).setTransparentStatusbar(true).process();
+        RxActivityUtils.addActivity(this);
     }
 
     public void setBack() {
-        ImageView back = (ImageView) findViewById(R.id.back);
+        ImageView back = findViewById(R.id.back);
         if (back != null)
             back.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -125,6 +129,10 @@ public class BaseAvtivity extends AutoLayoutActivity {
     protected String getCurrentTime() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return format.format(new Date());
+    }
+
+    public static String setFormat(long value, String format) {
+        return new DecimalFormat(format).format(value);
     }
 
 

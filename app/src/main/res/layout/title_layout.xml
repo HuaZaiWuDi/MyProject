@@ -13,10 +13,10 @@
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="60px"
-            android:layout_height="60px"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20px"
+            android:layout_width="150px"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:padding="30px"
             android:src="@mipmap/back" />
 
 
@@ -24,8 +24,9 @@
             android:id="@+id/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20px"
+            android:layout_toRightOf="@+id/back"
             android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/white"
             android:textSize="45px" />
@@ -33,13 +34,18 @@
 
         <ImageView
             android:id="@+id/img_right"
-            android:layout_width="60px"
-            android:layout_height="60px"
+            android:layout_width="150px"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20px"
-            android:visibility="gone" />
+            android:padding="30px" />
 
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
 
     </RelativeLayout>
 </RelativeLayout>

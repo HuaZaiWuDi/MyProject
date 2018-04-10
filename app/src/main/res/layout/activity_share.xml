@@ -13,38 +13,97 @@
         layout="@layout/title_layout" />
 
 
+    <RelativeLayout
+        android:id="@+id/userInfo"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:layout_below="@+id/title"
+        android:paddingLeft="32px"
+        android:paddingRight="32px">
+
+
+        <RelativeLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_centerVertical="true"
+            android:onClick="userInfo">
+
+            <com.embednet.wdluo.bleplatformsdkdemo.ui.CircleImageView
+                android:id="@+id/userImg"
+                android:layout_width="120px"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/img_heard" />
+
+            <TextView
+                android:id="@+id/UserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/userImg"
+                android:text="@string/selectLogin"
+                android:textColor="@color/white"
+                android:textSize="50px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/UserPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/UserName"
+                android:layout_toRightOf="@+id/userImg"
+                android:text="@string/loginSyncDate"
+                android:textColor="@color/gray" />
+
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="40px"
+            android:background="@color/gray" />
+
+    </RelativeLayout>
+
+
     <TextView
+        android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/userInfo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="160px"
+        android:layout_marginTop="80px"
         android:text="@string/todayDate"
         android:textColor="@color/white"
         android:textSize="40px" />
 
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/titleText"
         android:orientation="vertical">
 
 
         <com.embednet.wdluo.bleplatformsdkdemo.ui.RoundView
             android:id="@+id/mRoundDisPlayView"
             android:layout_width="match_parent"
-            android:layout_height="900px"
+            android:layout_height="800px"
             android:layout_below="@+id/titleLayout"
-            android:layout_margin="10px" />
+            android:padding="10px" />
 
         <LinearLayout
-            android:layout_marginTop="100px"
             android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="160px"
             android:layout_below="@+id/mRoundDisPlayView"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
 
             <LinearLayout
@@ -70,14 +129,14 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/battery"
                     android:text="@string/batteryValue"
-                    android:textColor="@color/white"
+                    android:textColor="@color/gray"
                     android:textSize="40px" />
 
 
             </LinearLayout>
 
             <View
-                android:layout_width="2dp"
+                android:layout_width="0.1dp"
                 android:layout_height="80px"
                 android:layout_gravity="center_vertical"
                 android:background="@color/white" />
@@ -106,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ResistanceValue"
-                    android:textColor="@color/white"
+                    android:textColor="@color/gray"
                     android:textSize="40px" />
 
 
@@ -114,62 +173,82 @@
         </LinearLayout>
 
 
-    </LinearLayout>
+        <lecho.lib.hellocharts.view.ColumnChartView
+            android:id="@+id/mColumnChartView"
+            android:layout_width="match_parent"
+            android:layout_height="600px"
+            android:layout_below="@+id/mRoundDisPlayView"
+            android:padding="10px" />
 
 
-    <LinearLayout
-        android:id="@+id/share"
-        android:layout_width="match_parent"
-        android:layout_height="200px"
-        android:layout_above="@+id/textView"
-        android:gravity="center"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/share"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:layout_marginLeft="50px"
+                android:onClick="img_qq"
+                android:padding="20px"
+                android:src="@mipmap/ico_qqsign_482x" />
+
+            <ImageView
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:onClick="img_QQ_zone"
+                android:padding="20px"
+                android:src="@mipmap/qq_zone" />
+
+            <ImageView
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:onClick="img_WX"
+                android:padding="20px"
+                android:src="@mipmap/wx" />
+
+            <ImageView
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:onClick="img_friends"
+                android:padding="20px"
+                android:src="@mipmap/prant" />
+
+            <ImageView
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:onClick="img_weibo"
+                android:padding="20px"
+                android:src="@mipmap/weibo" />
+
+            <ImageView
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:onClick="img_facebook"
+                android:padding="20px"
+                android:src="@mipmap/icon_facebook" />
+
+            <ImageView
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:onClick="img_twitter"
+                android:padding="20px"
+                android:src="@mipmap/icon_twitter" />
 
 
-        <ImageView
-            android:layout_width="0px"
-            android:layout_height="80px"
-            android:layout_marginLeft="50px"
-            android:layout_weight="1"
-            android:onClick="img_qq"
-            android:src="@mipmap/ico_qqsign_482x" />
+            <ImageView
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:layout_marginRight="30px"
+                android:onClick="img_whatsapp"
+                android:padding="20px"
+                android:src="@mipmap/icon_whatsapp" />
 
-        <ImageView
-            android:layout_width="0px"
-            android:layout_height="80px"
-            android:layout_weight="1"
-            android:onClick="img_QQ_zone"
-            android:src="@mipmap/qq_zone" />
-
-        <ImageView
-            android:layout_width="0px"
-            android:layout_height="80px"
-            android:layout_weight="1"
-            android:onClick="img_WX"
-            android:src="@mipmap/wx" />
-
-        <ImageView
-            android:layout_width="0px"
-            android:layout_height="80px"
-            android:layout_weight="1"
-            android:onClick="img_friends"
-            android:src="@mipmap/prant" />
-
-        <ImageView
-            android:layout_width="0px"
-            android:layout_height="80px"
-            android:layout_weight="1"
-            android:onClick="img_weibo"
-            android:src="@mipmap/weibo" />
-
-        <ImageView
-            android:layout_width="0px"
-            android:layout_height="80px"
-            android:layout_marginRight="30px"
-            android:layout_weight="1"
-            android:onClick="img_facebook"
-            android:src="@mipmap/icon_facebook" />
-
+        </LinearLayout>
 
     </LinearLayout>
 

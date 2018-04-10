@@ -19,5 +19,6 @@ public class UserInfo extends BmobUser {
     public int age = 20;
     public int height = 175;
     public int weight = 60;
+    public int stepsTarget ;
 
 }

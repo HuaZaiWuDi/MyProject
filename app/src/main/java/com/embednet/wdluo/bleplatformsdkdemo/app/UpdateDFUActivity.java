@@ -108,7 +108,6 @@ public class UpdateDFUActivity extends BaseAvtivity {
             super.onFirmwareValidating(deviceAddress);
             L.d("onFirmwareValidating");
             text_title.setText(R.string.FileOkUpdating);
-
         }
 
         @Override
@@ -149,7 +148,7 @@ public class UpdateDFUActivity extends BaseAvtivity {
             @Override
             public void onClick(View v) {
                 mFreshDownloadView.reset();
-
+                mFreshDownloadView.setEnabled(false);
 //                BleTools.getInstance().writeBle(BleAPI.startDFU());
 
                 // UpdateFirmwareThread mUpdateFirmwareThread = new UpdateFirmwareThread();
@@ -157,6 +156,7 @@ public class UpdateDFUActivity extends BaseAvtivity {
                 startMyDFU();
             }
         });
+
 
         if (BuildConfig.DEBUG) {
             ImageView filePicker = findViewById(R.id.img_right);
@@ -170,25 +170,26 @@ public class UpdateDFUActivity extends BaseAvtivity {
             });
         }
 
-
     }
 
     private void startMyDFU() {
         if (BleTools.bleDevice == null) {
             mFreshDownloadView.showDownloadError();
             mStatusTextView.setText(R.string.disconnect);
-
+            mFreshDownloadView.setEnabled(true);
             return;
         }
         if (OTAFilePath == null || OTAFilePath.equals("")) {
             mFreshDownloadView.showDownloadError();
             mStatusTextView.setText(R.string.NoFile);
+            mFreshDownloadView.setEnabled(true);
             return;
         }
 
         if (!OTAFilePath.endsWith(".zip")) {
             mFreshDownloadView.showDownloadError();
             mStatusTextView.setText(R.string.FileFormatWrong);
+            mFreshDownloadView.setEnabled(true);
             return;
         }
 
@@ -242,7 +243,6 @@ public class UpdateDFUActivity extends BaseAvtivity {
     @Override
     protected void onResume() {
         super.onResume();
-
 
         DfuServiceListenerHelper.registerProgressListener(this, listenerAdapter);
 

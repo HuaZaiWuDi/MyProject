@@ -20,3 +20,8 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 -keep class android.support.**{*;}
+
+-keepattributes InnerClasses,Signature
+-keepattributes *Annotation*
+
+-keep class cn.qqtheme.framework.entity.** { *;}

@@ -16,129 +16,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_below="@id/title"
         android:orientation="vertical"
         android:padding="16dp">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100px"
-            android:onClick="isOpen">
+            android:layout_height="120px"
+            android:onClick="DeviceInfo">
 
 
             <TextView
-                android:id="@+id/sex"
+                android:id="@+id/sex2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/powerState"
+                android:text="@string/DeviceInfo"
                 android:textColor="@color/white"
                 android:textSize="40px"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="10px"
-                android:textSize="35px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/sex"
+                android:layout_below="@+id/sex2"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="10px"
                 android:text="@string/on"
-                android:textColor="@color/white" />
-
-
-            <Switch
-                android:layout_width="100dp"
-                android:layout_height="40px"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/icon_right" />
-
-
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/layout1"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/gray" />
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="broad">
-
-
-            <TextView
-                android:id="@+id/height"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/BoradState"
-                android:textColor="@color/white"
-                android:textSize="40px"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_marginTop="10px"
-                android:textSize="35px"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/height"
-                android:layout_centerVertical="true"
-                android:text="@string/on"
-                android:textColor="@color/white" />
-
-
-            <Switch
-                android:layout_width="100dp"
-                android:layout_height="40px"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/icon_right" />
-
-
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/layout1"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/gray" />
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="value">
-
-
-            <TextView
-                android:id="@+id/age"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/LoadResistance"
-                android:textColor="@color/white"
-                android:textSize="40px"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_marginTop="10px"
-                android:textSize="35px"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/age"
-                android:layout_centerVertical="true"
-                android:text="20"
-                android:textColor="@color/white" />
+                android:textColor="@color/gray"
+                android:textSize="35px" />
 
 
             <ImageView
@@ -162,7 +68,241 @@
             android:background="@color/gray" />
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:onClick="isOpen">
+
+
+            <TextView
+                android:id="@+id/sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/powerState"
+                android:textColor="@color/white"
+                android:textSize="40px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sex"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10px"
+                android:text="@string/on"
+                android:textColor="@color/gray"
+                android:textSize="35px" />
+
+
+            <ImageView
+                android:id="@+id/power"
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/icon_on" />
+
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/layout1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:onClick="broad">
+
+
+            <TextView
+                android:id="@+id/height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/BoradState"
+                android:textColor="@color/white"
+                android:textSize="40px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/height"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10px"
+                android:text="@string/on"
+                android:textColor="@color/gray"
+                android:textSize="35px" />
+
+
+            <ImageView
+                android:id="@+id/broad"
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/icon_on" />
+
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/layout1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:onClick="value">
+
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/LoadResistance"
+                android:textColor="@color/white"
+                android:textSize="40px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/age"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10px"
+                android:text="20"
+                android:textColor="@color/gray"
+                android:textSize="35px" />
+
+
+            <ImageView
+                android:layout_width="40px"
+                android:layout_height="40px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/icon_right" />
+
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/layout1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="DFU">
+
+
+            <TextView
+                android:id="@+id/DFU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/FirmwareVersion"
+                android:textColor="@color/white"
+                android:textSize="40px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/DFU"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10px"
+                android:text="01"
+                android:textColor="@color/gray"
+                android:textSize="35px" />
+
+
+            <ImageView
+                android:layout_width="40px"
+                android:layout_height="40px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/icon_right" />
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/layout1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="APP">
+
+
+            <TextView
+                android:id="@+id/APP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/APPVersion"
+                android:textColor="@color/white"
+                android:textSize="40px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/APP"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10px"
+                android:text="1.0.1"
+                android:textColor="@color/gray"
+                android:textSize="35px" />
+
+
+            <ImageView
+                android:layout_width="40px"
+                android:layout_height="40px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/icon_right" />
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/layout1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray" />
+
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/textView"

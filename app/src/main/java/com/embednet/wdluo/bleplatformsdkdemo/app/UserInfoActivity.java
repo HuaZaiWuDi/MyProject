@@ -1,16 +1,11 @@
 package com.embednet.wdluo.bleplatformsdkdemo.app;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,12 +20,11 @@ import com.embednet.wdluo.bleplatformsdkdemo.util.L;
 import java.util.ArrayList;
 import java.util.List;
 
-import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
+import cn.qqtheme.framework.picker.NumberPicker;
+import cn.qqtheme.framework.picker.OptionPicker;
 
 public class UserInfoActivity extends BaseAvtivity {
 
-    View parentView;
-    PopupWindow UserNamePopW;
     UserInfo info;
     TextView text_weight, text_height, text_sex, text_age;
 
@@ -38,21 +32,15 @@ public class UserInfoActivity extends BaseAvtivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-        StatusBarUtils.from(this).setTransparentStatusbar(true).setHindStatusBar(true).process();
+//        StatusBarUtils.from(this).setTransparentStatusbar(true).setHindStatusBar(true).process();
 
 
-        final CircleImageView fab = findViewById(R.id.fab);
-        AppBarLayout app_bar = findViewById(R.id.app_bar);
-        app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (Math.abs(verticalOffset) == Math.abs(appBarLayout.getTotalScrollRange())) {
-                    fab.setVisibility(View.GONE);
-                } else {
-                    fab.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        setTitleText(R.string.settingUserInfo);
+        setBack();
+
+        final CircleImageView fab = findViewById(R.id.userImg);
+        final TextView userName = findViewById(R.id.userName);
+
 
         text_weight = findViewById(R.id.text_weight);
         text_height = findViewById(R.id.text_height);
@@ -62,58 +50,172 @@ public class UserInfoActivity extends BaseAvtivity {
         info = (UserInfo) MyApplication.aCache.getAsObject("UserInfo");
 
 
-        parentView = LayoutInflater.from(this).inflate(R.layout.activity_user_info, null, false);
-
-
-        final Toolbar toolbar = findViewById(R.id.toolbar);
         if (info != null) {
-            toolbar.setTitle(info.name);
+            userName.setText(info.name);
             Glide.with(this)
                     .asDrawable()
                     .apply(RequestOptions.placeholderOf(R.mipmap.img_heard))
                     .load(info.heardImgUrl)
                     .into(fab);
 
+            text_sex.setText(info.sex == 0 ? getString(R.string.man) : info.sex == 1 ? getString(R.string.woman) : getString(R.string.noknown));
+            text_age.setText(info.age + getString(R.string.year));
+            text_height.setText(info.height + "cm");
+            text_weight.setText(info.weight + "kg");
+        } else {
+            info = new UserInfo();
+            info.weight = 60;
+            info.height = 175;
+            info.sex = 0;
+            info.age = 25;
+            MyApplication.aCache.put("UserInfo", info);
         }
 
-
-        text_sex.setText(info.sex == 0 ? getString(R.string.man) : info.sex == 1 ? getString(R.string.woman) : getString(R.string.noknown));
-        text_age.setText(getString(R.string.year, info.age));
-        text_height.setText(info.height + "cm");
-        text_weight.setText(info.weight + "kg");
     }
 
     public void sex(View v) {
-        setUserNameDialog(getString(R.string.settingSex), 0);
+        OptionPicker picker = new OptionPicker(this, new String[]{
+                getString(R.string.man), getString(R.string.woman)
+        });
+        picker.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+        picker.setHeight((int) (picker.getScreenHeightPixels() * 0.4));
+        picker.setTitleText(R.string.settingSex);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setDividerRatio(0.2f);
+        picker.setSelectedIndex(info.sex > 1 ? 1 : info.sex);
+        picker.setCycleDisable(true);
+        picker.setTextSize(21);
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+            @Override
+            public void onOptionPicked(int index, String item) {
+                text_sex.setText(item);
+                info.sex = index;
+            }
+        });
+        picker.show();
     }
 
     public void age(View v) {
-        setUserNameDialog(getString(R.string.settingAge), 1);
+        NumberPicker picker = new NumberPicker(this);
+        picker.setTitleText(getString(R.string.settingAge));
+        picker.setGravity(Gravity.BOTTOM);
+        picker.setHeight((int) (picker.getScreenHeightPixels() * 0.4));
+        picker.setCycleDisable(false);
+        picker.setDividerRatio(0.2f);
+        picker.setOffset(2);//偏移量
+        picker.setRange(0, 100, 1);//数字范围
+        picker.setSelectedItem(info.age);
+        picker.setTextSize(21);
+        picker.setLabel(getString(R.string.year));
+        picker.setOnNumberPickListener(new NumberPicker.OnNumberPickListener() {
+            @Override
+            public void onNumberPicked(int index, Number item) {
+                text_age.setText(item.intValue() + getString(R.string.year));
+                info.age = item.intValue();
+            }
+        });
+        picker.show();
     }
 
     public void height(View v) {
-        setUserNameDialog(getString(R.string.settingHeight), 2);
+        NumberPicker picker = new NumberPicker(this);
+        picker.setTitleText(getString(R.string.settingHeight));
+        picker.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+        picker.setHeight((int) (picker.getScreenHeightPixels() * 0.4));
+        picker.setCycleDisable(false);
+        picker.setDividerRatio(0.2f);
+        picker.setOffset(2);//偏移量
+        picker.setRange(0, 250, 1);//数字范围
+        picker.setSelectedItem(info.height);
+        picker.setTextSize(21);
+        picker.setLabel("cm");
+        picker.setOnNumberPickListener(new NumberPicker.OnNumberPickListener() {
+            @Override
+            public void onNumberPicked(int index, Number item) {
+                text_height.setText(item.intValue() + "cm");
+                info.height = item.intValue();
+            }
+        });
+        picker.show();
     }
 
     public void weight(View v) {
-        setUserNameDialog(getString(R.string.settingWeight), 3);
-
+        NumberPicker picker = new NumberPicker(this);
+        picker.setTitleText(getString(R.string.settingWeight));
+        picker.setGravity(Gravity.BOTTOM);
+        picker.setHeight((int) (picker.getScreenHeightPixels() * 0.4));
+        picker.setCycleDisable(false);
+        picker.setDividerRatio(0.2f);
+        picker.setOffset(2);//偏移量
+        picker.setRange(0, 250, 1);//数字范围
+        picker.setSelectedItem(info.weight);
+        picker.setTextSize(21);
+        picker.setLabel("kg");
+        picker.setOnNumberPickListener(new NumberPicker.OnNumberPickListener() {
+            @Override
+            public void onNumberPicked(int index, Number item) {
+                text_weight.setText(item.intValue() + "kg");
+                info.weight = item.intValue();
+            }
+        });
+        picker.show();
     }
 
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MyApplication.aCache.put("UserInfo", info);
+    }
+
     int dataInt = 0;
+    AlertDialog dialog;
+    String value;
+
+    private void setUserNameDialog(final String Title, final int position, String unit) {
+
+        View view = LayoutInflater.from(this).inflate(R.layout.pop_username, null);
 
 
-    private void setUserNameDialog(final String Title, final int position) {
-        View view = LayoutInflater.from(this).inflate(R.layout.pop_username, null, false);
+        ((TextView) view.findViewById(R.id.title)).setText(Title);
+        ((TextView) view.findViewById(R.id.unit)).setText(unit);
+        PickerView pickerView = view.findViewById(R.id.mPickerView);
+        view.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (position == 0) {
+                    text_sex.setText(value);
+                }
+                try {
+                    if (!TextUtils.isEmpty(value)) {
+                        dataInt = Integer.parseInt(value);
+
+                        switch (position) {
+                            case 1:
+                                text_age.setText(getString(R.string.year, dataInt));
+                                break;
+                            case 2:
+                                text_height.setText(dataInt + "cm");
+                                break;
+                            case 3:
+                                text_weight.setText(dataInt + "kg");
+                                break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.fillInStackTrace();
+                }
 
 
-        PickerView pickerView = new PickerView(this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600);
-        pickerView.setLayoutParams(params);
-
-//        PickerView pickerView = view.findViewById(R.id.mPickerView);
-
+                dialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
         final List<String> data = new ArrayList<>();
 
@@ -163,27 +265,23 @@ public class UserInfoActivity extends BaseAvtivity {
             @Override
             public void onSelect(String text) {
                 //这里数据的监听会有
+                value = text;
                 L.d("(year-dataInt):" + dataInt);
                 if (position == 0) {
-                    text_sex.setText(text);
-                    info.sex = text == getString(R.string.man) ? 0 : 1;
+                    info.sex = value == getString(R.string.man) ? 0 : 1;
                 }
                 try {
-                    if (!TextUtils.isEmpty(text)) {
-                        dataInt = Integer.parseInt(text);
+                    if (!TextUtils.isEmpty(value)) {
+                        dataInt = Integer.parseInt(value);
 
                         switch (position) {
-
                             case 1:
-                                text_age.setText(getString(R.string.year, dataInt));
                                 info.age = dataInt;
                                 break;
                             case 2:
-                                text_height.setText(dataInt + "cm");
                                 info.height = dataInt;
                                 break;
                             case 3:
-                                text_weight.setText(dataInt + "kg");
                                 info.weight = dataInt;
                                 break;
                         }
@@ -191,19 +289,11 @@ public class UserInfoActivity extends BaseAvtivity {
                 } catch (Exception e) {
                     e.fillInStackTrace();
                 }
+
             }
         });
-
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        MyApplication.aCache.put("UserInfo", info);
-                    }
-                })
-                .setTitle(Title)
-                .setNegativeButton(R.string.cancel, null)
-                .setView(pickerView)
+        dialog = new AlertDialog.Builder(this)
+                .setView(view)
                 .show();
 
     }

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333333"
@@ -33,6 +34,7 @@
                 android:layout_width="120px"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
+                android:onClick="userImg"
                 android:src="@mipmap/img_heard" />
 
             <TextView
@@ -81,6 +83,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/text_stepsTarget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/stepsTarget"
@@ -127,14 +130,14 @@
                 android:textStyle="bold" />
 
 
-            <Switch
+            <ImageView
                 android:id="@+id/switch_stepsMark"
-                android:layout_width="200px"
-                android:layout_height="40px"
+                android:layout_width="120px"
+                android:layout_height="120px"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="9dp"
-                android:src="@mipmap/icon_right" />
+                android:background="@mipmap/icon_on" />
 
 
         </RelativeLayout>
@@ -166,14 +169,14 @@
                 android:textStyle="bold" />
 
 
-            <Switch
+            <ImageView
                 android:id="@+id/switch_stepsFunction"
-                android:layout_width="200px"
-                android:layout_height="40px"
+                android:layout_width="120px"
+                android:layout_height="120px"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="9dp"
-                android:src="@mipmap/icon_right" />
+                android:background="@mipmap/icon_on" />
 
 
         </RelativeLayout>
@@ -252,6 +255,43 @@
 
         </RelativeLayout>
 
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/layout1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:onClick="searchDevice">
+
+
+            <TextView
+                android:id="@+id/addDervice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/addDevice"
+                android:textColor="@color/white"
+                android:textSize="50px"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:layout_width="40px"
+                android:layout_height="40px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/icon_right" />
+
+
+        </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -304,9 +344,8 @@
         android:layout_width="match_parent"
         android:layout_height="120px"
         android:layout_above="@+id/textView"
-        android:layout_marginLeft="70px"
-        android:layout_marginRight="70px"
-        android:background="@drawable/select_button_blue"
+        android:layout_margin="40px"
+        android:background="@color/gray"
         android:gravity="center"
         android:onClick="SingOut"
         android:text="@string/logOff"

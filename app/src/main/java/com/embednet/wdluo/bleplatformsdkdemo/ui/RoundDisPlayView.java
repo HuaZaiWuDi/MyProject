@@ -140,7 +140,7 @@ public class RoundDisPlayView extends View {
 
         radius = getMeasuredWidth() / 4; //不要在构造方法里初始化，那时还没测量宽高
         canvas.save();
-        canvas.translate(mWidth / 2, (mWidth) / 2);
+        canvas.translate(mWidth / 2, (mHeight) / 2);
         //画最里面的圈
         drawRound1(canvas);
         //画中间的圈

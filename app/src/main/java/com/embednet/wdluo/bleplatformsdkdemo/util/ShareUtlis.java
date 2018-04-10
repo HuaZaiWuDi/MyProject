@@ -79,8 +79,11 @@ public class ShareUtlis {
     /**
      * 简单的分享图片
      **/
-    public static void smpleShareImage(@NonNull Context context, @NonNull Bitmap bitmap) {
+    public static void smpleShareImage(@NonNull Context context, @NonNull Bitmap bitmap, String APPpackage) {
         Intent intent = new Intent(Intent.ACTION_SEND);
+        if (!TextUtils.isEmpty(APPpackage))
+            intent.setPackage(APPpackage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
 
@@ -88,8 +91,10 @@ public class ShareUtlis {
         Uri data = File2UriByN(context, imgFile, intent);
 
         intent.putExtra(Intent.EXTRA_STREAM, data);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         context.startActivity(Intent.createChooser(intent, "分享"));
+
+
     }
 
     /**

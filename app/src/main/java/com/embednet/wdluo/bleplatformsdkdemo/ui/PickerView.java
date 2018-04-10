@@ -250,17 +250,21 @@ public class PickerView extends View {
     }
 
     private void doUp(MotionEvent event) {
-        // 抬起手后mCurrentSelected的位置由当前位置move到中间选中位置  
-        if (Math.abs(mMoveLen) < 0.0001) {
-            mMoveLen = 0;
-            return;
-        }
-        if (mTask != null) {
-            mTask.cancel();
-            mTask = null;
-        }
-        mTask = new MyTimerTask(updateHandler);
-        timer.schedule(mTask, 0, 10);
+//        // 抬起手后mCurrentSelected的位置由当前位置move到中间选中位置
+//        if (Math.abs(mMoveLen) < 0.0001) {
+//            mMoveLen = 0;
+//            return;
+//        }
+//        if (mTask != null) {
+//            mTask.cancel();
+//            mTask = null;
+//        }
+//        mTask = new MyTimerTask(updateHandler);
+//        timer.schedule(mTask, 0, 10);
+        mMoveLen = 0;
+        performSelect();
+        invalidate();
+
     }
 
     class MyTimerTask extends TimerTask {

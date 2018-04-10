@@ -48,7 +48,8 @@
     <string name="title_activity_dfu">DfuActivity</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="powered">Powered by JackYan</string>
+    <!--<string name="powered">Powered by JackYan</string>-->
+    <string name="powered"></string>
 
     <string name="dfu_unknown_name">unnamed device</string>
 
@@ -165,7 +166,7 @@
     <string name="man">Man</string>
     <string name="woman">Woman</string>
     <string name="noknown">noknown</string>
-    <string name="year">%1$d year</string>
+    <string name="year">year</string>
 
     <!--DFU-->
     <string name="NearPhone">升级过程中请勿让设备远离手机</string>
@@ -178,6 +179,7 @@
     <string name="LoadResistance">Load Resistance</string>
     <string name="deviceType">Device Type</string>
     <string name="FirmwareVersion">Firmware Version</string>
+    <string name="DeviceInfo">DeviceInfo</string>
     <string name="on">on</string>
     <string name="off">off</string>
     <string name="today">Today</string>
@@ -191,18 +193,19 @@
     <string name="rsgisterPhone">Phonr register</string>
     <string name="otherLogin">Other Login way</string>
     <string name="batteryValue">battery Value(%)</string>
-    <string name="ResistanceValue">Resistance Value(o)</string>
+    <string name="ResistanceValue">Resistance Value(Ω)</string>
     <string name="targetSteps">target Steps</string>
     <string name="NotifySteps">Notify Steps</string>
     <string name="FunctionSteps">计步功能</string>
     <string name="personalInfo">个人资料</string>
     <string name="deviceControl">设备中心</string>
+    <string name="addDevice">Search Device</string>
     <string name="logOff">退出登录</string>
 
     <string name="DirectEntry">直接进入</string>
     <string name="sharePage">分享界面</string>
     <string name="todayDate">今日数据</string>
-    <string name="help">About</string>
+    <string name="help">help</string>
 
     <string name="sex">性别</string>
     <string name="age">年龄</string>
@@ -210,4 +213,13 @@
     <string name="weight">体重</string>
     <string name="APPVersion">APP版本</string>
 
+
+    <string name="ChoosePhotographMode">Choose Photograph Mode </string>
+    <string name="keyPhotograph">Key Photograph</string>
+    <string name="shakePhotograph">Shake Photograph</string>
+    <string name="choosePhoto">Choose Heard Image</string>
+    <string name="choosePhotoMode">Please Choose Heard Image Mode</string>
+    <string name="changeByAlbum">Choose By Album</string>
+    <string name="takePhoto">Take Photo</string>
+    <string name="sumDaySteps">Cumulative exercise day%1$d</string>
 </resources>

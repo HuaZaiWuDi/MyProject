@@ -53,9 +53,12 @@ public class Constants {
 
     public static final String MSM = "com.android.mms";
     public static final String QQ = "com.tencent.mobileqq";
+    public static final String QZONE = "com.qzone";
     public static final String WECHAR = "com.tencent.mm";
     public static final String WHATSAPP = "com.whatsapp";
     public static final String WEIBO = "com.sina.weibo";
+    public static final String FACEBOOK = "com.facebook.katana";
+    public static final String TWITTER = "com.twitter.android";
 
     ///////////////////////////////////////////////////////////////////////////
     // OTA Config

@@ -94,4 +94,12 @@ dependencies {
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'
+
+    //https://github.com/jiang111/IndicatorDialog
+    compile 'com.github.jiang111:IndicatorDialog:2.0.1'
+
+    //https://github.com/gzu-liyujiang/AndroidPicker
+    compile('cn.qqtheme.framework:WheelPicker:latest.release') {
+        exclude group: 'com.android.support'
+    }
 }

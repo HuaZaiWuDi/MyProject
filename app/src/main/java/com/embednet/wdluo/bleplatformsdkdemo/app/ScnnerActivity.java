@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.clj.fastble.callback.BleScanCallback;
+import com.clj.fastble.data.BleConnectState;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.data.BleScanState;
 import com.embednet.wdluo.bleplatformsdkdemo.Constants;
@@ -60,6 +61,7 @@ public class ScnnerActivity extends BaseAvtivity {
                     sharedPreferences.edit().putString("MAC", BleTools.bleDevice.getMac()).apply();
                     circle_loading_view.stopOk();
 
+
                 } else {
                     circle_loading_view.stopFailure();
                     bleStatus.setText(R.string.connectFail);
@@ -93,6 +95,12 @@ public class ScnnerActivity extends BaseAvtivity {
             }
         });
 
+        if (Build.VERSION.SDK_INT >= 21) {
+            circle_loading_view.setBackgroundResource(R.drawable.connecting_svg);
+        } else {
+            circle_loading_view.setBackgroundResource(R.drawable.icon_connecting);
+        }
+
 
         bleStatus = (TextView) findViewById(R.id.bleStatus);
         mListView = (ListView) findViewById(R.id.mListView);
@@ -105,11 +113,13 @@ public class ScnnerActivity extends BaseAvtivity {
                 final ExtendedBluetoothDevice d = (ExtendedBluetoothDevice) mAdapter.getItem(position);
 
                 BleTools.bleDevice = bleManager.convertBleDevice(d.device);
-                circle_loading_view.startIndeterminate();
-                circle_loading_view.resetLoading();
-                circle_loading_view.setBackgroundResource(0);
-                bleStatus.setText(R.string.connecting);
-                bleManager.cancelScan();
+                if (bleManager.getConnectState(BleTools.bleDevice) != BleConnectState.CONNECT_CONNECTING || bleManager.getConnectState(BleTools.bleDevice) != BleConnectState.CONNECT_CONNECTED) {
+                    circle_loading_view.resetLoading();
+                    circle_loading_view.startIndeterminate();
+                    circle_loading_view.setBackgroundResource(0);
+                    bleStatus.setText(R.string.connecting);
+                    bleManager.cancelScan();
+                }
 
                 startService(new Intent(ScnnerActivity.this, BleService.class));
             }
