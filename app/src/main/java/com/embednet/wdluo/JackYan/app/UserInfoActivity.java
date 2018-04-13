@@ -1,11 +1,15 @@
 package com.embednet.wdluo.JackYan.app;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -13,20 +17,30 @@ import com.bumptech.glide.request.RequestOptions;
 import com.embednet.wdluo.JackYan.MyApplication;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.module.UserInfo;
+import com.embednet.wdluo.JackYan.ui.BasePopupWindow;
 import com.embednet.wdluo.JackYan.ui.CircleImageView;
 import com.embednet.wdluo.JackYan.ui.PickerView;
 import com.embednet.wdluo.JackYan.util.L;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.qqtheme.framework.picker.NumberPicker;
 import cn.qqtheme.framework.picker.OptionPicker;
+import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
+import laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper;
+import rx.functions.Action1;
+
+import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.openAlbum;
+import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.openCamera;
 
 public class UserInfoActivity extends BaseAvtivity {
 
     UserInfo info;
     TextView text_weight, text_height, text_sex, text_age;
+    CircleImageView userImg;
+    RelativeLayout parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +51,10 @@ public class UserInfoActivity extends BaseAvtivity {
 
         setTitleText(R.string.settingUserInfo);
         setBack();
+        popInit();
 
-        final CircleImageView fab = findViewById(R.id.userImg);
+        parent = findViewById(R.id.parent);
+        userImg = findViewById(R.id.userImg);
         final TextView userName = findViewById(R.id.userName);
 
 
@@ -56,7 +72,7 @@ public class UserInfoActivity extends BaseAvtivity {
                     .asDrawable()
                     .apply(new RequestOptions().placeholder(R.mipmap.img_heard))
                     .load(info.heardImgUrl)
-                    .into(fab);
+                    .into(userImg);
 
             text_sex.setText(info.sex == 0 ? getString(R.string.man) : info.sex == 1 ? getString(R.string.woman) : getString(R.string.noknown));
             text_age.setText(info.age + getString(R.string.year));
@@ -72,6 +88,68 @@ public class UserInfoActivity extends BaseAvtivity {
         }
 
     }
+
+    public void userImg(View v) {
+        window.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+    }
+
+
+    BasePopupWindow window;
+
+    private void popInit() {
+        window = new BasePopupWindow(this);
+        window.initPop(getString(R.string.choosePhoto), getString(R.string.choosePhotoMode), new String[]{getString(R.string.takePhoto), getString(R.string.changeByAlbum)});
+        window.setOnItemClickLisetener(new BasePopupWindow.OnItemClickLisetener() {
+            @Override
+            public void OnClick(int position, final String text) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    new RxPermissions(UserInfoActivity.this)
+                            .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE
+                                    , Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            .subscribe(new Action1<Boolean>() {
+                                @Override
+                                public void call(Boolean aBoolean) {
+                                    if (aBoolean) {
+                                        if (text.equals(getString(R.string.takePhoto))) {
+                                            openCamera(UserInfoActivity.this, getPackageName());
+                                        } else {
+                                            openAlbum(UserInfoActivity.this);
+                                        }
+                                    } else {
+                                        L.d("权限请求失败");
+                                        RxToast.error(getString(R.string.NoPromiss));
+                                    }
+                                }
+                            });
+                } else {
+                    if (text.equals(getString(R.string.takePhoto))) {
+                        openCamera(UserInfoActivity.this, getPackageName());
+                    } else {
+                        openAlbum(UserInfoActivity.this);
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String imgPath = ImageTakerHelper.getImagePathInResult(this, requestCode, data);
+        showUserImg(imgPath);
+    }
+
+
+    private void showUserImg(String imgPath) {
+
+        Glide.with(this)
+                .asDrawable()
+                .apply(new RequestOptions().placeholder(R.mipmap.img_heard))
+                .load(imgPath)
+                .into(userImg);
+        info.heardImgUrl = imgPath;
+    }
+
 
     public void sex(View v) {
         OptionPicker picker = new OptionPicker(this, new String[]{
@@ -192,7 +270,7 @@ public class UserInfoActivity extends BaseAvtivity {
 
                         switch (position) {
                             case 1:
-                                text_age.setText(getString(R.string.year, dataInt));
+                                text_age.setText(dataInt + getString(R.string.year));
                                 break;
                             case 2:
                                 text_height.setText(dataInt + "cm");

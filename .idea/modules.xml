@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/filepicker-1.0/filepicker-1.0.iml" filepath="$PROJECT_DIR$/filepicker-1.0/filepicker-1.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/jackupdate/jackupdate.iml" filepath="$PROJECT_DIR$/jackupdate/jackupdate.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netlib/netlib.iml" filepath="$PROJECT_DIR$/netlib/netlib.iml" />
     </modules>
   </component>
 </project>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -28,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
+
 /**
  * 项目名称：BLEPlatformSDKDemo
  * 类描述：
@@ -45,7 +48,7 @@ public class BaseAvtivity extends AutoLayoutActivity {
         L.d("onCreate");
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        L.d("测试代码");
-//        StatusBarUtils.from(this).setTransparentStatusbar(true).process();
+        StatusBarUtils.from(this).setStatusBarColor(Color.parseColor("#333333")).process();
         RxActivityUtils.addActivity(this);
     }
 

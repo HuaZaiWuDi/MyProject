@@ -40,7 +40,7 @@
 
         <TextView
             android:id="@+id/text_mode"
-            android:layout_width="200px"
+            android:layout_width="220px"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_mode"
@@ -220,7 +220,7 @@
             android:background="@color/gray"
             android:paddingLeft="30px"
             android:paddingTop="40px"
-            android:text="日均步数"
+            android:text="@string/todayDate"
             android:textColor="@color/white" />
 
 

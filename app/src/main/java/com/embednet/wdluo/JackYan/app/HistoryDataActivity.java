@@ -125,7 +125,7 @@ public class HistoryDataActivity extends BaseAvtivity {
             int steps = random.nextInt(6000);
 
             DayStepsTab tab = new DayStepsTab();
-            tab.date = Utils.formatData(calendarDay.getTime(), "yyyy年MM月dd日");
+            tab.date = Utils.formatData(calendarDay.getTime(), getString(R.string.formatDate));
             tab.Total = steps;
             lists.add(tab);
         }
@@ -143,7 +143,7 @@ public class HistoryDataActivity extends BaseAvtivity {
 
         setRecyclerView();
         setmColumnChartView();
-        setUpdateValue(dates, lists, stepsTarget);
+
         changeChart();
 
 
@@ -219,6 +219,8 @@ public class HistoryDataActivity extends BaseAvtivity {
     }
 
     private void changeChart() {
+//        setUpdateValue(dates, lists, ViewMode == 0 ? stepsTarget : ViewMode == 1 ? stepsTarget * 7 : stepsTarget * 30);
+        setUpdateValue(dates, lists, stepsTarget);
         syncData(0);
 
         mColumnChartView.postDelayed(new Runnable() {

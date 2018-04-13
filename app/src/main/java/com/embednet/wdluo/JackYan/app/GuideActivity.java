@@ -14,6 +14,7 @@ import com.embednet.wdluo.JackYan.util.L;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
+import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
 import rx.functions.Action1;
 
 public class GuideActivity extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class GuideActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
+        StatusBarUtils.from(this).setHindStatusBar(true).process();
 
         img_bg = (ImageView) findViewById(R.id.img_bg);
         splashImg = (ImageView) findViewById(R.id.splashImg);

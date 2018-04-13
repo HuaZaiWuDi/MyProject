@@ -236,7 +236,7 @@ public class RegisterActivity extends BaseAvtivity {
     private void sendSMS() {
 
         if (!Utils.isCanUseSim(this)) {
-            RxToast.warning("SIM卡无效");
+            RxToast.warning(getString(R.string.SimunValid));
             return;
         }
 
@@ -246,11 +246,11 @@ public class RegisterActivity extends BaseAvtivity {
                 L.d("requestId:" + integer);
                 if (e == null) {
                     L.d("验证码发送成功");
-                    RxToast.success("验证码发送成功");
+                    RxToast.success(getString(R.string.SmsSendSuccess));
 
                 } else {
                     L.d("验证码发送失败：" + e.getLocalizedMessage());
-                    RxToast.error("验证码发送失败" + SMSResultCode.ErrorInfo(e.getErrorCode()));
+                    RxToast.error(getString(R.string.SmsSendFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
                 }
             }
         });
@@ -258,7 +258,7 @@ public class RegisterActivity extends BaseAvtivity {
 
     private void verifySmsCodeAndLogin() {
         if (!attemptLogin() || !verifySmsCode() || !VerifyPassword()) {
-            RxToast.error("登录失败:" + SMSResultCode.ErrorInfo(109));
+            RxToast.error(getString(R.string.loginFail) + SMSResultCode.ErrorInfo(109));
             return;
         }
 
@@ -276,17 +276,16 @@ public class RegisterActivity extends BaseAvtivity {
             public void done(Object o, BmobException e) {
                 if (e != null) {
                     L.d("注册成功");
-                    RxToast.success("注册成功");
+                    RxToast.success(getString(R.string.registerSuccess));
                     doLoginSuccess();
                 } else {
                     L.d("注册失败:" + e.toString());
-                    RxToast.error("登录失败:" + SMSResultCode.ErrorInfo(e.getErrorCode()));
+                    RxToast.error(getString(R.string.registerFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
                 }
             }
         });
         L.d("电话号码：" + bmobUser.getMobilePhoneNumber());
         L.d("用户名：" + bmobUser.getUsername());
-
 
     }
 
@@ -302,7 +301,7 @@ public class RegisterActivity extends BaseAvtivity {
             @Override
             public void run() {
                 //登录成功
-                startActivity(new Intent(RegisterActivity.this, Login2Activity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();
             }
         }, 500);

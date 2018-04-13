@@ -15,7 +15,6 @@ public class SweetDialog extends SweetAlertDialog {
 
     private final Handler handler = new Handler();
 
-
     public SweetDialog(Context context) {
         this(context, NORMAL_TYPE);
     }
@@ -26,7 +25,7 @@ public class SweetDialog extends SweetAlertDialog {
 
 
     public SweetDialog setDaration(int timeOut) {
-        handler.postDelayed(timeOutRunnable, timeOut);
+        this.handler.postDelayed(timeOutRunnable, timeOut);
         return this;
     }
 
@@ -52,6 +51,12 @@ public class SweetDialog extends SweetAlertDialog {
         }
     };
 
+
+    @Override
+    public void show() {
+        super.show();
+
+    }
 
     @Override
     public void dismiss() {

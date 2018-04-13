@@ -50,22 +50,19 @@ public class BleTools {
 
     private BleChartChangeCallBack bleChartChange;
     private byte[] bytes;
-    private final int reWriteCount = 3;    //重连次数
+    private final int reWriteCount = 2;    //重连次数
     private int currentCount = 0;          //当前次数
-    private final int timeOut = 3000;          //当前次数
+    private final int timeOut = 3000;          //超时
 
     private Runnable reWrite = new Runnable() {
         @Override
         public void run() {
             L.d("重新写");
             currentCount++;
-            if (currentCount > reWriteCount) {
-                RxToast.error(getApplication().getString(R.string.doFail));
-                currentCount = 0;
-            } else
-                writeBle(bytes, bleChartChange);
+            write();
         }
     };
+
 
     public void writeBle(final byte[] bytes, final BleChartChangeCallBack bleChartChange) {
         if (bleDevice == null || !bleManager.isConnected(bleDevice)) {
@@ -74,21 +71,30 @@ public class BleTools {
         }
         this.bleChartChange = bleChartChange;
         this.bytes = bytes;
-        TimeOut.postDelayed(reWrite, timeOut);
-
-        bleManager.write(bleDevice, CHARACTERISTIC, CHARACTERISTIC, bytes, new BleWriteCallback() {
-            @Override
-            public void onWriteSuccess() {
-                L.e("写成功");
-            }
-
-            @Override
-            public void onWriteFailure(BleException exception) {
-                L.e("写失败");
-            }
-        });
+        write();
     }
 
+    private void write() {
+        TimeOut.postDelayed(reWrite, timeOut);
+        if (currentCount > reWriteCount) {
+            RxToast.error(getApplication().getString(R.string.doFail));
+            currentCount = 0;
+        } else
+            bleManager.write(bleDevice, CHARACTERISTIC, CHARACTERISTIC, bytes, new BleWriteCallback() {
+                @Override
+                public void onWriteSuccess() {
+                    L.e("写成功");
+                }
+
+                @Override
+                public void onWriteFailure(BleException exception) {
+                    TimeOut.removeCallbacks(reWrite);
+                    L.e("写失败");
+                    currentCount++;
+                    write();
+                }
+            });
+    }
 
     public void readBle() {
         if (bleDevice == null || !bleManager.isConnected(bleDevice)) {

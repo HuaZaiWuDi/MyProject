@@ -117,10 +117,10 @@ public class ImageTakerHelper {
      * <p>
      * 调用onActivityResult()获取图片
      */
-    public static void openCamera(Activity activity,String authority ) {
+    public static void openCamera(Activity activity, String authority) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, getOutputPictureUri(activity.getApplicationContext(),authority));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, getOutputPictureUri(activity.getApplicationContext(), authority));
         activity.startActivityForResult(intent, REQUEST_CAMERA);
     }
 
@@ -182,6 +182,28 @@ public class ImageTakerHelper {
         }
 
     }
+
+
+    public static String getImagePathInResult(Context context, int requestCode, Intent data) {
+        String imgPath = null;
+        L.d("data:" + data);
+        if (data != null) {
+            if (requestCode == REQUEST_ALBUM) {
+                imgPath = readBitmapFromAlbumResult(context, data);
+            }
+
+        } else {
+            if (requestCode == REQUEST_CAMERA) {
+                imgPath = readBitmapFromCameraResult(context, data);
+            }
+        }
+
+        if (!TextUtils.isEmpty(imgPath))
+            L.d("图片路径：" + imgPath);
+        return imgPath;
+
+    }
+
 
     /**
      * 从相册返回结果中取图片

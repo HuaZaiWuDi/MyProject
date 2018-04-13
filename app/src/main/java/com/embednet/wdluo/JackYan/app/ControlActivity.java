@@ -11,7 +11,6 @@ import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.ui.SweetDialog;
 
 import cn.qqtheme.framework.picker.OptionPicker;
-import laboratory.dxy.jack.com.jackupdate.ui.recyclerview.CommonAdapter;
 
 public class ControlActivity extends BaseAvtivity {
 
@@ -19,7 +18,6 @@ public class ControlActivity extends BaseAvtivity {
     String TGA = ControlActivity.class.getSimpleName();
 
 
-    CommonAdapter adapter;
 
     ImageView power, broad;
     TextView inputPower;
@@ -81,7 +79,7 @@ public class ControlActivity extends BaseAvtivity {
     public void APP(View v) {
         new SweetDialog(this)
                 .setDaration(2000)
-                .setTitleText("已经是最新版本了！")
+                .setTitleText(getString(R.string.isNewVersion))
                 .show();
     }
 
@@ -93,7 +91,7 @@ public class ControlActivity extends BaseAvtivity {
         new SweetDialog(this)
                 .setDaration(2000)
                 .setTitleText(getString(R.string.DeviceInfo))
-                .setContentText("设备名称：" + "\n" + "设备型号：" + "\n" + "设备SN序列号:" + "\n" + "设备固件版本号：" + "\n")
+                .setContentText(getString(R.string.deviceInfo, "", "", "", ""))
                 .show();
     }
 
@@ -115,13 +113,5 @@ public class ControlActivity extends BaseAvtivity {
     }
 
 
-    public class Item {
-        String title;
-        String text;
-        int icon;
-        boolean isOpen;
-
-
-    }
 
 }

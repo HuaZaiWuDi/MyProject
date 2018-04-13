@@ -140,5 +140,15 @@
         <item>低</item>
     </string-array>
 
+    <string name="registerSuccess">注册成功</string>
+    <string name="registerFail">注册失败</string>
+
+    <string name="formatDate">yyyy年MM月dd日</string>
+
+    <string name="isNewVersion">已经是最新版本了！</string>
+    <string name="deviceInfo">设备名称：%1$s\n 设备型号：%2$s\n 设备SN序列号:%3$s\n 设备固件版本号：%4$s\n</string>
+    <string name="DailyAverageStep">日均步数</string>
+
+    <string name="user">用户</string>
 
 </resources>

@@ -23,6 +23,7 @@
 
 
         <com.embednet.wdluo.JackYan.ui.CircleImageView
+            android:onClick="userImg"
             android:id="@+id/userImg"
             android:layout_width="160px"
             android:layout_height="160px"

@@ -34,7 +34,6 @@
                 android:layout_width="120px"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
-                android:onClick="userImg"
                 android:src="@mipmap/img_heard" />
 
             <TextView
@@ -335,7 +334,6 @@
             android:layout_marginTop="10dp"
             android:background="@color/gray" />
 
-
     </LinearLayout>
 
 
@@ -349,7 +347,7 @@
         android:gravity="center"
         android:onClick="SingOut"
         android:text="@string/logOff"
-        android:textColor="@color/red" />
+        android:textColor="#70BF52" />
 
 
     <TextView

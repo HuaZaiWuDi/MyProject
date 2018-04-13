@@ -1,13 +1,10 @@
 package com.embednet.wdluo.JackYan.app;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,25 +16,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.embednet.wdluo.JackYan.MyApplication;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.module.UserInfo;
-import com.embednet.wdluo.JackYan.ui.BasePopupWindow;
 import com.embednet.wdluo.JackYan.ui.CircleImageView;
 import com.embednet.wdluo.JackYan.ui.PickerView;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.embednet.wdluo.JackYan.util.RxActivityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.qqtheme.framework.picker.NumberPicker;
-import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
-import laboratory.dxy.jack.com.jackupdate.util.L;
-import rx.functions.Action1;
-
-import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.REQUEST_ALBUM;
-import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.REQUEST_CAMERA;
-import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.openAlbum;
-import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.openCamera;
-import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.readBitmapFromAlbumResult;
-import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.readBitmapFromCameraResult;
 
 public class PersonalActivity extends BaseAvtivity {
 
@@ -55,7 +41,7 @@ public class PersonalActivity extends BaseAvtivity {
 
         setTitleText(R.string.Usercontrol);
         setBack();
-        popInit();
+//        popInit();
 
 
         parent = findViewById(R.id.parent);
@@ -99,8 +85,8 @@ public class PersonalActivity extends BaseAvtivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                RxActivityUtils.finishAllActivity();
                 startActivity(new Intent(PersonalActivity.this, Login2Activity.class));
-                finish();
             }
         }, 500);
     }
@@ -109,9 +95,8 @@ public class PersonalActivity extends BaseAvtivity {
 
     }
 
-    public void userImg(View v) {
-        window.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-    }
+
+
 
     public void stepsTarget(View v) {
         NumberPicker picker = new NumberPicker(this);
@@ -164,79 +149,8 @@ public class PersonalActivity extends BaseAvtivity {
     }
 
 
-    BasePopupWindow window;
-
-    private void popInit() {
-        window = new BasePopupWindow(this);
-        window.initPop(getString(R.string.choosePhoto), getString(R.string.choosePhotoMode), new String[]{getString(R.string.takePhoto), getString(R.string.changeByAlbum)});
-        window.setOnItemClickLisetener(new BasePopupWindow.OnItemClickLisetener() {
-            @Override
-            public void OnClick(int position, final String text) {
-                if (Build.VERSION.SDK_INT >= 23) {
-                    new RxPermissions(PersonalActivity.this)
-                            .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE
-                                    , Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            .subscribe(new Action1<Boolean>() {
-                                @Override
-                                public void call(Boolean aBoolean) {
-                                    if (aBoolean) {
-                                        if (text.equals(getString(R.string.takePhoto))) {
-                                            openCamera(PersonalActivity.this, getPackageName());
-                                        } else {
-                                            openAlbum(PersonalActivity.this);
-                                        }
-                                    } else {
-                                        L.d("权限请求失败");
-                                        RxToast.error(getString(R.string.NoPromiss));
-                                    }
-                                }
-                            });
-                } else {
-                    if (text.equals(getString(R.string.takePhoto))) {
-                        openCamera(PersonalActivity.this, getPackageName());
-                    } else {
-                        openAlbum(PersonalActivity.this);
-                    }
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        String imgPath = null;
-        try {
-            L.d("data:" + data);
-            if (data != null) {
-                if (requestCode == REQUEST_ALBUM) {
-                    imgPath = readBitmapFromAlbumResult(this, data);
-                }
-
-            } else {
-                if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
-                    imgPath = readBitmapFromCameraResult(this, data);
-                }
-            }
-            L.d("图片路径：" + imgPath);
-            if (!TextUtils.isEmpty(imgPath))
-                showUserImg(imgPath);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
-    private void showUserImg(String imgPath) {
-
-        Glide.with(this)
-                .asDrawable()
-                .apply(new RequestOptions().placeholder(R.mipmap.img_heard))
-                .load(imgPath)
-                .into(userImg);
-        info.heardImgUrl = imgPath;
-    }
 
 
     @Override
