@@ -22,7 +22,7 @@ import no.nordicsemi.android.dfu.DfuServiceController;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 
-public class UpdateDFUActivity extends BaseAvtivity {
+public class UpdateDFUActivity extends BaseActivity {
 
     FreshDownloadView mFreshDownloadView;
     TextView mStatusTextView;

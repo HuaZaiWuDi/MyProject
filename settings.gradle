@@ -1,1 +1,1 @@
-include ':app', ':jackupdate', ':filepicker-1.0', ':library', ':netlib'
+include ':app', ':jackupdate', ':filepicker-1.0', ':library', ':netlib',':shareutil'

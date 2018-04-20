@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
@@ -15,10 +17,9 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.embednet.wdluo.JackYan.Constants;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * 项目名称：BLEPlatformSDKDemo
@@ -28,6 +29,18 @@ import java.util.Date;
  */
 public class Utils {
 
+
+    public static String getVersionName(Context context) {
+        String versionName = "V0.0.1";
+        try {
+            versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+//            Contents.versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+//            L.d("appVersionInfo:" + versionName + "code:" + Contents.versionCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
+    }
 
     /**
      * 带水波动画
@@ -118,11 +131,35 @@ public class Utils {
         anim.start();
     }
 
-    public static String formatData(Date date, String format){
-       return new SimpleDateFormat(format).format(date.getTime());
+    public static String formatData(Date date, String format) {
+        return new SimpleDateFormat(format, Locale.CHINA).format(date.getTime());
     }
 
-    public static String formatData(Date date){
-        return new SimpleDateFormat(Constants.DATE_FORMAT).format(date.getTime());
+    public static String formatData() {
+        String DATE_FORMAT = "yyyyMMddHHmmss";
+        return new SimpleDateFormat(DATE_FORMAT, Locale.CHINA).format(new Date().getTime());
     }
+
+
+    /**
+     * 发送邮箱，会跳转到手机邮箱软件
+     */
+    public static void sendEmail(Context context) {
+        String[] strings = {"1092741288@qq.com"};
+        String title = "测试标题";
+        String content = "测试内容";
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("massage/rfc822");
+        // 设置邮件发收人
+        intent.putExtra(Intent.EXTRA_EMAIL, strings);
+        // 设置邮件标题
+        intent.putExtra(Intent.EXTRA_SUBJECT, title);
+        // 设置邮件内容
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+
+        // 调用系统的邮件系统
+        context.startActivity(Intent.createChooser(intent, "请选择邮件发送软件"));
+
+    }
+
 }

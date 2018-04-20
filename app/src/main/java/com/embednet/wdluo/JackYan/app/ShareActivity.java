@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.embednet.wdluo.JackYan.Constants;
-import com.embednet.wdluo.JackYan.MyApplication;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.module.UserInfo;
 import com.embednet.wdluo.JackYan.ui.CircleImageView;
@@ -33,7 +32,7 @@ import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.view.ColumnChartView;
 
-public class ShareActivity extends BaseAvtivity {
+public class ShareActivity extends BaseActivity {
 
     RoundView mRoundDisPlayView;
     UserInfo info;
@@ -62,26 +61,20 @@ public class ShareActivity extends BaseAvtivity {
         mRoundDisPlayView.setCentreText(5000, getString(R.string.stepsTarget, 5000))
                 .setUnit(getString(R.string.step));
 
-        info = (UserInfo) MyApplication.aCache.getAsObject("UserInfo");
+        info = getUserInfo();
 
         CircleImageView userImg = findViewById(R.id.userImg);
-        if (info != null) {
-            if (info.heardImgUrl != null)
-                Glide.with(this)
-                        .asDrawable()
-                        .apply(new RequestOptions().placeholder(R.mipmap.img_heard))
-                        .load(info.heardImgUrl)
-                        .into(userImg);
-            TextView title = findViewById(R.id.UserName);
-            if (info.name != null)
-                title.setText(info.name);
-            TextView text = findViewById(R.id.UserPhone);
-            text.setText(getString(R.string.sumDaySteps, 75));
-        } else {
-            info = new UserInfo();
-            info.stepsTarget = 5000;
-            MyApplication.aCache.put("UserInfo", info);
-        }
+        if (info.heardImgUrl != null)
+            Glide.with(this)
+                    .asDrawable()
+                    .apply(new RequestOptions().placeholder(R.mipmap.img_heard))
+                    .load(info.heardImgUrl)
+                    .into(userImg);
+        TextView title = findViewById(R.id.UserName);
+        if (info.name != null)
+            title.setText(info.name);
+        TextView text = findViewById(R.id.UserPhone);
+        text.setText(getString(R.string.sumDaySteps, 75));
         setmColumnChartView();
         share = findViewById(R.id.share);
     }

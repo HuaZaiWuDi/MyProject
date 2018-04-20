@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.embednet.wdluo.JackYan.Constants;
-import com.embednet.wdluo.JackYan.MyApplication;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.module.SMSResultCode;
 import com.embednet.wdluo.JackYan.util.L;
@@ -29,11 +28,9 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.bmob.v3.BmobSMS;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListener;
-import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.sms.BmobSMS;
+import cn.bmob.sms.exception.BmobException;
+import cn.bmob.sms.listener.RequestSMSCodeListener;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 import laboratory.dxy.jack.com.jackupdate.util.RxRegUtils;
 import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
@@ -41,7 +38,7 @@ import laboratory.dxy.jack.com.jackupdate.util.Utils;
 import laboratory.dxy.jack.com.jackupdate.util.timer.MyTimer;
 import laboratory.dxy.jack.com.jackupdate.util.timer.MyTimerListener;
 
-public class RegisterActivity extends BaseAvtivity {
+public class RegisterActivity extends BaseActivity {
 
     AutoCompleteTextView phoneOrEmail;
     private String phone;
@@ -183,6 +180,8 @@ public class RegisterActivity extends BaseAvtivity {
     });
 
 
+
+
     private boolean verifySmsCode() {
         SMSCode = code.getText().toString().trim();
         if (TextUtils.isEmpty(SMSCode)) return false;
@@ -193,12 +192,17 @@ public class RegisterActivity extends BaseAvtivity {
     private boolean attemptLogin() {
         phone = phoneOrEmail.getText().toString();
         if (TextUtils.isEmpty(phone)) {
-            phoneOrEmail.setError(getString(R.string.inputPhone));
+            RxToast.warning(getString(R.string.inputPhone));
             return false;
         }
 
         if (!isPhoneValid(phone)) {
-            phoneOrEmail.setError(getString(R.string.inputPhone));
+            RxToast.warning(getString(R.string.inputPhone));
+            return false;
+        }
+
+        if (!Utils.isCanUseSim(this)) {
+            RxToast.warning(getString(R.string.SimunValid));
             return false;
         }
 
@@ -211,7 +215,7 @@ public class RegisterActivity extends BaseAvtivity {
         if (!TextUtils.isEmpty(password) && isPasswordValid(password)) {
             return true;
         }
-        passwordEdit.setError(getString(R.string.error_invalid_password));
+        RxToast.warning(getString(R.string.prompt_password));
         return false;
     }
 
@@ -220,7 +224,7 @@ public class RegisterActivity extends BaseAvtivity {
 
         if (RxRegUtils.isUsername(password)) return true;
         else {
-            passwordEdit.setError(getString(R.string.ValueRange));
+            RxToast.warning(getString(R.string.ValueRange));
             return false;
         }
     }
@@ -235,25 +239,37 @@ public class RegisterActivity extends BaseAvtivity {
 
     private void sendSMS() {
 
-        if (!Utils.isCanUseSim(this)) {
-            RxToast.warning(getString(R.string.SimunValid));
-            return;
-        }
 
-        BmobSMS.requestSMSCode(phone, getString(R.string.app_name), new QueryListener<Integer>() {
+//        BmobSMS.requestSMSCode(phone, getString(R.string.app_name), new QueryListener<Integer>() {
+//            @Override
+//            public void done(Integer integer, BmobException e) {
+//                L.d("requestId:" + integer);
+//                if (e == null) {
+//                    L.d("验证码发送成功");
+//                    RxToast.success(getString(R.string.SmsSendSuccess));
+//
+//                } else {
+//                    L.d("验证码发送失败：" + e.getLocalizedMessage());
+//                    RxToast.error(getString(R.string.SmsSendFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
+//                }
+//            }
+//        });
+
+        BmobSMS.requestSMSCode(this, phone, getString(R.string.app_name), new RequestSMSCodeListener() {
             @Override
             public void done(Integer integer, BmobException e) {
                 L.d("requestId:" + integer);
                 if (e == null) {
                     L.d("验证码发送成功");
-                    RxToast.success(getString(R.string.SmsSendSuccess));
+                    RxToast.success("验证码发送成功");
 
                 } else {
                     L.d("验证码发送失败：" + e.getLocalizedMessage());
-                    RxToast.error(getString(R.string.SmsSendFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
+                    RxToast.error("发送失败：" + SMSResultCode.ErrorInfo(e.getErrorCode()));
                 }
             }
         });
+
     }
 
     private void verifySmsCodeAndLogin() {
@@ -266,26 +282,26 @@ public class RegisterActivity extends BaseAvtivity {
         L.d("password:" + password);
         L.d("SMSCode:" + SMSCode);
 
-        BmobUser bmobUser = MyApplication.getBmobUser();
-        bmobUser.setMobilePhoneNumber(phone);
-        bmobUser.setPassword(password);
-        bmobUser.setUsername(phone);
-
-        bmobUser.signOrLogin(SMSCode, new SaveListener<Object>() {
-            @Override
-            public void done(Object o, BmobException e) {
-                if (e != null) {
-                    L.d("注册成功");
-                    RxToast.success(getString(R.string.registerSuccess));
-                    doLoginSuccess();
-                } else {
-                    L.d("注册失败:" + e.toString());
-                    RxToast.error(getString(R.string.registerFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
-                }
-            }
-        });
-        L.d("电话号码：" + bmobUser.getMobilePhoneNumber());
-        L.d("用户名：" + bmobUser.getUsername());
+//        BmobUser bmobUser = MyApplication.getBmobUser();
+//        bmobUser.setMobilePhoneNumber(phone);
+//        bmobUser.setPassword(password);
+//        bmobUser.setUsername(phone);
+//
+//        bmobUser.signOrLogin(SMSCode, new SaveListener<Object>() {
+//            @Override
+//            public void done(Object o, BmobException e) {
+//                if (e != null) {
+//                    L.d("注册成功");
+//                    RxToast.success(getString(R.string.registerSuccess));
+//                    doLoginSuccess();
+//                } else {
+//                    L.d("注册失败:" + e.toString());
+//                    RxToast.error(getString(R.string.registerFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
+//                }
+//            }
+//        });
+//        L.d("电话号码：" + bmobUser.getMobilePhoneNumber());
+//        L.d("用户名：" + bmobUser.getUsername());
 
     }
 

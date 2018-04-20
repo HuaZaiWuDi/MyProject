@@ -12,11 +12,10 @@ import com.embednet.wdluo.JackYan.ui.SweetDialog;
 
 import cn.qqtheme.framework.picker.OptionPicker;
 
-public class ControlActivity extends BaseAvtivity {
+public class ControlActivity extends BaseActivity {
 
 
     String TGA = ControlActivity.class.getSimpleName();
-
 
 
     ImageView power, broad;
@@ -111,7 +110,6 @@ public class ControlActivity extends BaseAvtivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
 
 }

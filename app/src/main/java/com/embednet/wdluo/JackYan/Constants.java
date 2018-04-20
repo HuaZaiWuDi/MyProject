@@ -14,6 +14,10 @@ public class Constants {
     public static final String UserPhone = "UserPhone";
     public static final String UserPasswrod = "UserPasswrod";
     public static final String AutoLogin = "AutoLogin";
+    public static final String isLogin = "isLogin";
+    public static final String isBind = "isBind";
+    public static final String UserInfo = "UserInfo";
+    public static final String UserId = "UserId";
 
 
     public static final String PACKAGE_NAME = "com.embednet.wdluo.jackYan";
@@ -62,13 +66,18 @@ public class Constants {
     public static final String[] FILE_Extensions = {"bin", "hex", "zip"};       //文件picker的后缀名
 
 
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
-
-
     ///////////////////////////////////////////////////////////////////////////
     // 广播
     ///////////////////////////////////////////////////////////////////////////
     public static final String ACTIVE_CONNECT_STATUE = "ACTIVE_CONNECT_STATUE";
     public static final String EXTRA_CONNECT_STATUE = "EXTRA_CONNECT_STATUE";
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 经纬度
+    ///////////////////////////////////////////////////////////////////////////
+    public static double Longitude = 0;
+    public static double latitude = 0;
+    public static String GPSMode = "gps84";
+    public static String merchantNo = "100576";
 }

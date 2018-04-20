@@ -43,6 +43,25 @@ public class ShareUtlis {
 
 
     /**
+     * 简单的分享文本文件
+     **/
+    public static void smpleShareTxtPath(@NonNull Context context, @NonNull String txtPath) {
+
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        Uri data = File2UriByN(context, new File(txtPath), intent);
+        //pdf文件要被读取所以加入读取权限
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(data, "application/txt");
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
      * 简单的分享图片
      **/
     public static void smpleShareImage(@NonNull Context context, @NonNull String path) {

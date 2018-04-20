@@ -53,6 +53,9 @@
     <string name="NoFile">未获取升级文件</string>
     <string name="FileFormatWrong">文件格式不对，请添加正确格式文件</string>
     <string name="chooseFile">选择文件</string>
+    <string name="prompt_email">请输入账号(手机号)</string>
+    <string name="prompt_password">请输入正确密码</string>
+    <string name="action_sign_in">登录</string>
 
     <string name="man">男</string>
     <string name="woman">女</string>

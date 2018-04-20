@@ -14,31 +14,31 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.embednet.wdluo.JackYan.MyApplication;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.module.UserInfo;
 import com.embednet.wdluo.JackYan.ui.BasePopupWindow;
 import com.embednet.wdluo.JackYan.ui.CircleImageView;
 import com.embednet.wdluo.JackYan.ui.PickerView;
 import com.embednet.wdluo.JackYan.util.L;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.qqtheme.framework.picker.NumberPicker;
 import cn.qqtheme.framework.picker.OptionPicker;
+import lab.dxythch.com.netlib.rx.RxSubscriber;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 import laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper;
-import rx.functions.Action1;
 
 import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.openAlbum;
 import static laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper.openCamera;
 
-public class UserInfoActivity extends BaseAvtivity {
+public class UserInfoActivity extends BaseActivity {
 
     UserInfo info;
-    TextView text_weight, text_height, text_sex, text_age;
+    TextView text_weight, text_height, text_sex, text_age, userName;
     CircleImageView userImg;
     RelativeLayout parent;
 
@@ -55,7 +55,7 @@ public class UserInfoActivity extends BaseAvtivity {
 
         parent = findViewById(R.id.parent);
         userImg = findViewById(R.id.userImg);
-        final TextView userName = findViewById(R.id.userName);
+        userName = findViewById(R.id.userName);
 
 
         text_weight = findViewById(R.id.text_weight);
@@ -63,29 +63,6 @@ public class UserInfoActivity extends BaseAvtivity {
         text_sex = findViewById(R.id.text_sex);
         text_age = findViewById(R.id.text_age);
 
-        info = (UserInfo) MyApplication.aCache.getAsObject("UserInfo");
-
-
-        if (info != null) {
-            userName.setText(info.name);
-            Glide.with(this)
-                    .asDrawable()
-                    .apply(new RequestOptions().placeholder(R.mipmap.img_heard))
-                    .load(info.heardImgUrl)
-                    .into(userImg);
-
-            text_sex.setText(info.sex == 0 ? getString(R.string.man) : info.sex == 1 ? getString(R.string.woman) : getString(R.string.noknown));
-            text_age.setText(info.age + getString(R.string.year));
-            text_height.setText(info.height + "cm");
-            text_weight.setText(info.weight + "kg");
-        } else {
-            info = new UserInfo();
-            info.weight = 60;
-            info.height = 175;
-            info.sex = 0;
-            info.age = 25;
-            MyApplication.aCache.put("UserInfo", info);
-        }
 
     }
 
@@ -103,24 +80,31 @@ public class UserInfoActivity extends BaseAvtivity {
             @Override
             public void OnClick(int position, final String text) {
                 if (Build.VERSION.SDK_INT >= 23) {
+
                     new RxPermissions(UserInfoActivity.this)
-                            .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE
-                                    , Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            .subscribe(new Action1<Boolean>() {
+                            .requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE
+                            )
+                            .subscribe(new RxSubscriber<Permission>() {
                                 @Override
-                                public void call(Boolean aBoolean) {
-                                    if (aBoolean) {
+                                protected void _onNext(Permission permission) {
+                                    if (permission.granted) {
+                                        // 用户已经同意该权限
                                         if (text.equals(getString(R.string.takePhoto))) {
                                             openCamera(UserInfoActivity.this, getPackageName());
                                         } else {
                                             openAlbum(UserInfoActivity.this);
                                         }
+                                    } else if (permission.shouldShowRequestPermissionRationale) {
+                                        // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
                                     } else {
+                                        // 用户拒绝了该权限，并且选中『不再询问』，提醒用户手动打开权限
                                         L.d("权限请求失败");
                                         RxToast.error(getString(R.string.NoPromiss));
                                     }
                                 }
                             });
+
                 } else {
                     if (text.equals(getString(R.string.takePhoto))) {
                         openCamera(UserInfoActivity.this, getPackageName());
@@ -241,9 +225,29 @@ public class UserInfoActivity extends BaseAvtivity {
 
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        MyApplication.aCache.put("UserInfo", info);
+    protected void onStart() {
+        super.onStart();
+        info = getUserInfo();
+
+        userName.setText(info.name);
+        Glide.with(this)
+                .asDrawable()
+                .apply(new RequestOptions().placeholder(R.mipmap.img_heard))
+                .load(info.heardImgUrl)
+                .into(userImg);
+
+        text_sex.setText(info.sex == 0 ? getString(R.string.man) : info.sex == 1 ? getString(R.string.woman) : getString(R.string.noknown));
+        text_age.setText(info.age + getString(R.string.year));
+        text_height.setText(info.height + "cm");
+        text_weight.setText(info.weight + "kg");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        putUserInfo(info);
+        L.d("用户信息：", info.toString());
     }
 
     int dataInt = 0;

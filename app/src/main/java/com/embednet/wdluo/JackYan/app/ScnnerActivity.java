@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -29,19 +30,24 @@ import com.embednet.wdluo.JackYan.scanner.DeviceListAdapter;
 import com.embednet.wdluo.JackYan.scanner.ExtendedBluetoothDevice;
 import com.embednet.wdluo.JackYan.scanner.ScannerServiceParser;
 import com.embednet.wdluo.JackYan.service.BleService;
+import com.embednet.wdluo.JackYan.ui.SweetDialog;
 import com.embednet.wdluo.JackYan.util.L;
 import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
 import java.util.Set;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import lab.dxythch.com.netlib.net.ServiceAPI;
+import lab.dxythch.com.netlib.rx.RxNetSubscriber;
+import lab.dxythch.com.netlib.rx.RxSubscriber;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
-import rx.functions.Action1;
 
 import static com.embednet.wdluo.JackYan.MyApplication.bleManager;
 
-public class ScnnerActivity extends BaseAvtivity {
+public class ScnnerActivity extends BaseActivity {
     ListView mListView;
     DeviceListAdapter mAdapter;
     BluetoothAdapter mBluetoothAdapter;
@@ -56,11 +62,53 @@ public class ScnnerActivity extends BaseAvtivity {
             if (intent.getAction().equals(Constants.ACTIVE_CONNECT_STATUE)) {
                 boolean connected = intent.getBooleanExtra(Constants.EXTRA_CONNECT_STATUE, false);
                 if (connected) {
-
+                    final String mac = BleTools.bleDevice.getMac();
                     bleStatus.setText(R.string.connectSuccess);
-                    sharedPreferences.edit().putString("MAC", BleTools.bleDevice.getMac()).apply();
+                    sharedPreferences.edit().putString("MAC", mac).apply();
+                    sharedPreferences.edit().putBoolean(Constants.isBind, true).apply();
                     circle_loading_view.stopOk();
 
+                    getUserInfo().deviceSN = mac;
+
+                    final SweetAlertDialog dialog = new SweetDialog(ScnnerActivity.this, SweetAlertDialog.PROGRESS_TYPE)
+                            .setTitleText(getString(R.string.connectSuccess))
+                            .setContentText("正在进行设备绑定\n请保证网络通畅")
+                            .setConfirmText("ok")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                                    if (BuildConfig.DEBUG) {
+//                                        //登录成功
+//                                        startActivity(new Intent(ScnnerActivity.this, ScnnerActivity.class));
+//                                        finish();
+//                                    }
+                                }
+                            });
+                    dialog.show();
+                    new CountDownTimer(1000 * 7, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                        }
+
+                        public void onFinish() {
+                            dialog.setTitleText("初始化失败")
+                                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                        }
+                    };
+
+                    ServiceAPI.getInstance().bindDevice(mac, new RxNetSubscriber<String>() {
+                        @Override
+                        protected void _onNext(String s) {
+                            L.d("绑定设备成功：" + s);
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                            dialog.setTitleText("初始化失败")
+                                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                        }
+                    });
 
                 } else {
                     circle_loading_view.stopFailure();
@@ -135,19 +183,25 @@ public class ScnnerActivity extends BaseAvtivity {
         //定位权限
         if (Build.VERSION.SDK_INT >= 23)
             new RxPermissions(this)
-                    .request(Manifest.permission.ACCESS_COARSE_LOCATION)
-                    .subscribe(new Action1<Boolean>() {
+                    .requestEach(Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                    .subscribe(new RxSubscriber<Permission>() {
                         @Override
-                        public void call(Boolean aBoolean) {
-                            if (aBoolean) {
-                                L.d("权限请求成功");
+                        protected void _onNext(Permission permission) {
+                            if (permission.granted) {
+                                // 用户已经同意该权限
                                 scan();
+                            } else if (permission.shouldShowRequestPermissionRationale) {
+                                // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
                             } else {
+                                // 用户拒绝了该权限，并且选中『不再询问』，提醒用户手动打开权限
                                 L.d("权限请求失败");
-                                RxToast.error(getString(R.string.premissBle));
+                                RxToast.error(getString(R.string.NoPromiss));
                             }
                         }
                     });
+
         else scan();
     }
 
@@ -226,12 +280,13 @@ public class ScnnerActivity extends BaseAvtivity {
     @Override
     protected void onStart() {
         super.onStart();
-        sheckPromission();
+//        sheckPromission();
     }
 
+
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         bleManager.cancelScan();
     }
 

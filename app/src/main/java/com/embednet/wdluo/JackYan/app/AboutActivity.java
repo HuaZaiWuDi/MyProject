@@ -13,7 +13,7 @@ import laboratory.dxy.jack.com.jackupdate.ui.cardstack.RxCardStackView;
 import lecho.lib.hellocharts.util.ChartUtils;
 
 
-public class AboutActivity extends BaseAvtivity {
+public class AboutActivity extends BaseActivity {
 
     private List<CardItem> data = new ArrayList<>();
     String[] title;

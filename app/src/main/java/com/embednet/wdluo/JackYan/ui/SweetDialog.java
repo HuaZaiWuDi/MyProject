@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import laboratory.dxy.jack.com.jackupdate.util.L;
 
 /**
  * 项目名称：MyProject
@@ -29,6 +30,7 @@ public class SweetDialog extends SweetAlertDialog {
         return this;
     }
 
+
     public SweetDialog setDialogDismissCallBack(DialogDismissCallBack dialogDismissCallBack) {
         this.dialogDismissCallBack = dialogDismissCallBack;
         return this;
@@ -38,7 +40,7 @@ public class SweetDialog extends SweetAlertDialog {
         void dismiss();
     }
 
-    public DialogDismissCallBack dialogDismissCallBack;
+    public DialogDismissCallBack dialogDismissCallBack = null;
 
     private Runnable timeOutRunnable = new Runnable() {
         @Override
@@ -55,8 +57,20 @@ public class SweetDialog extends SweetAlertDialog {
     @Override
     public void show() {
         super.show();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        L.d("onDetachedFromWindow");
+        if (isShowing()) {
+            handler.removeCallbacks(timeOutRunnable);
+            dismissWithAnimation();
+            dialogDismissCallBack = null;
+        }
 
     }
+
 
     @Override
     public void dismiss() {

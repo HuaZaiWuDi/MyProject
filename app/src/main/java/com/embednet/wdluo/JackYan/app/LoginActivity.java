@@ -1,9 +1,7 @@
 package com.embednet.wdluo.JackYan.app;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
@@ -19,13 +17,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.embednet.wdluo.JackYan.Constants;
-import com.embednet.wdluo.JackYan.MyApplication;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.login.QQlogin;
 import com.embednet.wdluo.JackYan.login.WeiBoLogin;
 import com.embednet.wdluo.JackYan.login.WeiXinLogin;
 import com.embednet.wdluo.JackYan.module.SMSResultCode;
-import com.embednet.wdluo.JackYan.module.UserInfo;
 import com.embednet.wdluo.JackYan.module.result.LoginResult;
 import com.embednet.wdluo.JackYan.util.L;
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -37,24 +33,22 @@ import com.tencent.tauth.Tencent;
 
 import java.util.regex.Pattern;
 
-import cn.bmob.v3.BmobSMS;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.LogInListener;
-import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.sms.BmobSMS;
+import cn.bmob.sms.exception.BmobException;
+import cn.bmob.sms.listener.RequestSMSCodeListener;
+import lab.dxythch.com.netlib.rx.RxSubscriber;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 import laboratory.dxy.jack.com.jackupdate.util.RxRegUtils;
 import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
 import laboratory.dxy.jack.com.jackupdate.util.Utils;
 import laboratory.dxy.jack.com.jackupdate.util.timer.MyTimer;
 import laboratory.dxy.jack.com.jackupdate.util.timer.MyTimerListener;
-import rx.Subscriber;
 
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseAvtivity {
+public class LoginActivity extends BaseActivity {
 
 
     // UI references.
@@ -123,7 +117,6 @@ public class LoginActivity extends BaseAvtivity {
                 verifySmsCodeAndLogin();
             }
         });
-
     }
 
     int timeOut = 60;
@@ -156,12 +149,17 @@ public class LoginActivity extends BaseAvtivity {
     private boolean attemptLogin() {
         phone = mEmailView.getText().toString();
         if (TextUtils.isEmpty(phone)) {
-            mEmailView.setError(getString(R.string.error_field_required));
+            RxToast.warning(getString(R.string.inputPhone));
             return false;
         }
 
         if (!isPhoneValid(phone)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
+            RxToast.warning(getString(R.string.inputPhone));
+            return false;
+        }
+
+        if (!Utils.isCanUseSim(this)) {
+            RxToast.warning(getString(R.string.SimunValid));
             return false;
         }
 
@@ -174,7 +172,7 @@ public class LoginActivity extends BaseAvtivity {
         if (!TextUtils.isEmpty(password) && isPasswordValid(password)) {
             return true;
         }
-        mPasswordView.setError(getString(R.string.error_invalid_password));
+        RxToast.warning(getString(R.string.prompt_password));
         return false;
     }
 
@@ -183,7 +181,7 @@ public class LoginActivity extends BaseAvtivity {
 
         if (RxRegUtils.isUsername(password)) return true;
         else {
-            mPasswordView.setError(getString(R.string.ValueRange));
+            RxToast.warning(getString(R.string.ValueRange));
             return false;
         }
     }
@@ -199,40 +197,35 @@ public class LoginActivity extends BaseAvtivity {
 
     private void sendSMS() {
 
-        if (!Utils.isCanUseSim(this)) {
-            RxToast.warning(getString(R.string.SimunValid));
-            return;
-        }
-
-//        BmobSMS.requestSMSCode(this, phone, getString(R.string.app_name), new RequestSMSCodeListener() {
-//            @Override
-//            public void done(Integer integer, BmobException e) {
-//                L.d("requestId:" + integer);
-//                if (e == null) {
-//                    L.d("验证码发送成功");
-//                    RxToast.success("验证码发送成功");
-//
-//                } else {
-//                    L.d("验证码发送失败：" + e.getLocalizedMessage());
-//                    RxToast.error("发送失败：" + SMSResultCode.ErrorInfo(e.getErrorCode()));
-//                }
-//            }
-//        });
-
-        BmobSMS.requestSMSCode(phone, getString(R.string.app_name), new QueryListener<Integer>() {
+        BmobSMS.requestSMSCode(this, phone, getString(R.string.app_name), new RequestSMSCodeListener() {
             @Override
             public void done(Integer integer, BmobException e) {
                 L.d("requestId:" + integer);
                 if (e == null) {
                     L.d("验证码发送成功");
-                    RxToast.success(getString(R.string.SmsSendSuccess));
+                    RxToast.success("验证码发送成功");
 
                 } else {
                     L.d("验证码发送失败：" + e.getLocalizedMessage());
-                    RxToast.error(getString(R.string.SmsSendFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
+                    RxToast.error("发送失败：" + SMSResultCode.ErrorInfo(e.getErrorCode()));
                 }
             }
         });
+
+//        BmobSMS.requestSMSCode(phone, getString(R.string.app_name), new QueryListener<Integer>() {
+//            @Override
+//            public void done(Integer integer, BmobException e) {
+//                L.d("requestId:" + integer);
+//                if (e == null) {
+//                    L.d("验证码发送成功");
+//                    RxToast.success(getString(R.string.SmsSendSuccess));
+//
+//                } else {
+//                    L.d("验证码发送失败：" + e.getLocalizedMessage());
+//                    RxToast.error(getString(R.string.SmsSendFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
+//                }
+//            }
+//        });
 
     }
 
@@ -246,25 +239,25 @@ public class LoginActivity extends BaseAvtivity {
         if (!isPassword) {
             if (!verifySmsCode()) return;
 
-            BmobUser.loginBySMSCode(phone, SMSCode, new LogInListener<BmobUser>() {
-                @Override
-                public void done(BmobUser userInfo, BmobException e) {
-                    if (userInfo != null) {
-                        L.d("登录成功");
-                        SharedPreferences.Editor edit = sharedPreferences.edit();
-                        edit.putBoolean(Constants.AutoLogin, true);
-                        edit.apply();
-
-                        UserInfo info = new UserInfo();
-                        info.phone = phone;
-
-                        doLoginSuccess(info);
-                    } else {
-                        L.d("登录失败：" + e.toString());
-                        RxToast.error(getString(R.string.loginFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
-                    }
-                }
-            });
+//            BmobUser.loginBySMSCode(phone, SMSCode, new LogInListener<BmobUser>() {
+//                @Override
+//                public void done(BmobUser userInfo, BmobException e) {
+//                    if (userInfo != null) {
+//                        L.d("登录成功");
+//                        SharedPreferences.Editor edit = sharedPreferences.edit();
+//                        edit.putBoolean(Constants.AutoLogin, true);
+//                        edit.apply();
+//
+//                        UserInfo info = new UserInfo();
+//                        info.phone = phone;
+//
+//                        doLoginSuccess(info);
+//                    } else {
+//                        L.d("登录失败：" + e.toString());
+//                        RxToast.error(getString(R.string.loginFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
+//                    }
+//                }
+//            });
 
             L.d("phone:" + phone);
             L.d("SMSCode:" + SMSCode);
@@ -277,44 +270,30 @@ public class LoginActivity extends BaseAvtivity {
             L.d("SMSCode:" + SMSCode);
             L.d("Password:" + password);
 
-            BmobUser.loginByAccount(phone, password, new LogInListener<BmobUser>() {
-                @Override
-                public void done(BmobUser userInfo, BmobException e) {
-                    if (userInfo != null) {
-                        L.d("登录成功");
-                        SharedPreferences.Editor edit = sharedPreferences.edit();
-                        edit.putString(Constants.UserPhone, phone);
-                        edit.putString(Constants.UserPasswrod, password);
-                        edit.putBoolean(Constants.AutoLogin, true);
-                        edit.apply();
-
-                        UserInfo info = new UserInfo();
-                        info.pwd = password;
-                        info.phone = phone;
-                        doLoginSuccess(info);
-                    } else {
-                        L.d("登录失败：" + e.toString());
-                        RxToast.error(getString(R.string.loginFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
-                    }
-                }
-            });
+//            BmobUser.loginByAccount(phone, password, new LogInListener<BmobUser>() {
+//                @Override
+//                public void done(BmobUser userInfo, BmobException e) {
+//                    if (userInfo != null) {
+//                        L.d("登录成功");
+//                        SharedPreferences.Editor edit = sharedPreferences.edit();
+//                        edit.putString(Constants.UserPhone, phone);
+//                        edit.putString(Constants.UserPasswrod, password);
+//                        edit.putBoolean(Constants.AutoLogin, true);
+//                        edit.apply();
+//
+//                        UserInfo info = new UserInfo();
+//                        info.pwd = password;
+//                        info.phone = phone;
+//                        doLoginSuccess(info);
+//                    } else {
+//                        L.d("登录失败：" + e.toString());
+//                        RxToast.error(getString(R.string.loginFail) + SMSResultCode.ErrorInfo(e.getErrorCode()));
+//                    }
+//                }
+//            });
         }
     }
 
-
-    private void doLoginSuccess(UserInfo info) {
-        RxToast.success(getString(R.string.loginSuccess));
-
-        MyApplication.aCache.put("UserInfo", info);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //登录成功
-                startActivity(new Intent(LoginActivity.this, ScnnerActivity.class));
-                finish();
-            }
-        }, 500);
-    }
 
     Tencent mTencent;
     SsoHandler ssoHandler;
@@ -342,10 +321,7 @@ public class LoginActivity extends BaseAvtivity {
         mTencent.login(this, Constants.SCOPE, new QQlogin(subscriber));
     }
 
-    Subscriber<LoginResult> subscriber = new Subscriber<LoginResult>() {
-        @Override
-        public void onCompleted() {
-        }
+    RxSubscriber<LoginResult> subscriber = new RxSubscriber<LoginResult>() {
 
         @Override
         public void onError(Throwable throwable) {
@@ -354,23 +330,9 @@ public class LoginActivity extends BaseAvtivity {
         }
 
         @Override
-        public void onNext(LoginResult result) {
-            L.d("登录成功:" + result.getUserInfo().getNickname());
-            L.d("登录成功:" + result.getUserInfo().getHeadImageUrl());
-            L.d("登录成功:" + result.getUserInfo().getHeadImageUrlLarge());
-            L.d("登录成功:" + result.getUserInfo().getOpenId());
-            L.d("登录成功:" + result.getUserInfo().getSex());
-
-            SharedPreferences.Editor edit = sharedPreferences.edit();
-            edit.putBoolean(Constants.AutoLogin, true);
-            edit.apply();
-
-            UserInfo info = new UserInfo();
-            info.sex = result.getUserInfo().getSex() - 1;
-            info.name = result.getUserInfo().getNickname();
-            info.heardImgUrl = result.getUserInfo().getHeadImageUrl();
-
-            doLoginSuccess(info);
+        protected void _onNext(LoginResult result) {
+            result.setPhone(phone);
+            loginSuccess(result);
         }
     };
 

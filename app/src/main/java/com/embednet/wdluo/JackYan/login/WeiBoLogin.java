@@ -16,13 +16,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import cn.bmob.v3.okhttp3.OkHttpClient;
-import cn.bmob.v3.okhttp3.Request;
-import cn.bmob.v3.okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import lab.dxythch.com.netlib.rx.RxSubscriber;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 /**
  * 项目名称：ShareAndLogin
@@ -32,9 +35,9 @@ import rx.schedulers.Schedulers;
  */
 public class WeiBoLogin implements WeiboAuthListener {
 
-    private Subscriber<LoginResult> subscriber;
+    private RxSubscriber<LoginResult> subscriber;
 
-    public WeiBoLogin(Subscriber<LoginResult> subscriber) {
+    public WeiBoLogin(RxSubscriber<LoginResult> subscriber) {
         this.subscriber = subscriber;
     }
 
@@ -45,11 +48,11 @@ public class WeiBoLogin implements WeiboAuthListener {
         fetchUserInfo(weiboToken, subscriber);
     }
 
-    private void fetchUserInfo(final WeiboToken weiboToken, Subscriber<LoginResult> subscriber) {
+    private void fetchUserInfo(final WeiboToken weiboToken, RxSubscriber<LoginResult> subscriber) {
 
-        Observable.create(new Observable.OnSubscribe<LoginResult>() {
+        Observable.create(new ObservableOnSubscribe<LoginResult>() {
             @Override
-            public void call(Subscriber<? super LoginResult> subscriber) {
+            public void subscribe(ObservableEmitter<LoginResult> emitter) throws Exception {
                 OkHttpClient client = new OkHttpClient();
                 Request request =
                         new Request.Builder().url(buildUserInfoUrl(weiboToken, Constants.USER_INFO)).build();
@@ -58,9 +61,9 @@ public class WeiBoLogin implements WeiboAuthListener {
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     WeiboUser user = WeiboUser.parse(jsonObject);
 
-                    subscriber.onNext(new LoginResult( weiboToken, user));
+                    emitter.onNext(new LoginResult(weiboToken, user,Constants.WEIBO));
                 } catch (IOException | JSONException e) {
-                    subscriber.onError(e);
+                    emitter.onError(e);
                 }
             }
         }).subscribeOn(Schedulers.io())

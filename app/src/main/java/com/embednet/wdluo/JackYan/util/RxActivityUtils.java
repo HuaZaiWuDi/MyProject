@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 
+import com.embednet.wdluo.JackYan.R;
+
 import java.util.List;
 import java.util.Stack;
 
@@ -196,6 +198,7 @@ public class RxActivityUtils {
         Intent intent = new Intent(context, goal);
         context.startActivity(intent);
         ((Activity) context).finish();
+        ((Activity) context).overridePendingTransition(R.anim.layout_in, R.anim.layout_out);
     }
 
 

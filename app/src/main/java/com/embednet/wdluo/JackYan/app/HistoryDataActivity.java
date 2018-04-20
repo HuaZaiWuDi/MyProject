@@ -38,7 +38,7 @@ import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ColumnChartView;
 
-public class HistoryDataActivity extends BaseAvtivity {
+public class HistoryDataActivity extends BaseActivity {
     TextView dateTitle;
 
 

@@ -26,4 +26,15 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
     }
+
+    ext.versions = [
+            compileSdkVersion: 26,
+            minSdkVersion    : 19,
+            targetSdkVersion : 26,
+            buildToolsVersion: '26.0.2',
+            supportVersion   : "25.3.1"
+    ]
 }
+
+
+

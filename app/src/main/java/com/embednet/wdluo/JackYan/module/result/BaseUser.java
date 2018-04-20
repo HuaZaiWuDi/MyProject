@@ -62,4 +62,16 @@ public class BaseUser {
     public void setHeadImageUrlLarge(String headImageUrlLarge) {
         this.headImageUrlLarge = headImageUrlLarge;
     }
+
+
+    @Override
+    public String toString() {
+        return "BaseUser{" +
+                "openId='" + openId + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", sex=" + sex +
+                ", headImageUrl='" + headImageUrl + '\'' +
+                ", headImageUrlLarge='" + headImageUrlLarge + '\'' +
+                '}';
+    }
 }

@@ -88,7 +88,7 @@
                 android:layout_below="@+id/stepsTarget"
                 android:layout_centerVertical="true"
                 android:text="5000"
-                android:textColor="@color/white" />
+                android:textColor="@color/gray" />
 
 
             <ImageView

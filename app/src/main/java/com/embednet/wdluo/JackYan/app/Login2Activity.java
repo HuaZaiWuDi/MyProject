@@ -1,9 +1,7 @@
 package com.embednet.wdluo.JackYan.app;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,12 +9,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.embednet.wdluo.JackYan.BuildConfig;
 import com.embednet.wdluo.JackYan.Constants;
-import com.embednet.wdluo.JackYan.MyApplication;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.login.QQlogin;
 import com.embednet.wdluo.JackYan.login.WeiBoLogin;
 import com.embednet.wdluo.JackYan.login.WeiXinLogin;
-import com.embednet.wdluo.JackYan.module.UserInfo;
 import com.embednet.wdluo.JackYan.module.result.LoginResult;
 import com.embednet.wdluo.JackYan.util.L;
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -26,11 +22,11 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
+import lab.dxythch.com.netlib.rx.RxSubscriber;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
-import rx.Subscriber;
 
-public class Login2Activity extends BaseAvtivity {
+public class Login2Activity extends BaseActivity {
     private View qq, wechar, weibo, linear, text_login, text_register;
 
     @Override
@@ -43,13 +39,6 @@ public class Login2Activity extends BaseAvtivity {
                 .load(R.drawable.login_bg)
                 .into((ImageView) findViewById(R.id.img_bg));
 
-
-        if (sharedPreferences.getBoolean("AutoLogin", false)) {
-            //登录成功
-            startActivity(new Intent(Login2Activity.this, Main2Activity.class));
-            finish();
-            return;
-        }
 
         wechar = findViewById(R.id.email_sign_in_button);
         qq = findViewById(R.id.QQ);
@@ -117,10 +106,7 @@ public class Login2Activity extends BaseAvtivity {
         }
     }
 
-    Subscriber<LoginResult> subscriber = new Subscriber<LoginResult>() {
-        @Override
-        public void onCompleted() {
-        }
+    RxSubscriber<LoginResult> subscriber = new RxSubscriber<LoginResult>() {
 
         @Override
         public void onError(Throwable throwable) {
@@ -129,14 +115,9 @@ public class Login2Activity extends BaseAvtivity {
         }
 
         @Override
-        public void onNext(LoginResult result) {
-            L.d("登录成功:" + result.getUserInfo().getNickname());
-            L.d("登录成功:" + result.getUserInfo().getHeadImageUrl());
-            L.d("登录成功:" + result.getUserInfo().getHeadImageUrlLarge());
-            L.d("登录成功:" + result.getUserInfo().getOpenId());
-            L.d("登录成功:" + result.getUserInfo().getSex());
-
-            doLoginSuccess(result);
+        protected void _onNext(LoginResult loginResult) {
+            L.d("登录成功：" + loginResult.toString());
+            loginSuccess(loginResult);
         }
     };
 
@@ -182,30 +163,6 @@ public class Login2Activity extends BaseAvtivity {
             iwxapi = null;
         }
         subscriber = null;
-    }
-
-
-    private void doLoginSuccess(LoginResult result) {
-        RxToast.success(getString(R.string.loginSuccess));
-        SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putBoolean(Constants.AutoLogin, true);
-        edit.apply();
-
-        UserInfo info = new UserInfo();
-        info.sex = result.getUserInfo().getSex() - 1;
-        info.name = result.getUserInfo().getNickname();
-        info.heardImgUrl = result.getUserInfo().getHeadImageUrl();
-
-        MyApplication.aCache.put("UserInfo", info);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //登录成功
-                startActivity(new Intent(Login2Activity.this, ScnnerActivity.class));
-                finish();
-            }
-        }, 500);
     }
 
 }

@@ -16,14 +16,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import cn.bmob.v3.okhttp3.OkHttpClient;
-import cn.bmob.v3.okhttp3.Request;
-import cn.bmob.v3.okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import lab.dxythch.com.netlib.rx.RxSubscriber;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 /**
  * 项目名称：ShareAndLogin
@@ -33,10 +35,10 @@ import rx.schedulers.Schedulers;
  */
 public class WeiXinLogin implements IWXAPIEventHandler {
 
-    private Subscriber<LoginResult> subscriber;
+    private RxSubscriber<LoginResult> subscriber;
     private OkHttpClient mClient;
 
-    public WeiXinLogin(Subscriber<LoginResult> subscriber) {
+    public WeiXinLogin(RxSubscriber<LoginResult> subscriber) {
         this.subscriber = subscriber;
         mClient = new OkHttpClient();
     }
@@ -74,43 +76,44 @@ public class WeiXinLogin implements IWXAPIEventHandler {
     }
 
     private void getToken(final String code) {
-        Observable.create(new Observable.OnSubscribe<WxToken>() {
+        Observable.create(new ObservableOnSubscribe<WxToken>() {
             @Override
-            public void call(Subscriber<? super WxToken> subscriber) {
+            public void subscribe(ObservableEmitter<WxToken> emitter) throws Exception {
                 Request request = new Request.Builder().url(buildTokenUrl(code)).build();
                 try {
                     Response response = mClient.newCall(request).execute();
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     WxToken token = WxToken.parse(jsonObject);
-                    subscriber.onNext(token);
+                    emitter.onNext(token);
                 } catch (IOException | JSONException e) {
-                    subscriber.onError(e);
+                    emitter.onError(e);
                 }
             }
-        }).subscribe(new Action1<WxToken>() {
+        }).subscribe(new RxSubscriber<WxToken>() {
             @Override
-            public void call(WxToken wxToken) {
+            protected void _onNext(WxToken wxToken) {
                 fetchUserInfo(wxToken);
             }
-        }, new Action1<Throwable>() {
+
             @Override
-            public void call(Throwable throwable) {
-                subscriber.onError(throwable);
+            public void onError(Throwable e) {
+                super.onError(e);
+                subscriber.onError(e);
             }
         });
 
     }
 
     private void fetchUserInfo(final WxToken wxToken) {
-        Observable.create(new Observable.OnSubscribe<LoginResult>() {
+        Observable.create(new ObservableOnSubscribe<LoginResult>() {
             @Override
-            public void call(Subscriber<? super LoginResult> subscriber) {
+            public void subscribe(ObservableEmitter<LoginResult> emitter) throws Exception {
                 Request request = new Request.Builder().url(buildUserInfoUrl(wxToken)).build();
                 try {
                     Response response = mClient.newCall(request).execute();
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     WxUser user = WxUser.parse(jsonObject);
-                    subscriber.onNext(new LoginResult(wxToken, user));
+                    subscriber.onNext(new LoginResult(wxToken, user, Constants.WECHAR));
                 } catch (IOException | JSONException e) {
                     subscriber.onError(e);
                 }

@@ -1,25 +1,25 @@
 package com.embednet.wdluo.JackYan.app;
 
-import android.Manifest;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.embednet.wdluo.JackYan.Constants;
 import com.embednet.wdluo.JackYan.R;
+import com.embednet.wdluo.JackYan.module.UserInfo;
 import com.embednet.wdluo.JackYan.util.L;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.embednet.wdluo.JackYan.util.RxActivityUtils;
 
-import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
+import lab.dxythch.com.netlib.net.ServiceAPI;
+import lab.dxythch.com.netlib.rx.RxSubscriber;
 import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
-import rx.functions.Action1;
 
-public class GuideActivity extends AppCompatActivity {
+public class GuideActivity extends BaseActivity {
     ImageView img_bg, splashImg;
     TextView splashText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,33 +40,58 @@ public class GuideActivity extends AppCompatActivity {
         splashText.startAnimation(AnimationUtils.loadAnimation(this, R.anim.text_selce));
 
 
-        img_bg.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(GuideActivity.this, Login2Activity.class));
-                finish();
-            }
-        }, 2000);
-
-        sheckPromission();
     }
 
 
-    private void sheckPromission() {
-        //定位权限
-        if (Build.VERSION.SDK_INT >= 23)
-            new RxPermissions(this)
-                    .request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    .subscribe(new Action1<Boolean>() {
-                        @Override
-                        public void call(Boolean aBoolean) {
-                            if (aBoolean) {
-                                L.d("权限请求成功");
-                            } else {
-                                L.d("权限请求失败");
-                                RxToast.error(getString(R.string.NoPromiss));
-                            }
-                        }
-                    });
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        final UserInfo info = getUserInfo();
+        String userId = getUserId();
+        L.d("UserId:" + userId);
+        if (TextUtils.isEmpty(userId)) {
+            ServiceAPI.getInstance().gainUserId(new RxSubscriber<String>() {
+                @Override
+                protected void _onNext(String s) {
+                    setUserId(s);
+                }
+            });
+        } else {
+            ServiceAPI.setUserId(userId);
+        }
+
+        L.d("用户信息：" + info.toString());
+
+        gotoNewPage();
+    }
+
+
+    private void gotoNewPage() {
+        boolean isLogin = sharedPreferences.getBoolean(Constants.isLogin, false);
+        boolean isBind = sharedPreferences.getBoolean(Constants.isBind, false);
+        if (!isLogin) {
+            img_bg.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    RxActivityUtils.skipActivityAndFinish(GuideActivity.this, Login2Activity.class);
+                }
+            }, 2000);
+        } else if (!isBind) {
+            img_bg.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    RxActivityUtils.skipActivityAndFinish(GuideActivity.this, Main2Activity.class);
+                    RxActivityUtils.skipActivityAndFinish(GuideActivity.this, ScnnerActivity.class);
+                }
+            }, 2000);
+        } else {
+            img_bg.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    RxActivityUtils.skipActivityAndFinish(GuideActivity.this, Main2Activity.class);
+                }
+            }, 2000);
+        }
     }
 }

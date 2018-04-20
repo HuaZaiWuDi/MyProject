@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/jackupdate" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/netlib" />
+            <option value="$PROJECT_DIR$/shareutil" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

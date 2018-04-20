@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 def AAVersion = '4.4.0'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.compileSdkVersion
+    buildToolsVersion versions.buildToolsVersion
 
     defaultConfig {
         applicationId "com.embednet.wdluo.bleplatformsdkdemo"
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
         versionCode 2
         versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -37,6 +37,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -65,11 +66,15 @@ dependencies {
     //Bmob
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
     //    //bmob-sms ：Bmob单独为短信服务提供的包
-    //    implementation 'cn.bmob.android:bmob-sms:1.0.1'
-    //    implementation project(path: ':shareutil')
-    implementation('cn.bmob.android:bmob-sdk:3.5.9') {
-//        exclude module:'gson'
-    }
+    implementation 'cn.bmob.android:bmob-sms:1.0.1'
+//    implementation(project(path: ':shareutil')) {
+//        exclude module: 'Rxjava'
+//        exclude module: 'rxandroid'
+//    }
+
+//    implementation('cn.bmob.android:bmob-sdk:3.5.9') {
+////        exclude module:'gson'
+//    }
 
     implementation project(path: ':jackupdate')
     //注解
@@ -87,13 +92,10 @@ dependencies {
         exclude module: 'gson'
         exclude module: 'support-core-utils'
     }
-//    compile 'com.google.code.gson:gson:2.8.0'
 
-    //权限引导
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
 
     //https://github.com/jiang111/IndicatorDialog
     compile 'com.github.jiang111:IndicatorDialog:2.0.1'
@@ -103,4 +105,5 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile project(path: ':library')
+    compile project(path: ':netlib')
 }

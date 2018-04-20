@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends BaseAvtivity {
+public class MainActivity extends BaseActivity {
     private GridView gview;
     private List<Map<String, Object>> itemList;
     private SimpleAdapter sim_adapter;

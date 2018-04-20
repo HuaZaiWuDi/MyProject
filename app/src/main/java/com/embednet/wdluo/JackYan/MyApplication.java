@@ -8,8 +8,8 @@ import com.clj.fastble.BleManager;
 import com.embednet.wdluo.JackYan.cache.ACache;
 import com.tencent.bugly.Bugly;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobUser;
+import cn.bmob.sms.BmobSMS;
+import lab.dxythch.com.netlib.rx.RxManager;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 
 /**
@@ -35,21 +35,21 @@ public class MyApplication extends MultiDexApplication {
         initBugly();
         initBmob();
         aCache = ACache.get(this);
-
+        RxManager.getInstance().setAPPlication(this);
     }
 
     private void initBmob() {
         //第一：默认初始化
-//        BmobSMS.initialize(this, BMOB_APPID);
-        Bmob.initialize(this, Constants.BMOB_APPID);
+        BmobSMS.initialize(this, Constants.BMOB_APPID);
+//        Bmob.initialize(this, Constants.BMOB_APPID);
 
     }
 
-    static BmobUser bmobUser;
+    static BmobSMS bmobUser;
 
-    public static synchronized BmobUser getBmobUser() {
+    public static synchronized BmobSMS getBmobUser() {
         if (bmobUser == null) {
-            bmobUser = new BmobUser();
+            bmobUser = new BmobSMS();
         }
         return bmobUser;
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,10 +18,14 @@ import com.embednet.wdluo.JackYan.ble.BleTools;
 import com.embednet.wdluo.JackYan.ble.listener.BleCallBack;
 import com.embednet.wdluo.JackYan.service.BleService;
 import com.embednet.wdluo.JackYan.ui.RoundView;
+import com.embednet.wdluo.JackYan.util.L;
+import com.embednet.wdluo.JackYan.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import lab.dxythch.com.netlib.net.ServiceAPI;
+import lab.dxythch.com.netlib.rx.RxNetSubscriber;
 import lecho.lib.hellocharts.listener.ColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -30,7 +35,7 @@ import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.ColumnChartView;
 
-public class Main2Activity extends BaseAvtivity {
+public class Main2Activity extends BaseLocationActivity {
 
     RoundView mRoundDisPlayView;
     ColumnChartView mColumnChartView;
@@ -45,6 +50,8 @@ public class Main2Activity extends BaseAvtivity {
                 if (connected) {
                     mRoundDisPlayView.setCentreText(5000, getString(R.string.SyncSteps));
                     syncData();
+
+
                 } else {
                     mRoundDisPlayView.setCentreText(5000, getString(R.string.connectFail));
                 }
@@ -67,12 +74,48 @@ public class Main2Activity extends BaseAvtivity {
                                     @Override
                                     public void isSuccess(byte[] data) {
                                         mRoundDisPlayView.setCentreText(5000, getString(R.string.SyncComplete));
+
+                                        ServiceAPI.getInstance().gainFirmwareConfig(BleTools.bleDevice.getMac(), "", new RxNetSubscriber<String>() {
+                                            @Override
+                                            protected void _onNext(String s) {
+                                                L.d("获取设备信息：" + s);
+                                            }
+                                        });
+
+                                        ServiceAPI.getInstance().refreshHistory(BleTools.bleDevice.getMac(), "", new RxNetSubscriber<String>() {
+                                            @Override
+                                            protected void _onNext(String s) {
+                                                L.d("上传历史数据：" + s);
+                                            }
+                                        });
                                     }
                                 });
                             }
                         });
                     }
                 });
+            }
+        });
+    }
+
+
+    @Override
+    public void getGps(Location location) {
+        Constants.Longitude = location.getLongitude();
+        Constants.latitude = location.getLatitude();
+
+
+        ServiceAPI.getInstance().gainAppConfig(location, Utils.getVersionName(Main2Activity.this), new RxNetSubscriber<String>() {
+            @Override
+            protected void _onNext(String s) {
+                L.d("配置设备信息：" + s);
+            }
+        });
+
+        ServiceAPI.getInstance().gainUserInfo(new RxNetSubscriber<String>() {
+            @Override
+            protected void _onNext(String s) {
+                L.d("获取用户信息:" + s);
             }
         });
     }
@@ -86,7 +129,6 @@ public class Main2Activity extends BaseAvtivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.ACTIVE_CONNECT_STATUE);
         registerReceiver(receiver, filter);
-
 
         setTitleText(R.string.FirstPage);
 
@@ -203,8 +245,6 @@ public class Main2Activity extends BaseAvtivity {
     }
 
 
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -214,6 +254,7 @@ public class Main2Activity extends BaseAvtivity {
     //分享
     public void share(View v) {
         startActivity(new Intent(this, ShareActivity.class));
+//        Utils.sendEmail(this);
     }
 
     //个人中心

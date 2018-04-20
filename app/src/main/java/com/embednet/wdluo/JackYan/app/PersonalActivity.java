@@ -1,36 +1,31 @@
 package com.embednet.wdluo.JackYan.app;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.embednet.wdluo.JackYan.Constants;
 import com.embednet.wdluo.JackYan.MyApplication;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.module.UserInfo;
 import com.embednet.wdluo.JackYan.ui.CircleImageView;
-import com.embednet.wdluo.JackYan.ui.PickerView;
 import com.embednet.wdluo.JackYan.util.RxActivityUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.qqtheme.framework.picker.NumberPicker;
 
-public class PersonalActivity extends BaseAvtivity {
+public class PersonalActivity extends BaseActivity {
 
     ImageView switch_stepsMark, switch_stepsFunction;
     boolean isMark, isFun;
     UserInfo info;
-    TextView text_stepsTarget;
+    TextView text_stepsTarget, title, text;
     View parent;
     CircleImageView userImg;
 
@@ -50,43 +45,19 @@ public class PersonalActivity extends BaseAvtivity {
         switch_stepsFunction = findViewById(R.id.switch_stepsFunction);
         isMark = isFun = true;
 
-        info = (UserInfo) MyApplication.aCache.getAsObject("UserInfo");
 
-        userImg = findViewById(R.id.userImg);
-        if (info != null) {
-            if (info.heardImgUrl != null)
-                Glide.with(this)
-                        .asDrawable()
-                        .apply(new RequestOptions().placeholder(R.mipmap.img_heard))
-                        .load(info.heardImgUrl)
-                        .into(userImg);
-            TextView title = findViewById(R.id.UserName);
-            if (info.name != null)
-                title.setText(info.name);
-            TextView text = findViewById(R.id.UserPhone);
-            if (info.phone != null)
-                text.setText(info.phone);
-            text_stepsTarget.setText(info.stepsTarget + "");
-        } else {
-            info = new UserInfo();
-            info.stepsTarget = 5000;
-            MyApplication.aCache.put("UserInfo", info);
-        }
     }
 
 
     public void SingOut(View v) {
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.clear();
-        edit.putBoolean("AutoLogin", false);
-        edit.apply();
-        MyApplication.getBmobUser().logOut();
+        MyApplication.aCache.remove(Constants.UserInfo);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                RxActivityUtils.finishAllActivity();
-                startActivity(new Intent(PersonalActivity.this, Login2Activity.class));
+                RxActivityUtils.skipActivityAndFinishAll(PersonalActivity.this, Login2Activity.class);
             }
         }, 500);
     }
@@ -94,9 +65,6 @@ public class PersonalActivity extends BaseAvtivity {
     public void login(View v) {
 
     }
-
-
-
 
     public void stepsTarget(View v) {
         NumberPicker picker = new NumberPicker(this);
@@ -149,65 +117,34 @@ public class PersonalActivity extends BaseAvtivity {
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        info = getUserInfo();
 
-
-
+        if (info != null) {
+            userImg = findViewById(R.id.userImg);
+            if (info.heardImgUrl != null)
+                Glide.with(this)
+                        .asDrawable()
+                        .apply(new RequestOptions().placeholder(R.mipmap.img_heard))
+                        .load(info.heardImgUrl)
+                        .into(userImg);
+            title = findViewById(R.id.UserName);
+            if (info.name != null)
+                title.setText(info.name);
+            text = findViewById(R.id.UserPhone);
+            if (info.phone != null)
+                text.setText(info.phone);
+            text_stepsTarget.setText(info.stepsTarget + "");
+        }
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MyApplication.aCache.put("UserInfo", info);
+        putUserInfo(info);
     }
 
-    int dataInt = 0;
-    AlertDialog dialog;
-    String value;
-
-    private void setUserNameDialog(final String Title, String unit) {
-
-        final View view = LayoutInflater.from(this).inflate(R.layout.pop_username, null);
-
-        ((TextView) view.findViewById(R.id.title)).setText(Title);
-        ((TextView) view.findViewById(R.id.unit)).setText(unit);
-        PickerView pickerView = view.findViewById(R.id.mPickerView);
-        view.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                info.stepsTarget = Integer.parseInt(value);
-                text_stepsTarget.setText(value);
-                MyApplication.aCache.put("UserInfo", info);
-                dialog.dismiss();
-            }
-        });
-        view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        final List<String> data = new ArrayList<>();
-
-        data.clear();
-        for (int j = 1000; j <= 30000; j = j + 1000) {
-            data.add(j + "");
-        }
-        dataInt = data.indexOf(info.stepsTarget + "");
-        pickerView.setData(data);
-        pickerView.setSelected(dataInt);
-
-        pickerView.setOnSelectListener(new PickerView.onSelectListener() {
-            @Override
-            public void onSelect(String text) {
-                //这里数据的监听会有
-                value = text;
-
-            }
-        });
-        dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .show();
-
-    }
 
 }
