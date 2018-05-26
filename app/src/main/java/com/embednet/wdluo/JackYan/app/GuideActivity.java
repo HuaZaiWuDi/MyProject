@@ -9,12 +9,17 @@ import android.widget.TextView;
 import com.embednet.wdluo.JackYan.Constants;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.module.UserInfo;
+import com.embednet.wdluo.JackYan.net.NetService;
 import com.embednet.wdluo.JackYan.util.L;
 import com.embednet.wdluo.JackYan.util.RxActivityUtils;
+import com.embednet.wdluo.JackYan.util.Utils;
+import com.google.gson.JsonObject;
 
-import lab.dxythch.com.netlib.net.ServiceAPI;
-import lab.dxythch.com.netlib.rx.RxSubscriber;
+import lab.dxythch.com.netlib.rx.NetManager;
+import lab.dxythch.com.netlib.rx.RxManager;
+import lab.dxythch.com.netlib.rx.RxNetSubscriber;
 import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
+import okhttp3.RequestBody;
 
 public class GuideActivity extends BaseActivity {
     ImageView img_bg, splashImg;
@@ -46,22 +51,6 @@ public class GuideActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        final UserInfo info = getUserInfo();
-        String userId = getUserId();
-        L.d("UserId:" + userId);
-        if (TextUtils.isEmpty(userId)) {
-            ServiceAPI.getInstance().gainUserId(new RxSubscriber<String>() {
-                @Override
-                protected void _onNext(String s) {
-                    setUserId(s);
-                }
-            });
-        } else {
-            ServiceAPI.setUserId(userId);
-        }
-
-        L.d("用户信息：" + info.toString());
 
         gotoNewPage();
     }

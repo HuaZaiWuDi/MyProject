@@ -21,7 +21,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import lab.dxythch.com.netlib.rx.RxSubscriber;
+import lab.dxythch.com.netlib.utils.RxSubscriber;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

@@ -16,15 +16,18 @@ import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.ble.BleAPI;
 import com.embednet.wdluo.JackYan.ble.BleTools;
 import com.embednet.wdluo.JackYan.ble.listener.BleCallBack;
+import com.embednet.wdluo.JackYan.net.NetService;
 import com.embednet.wdluo.JackYan.service.BleService;
 import com.embednet.wdluo.JackYan.ui.RoundView;
 import com.embednet.wdluo.JackYan.util.L;
 import com.embednet.wdluo.JackYan.util.Utils;
+import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
-import lab.dxythch.com.netlib.net.ServiceAPI;
+import lab.dxythch.com.netlib.rx.NetManager;
+import lab.dxythch.com.netlib.rx.RxManager;
 import lab.dxythch.com.netlib.rx.RxNetSubscriber;
 import lecho.lib.hellocharts.listener.ColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
@@ -34,6 +37,7 @@ import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.ColumnChartView;
+import okhttp3.RequestBody;
 
 public class Main2Activity extends BaseLocationActivity {
 
@@ -75,19 +79,10 @@ public class Main2Activity extends BaseLocationActivity {
                                     public void isSuccess(byte[] data) {
                                         mRoundDisPlayView.setCentreText(5000, getString(R.string.SyncComplete));
 
-                                        ServiceAPI.getInstance().gainFirmwareConfig(BleTools.bleDevice.getMac(), "", new RxNetSubscriber<String>() {
-                                            @Override
-                                            protected void _onNext(String s) {
-                                                L.d("获取设备信息：" + s);
-                                            }
-                                        });
 
-                                        ServiceAPI.getInstance().refreshHistory(BleTools.bleDevice.getMac(), "", new RxNetSubscriber<String>() {
-                                            @Override
-                                            protected void _onNext(String s) {
-                                                L.d("上传历史数据：" + s);
-                                            }
-                                        });
+
+
+
                                     }
                                 });
                             }
@@ -99,25 +94,112 @@ public class Main2Activity extends BaseLocationActivity {
     }
 
 
+    private void getAppInfo(){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("merchantNo","100576");
+        jsonObject.addProperty("userId",getUserId());
+        jsonObject.addProperty("systemTime", Utils.formatData());
+        jsonObject.addProperty("appVersionNo",Utils.getVersionName(this));
+        jsonObject.addProperty("mapType","gps84");
+        jsonObject.addProperty("longitude","");
+        jsonObject.addProperty("latitude","");
+
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        NetService dxyService = NetManager.getInstance().createString(NetService.class);
+        RxManager.getInstance().doNetSubscribe(dxyService.getUserId(body))
+                .subscribe(new RxNetSubscriber<String>() {
+                    @Override
+                    protected void _onNext(String s) {
+                        L.d("结束：" + s);
+                    }
+
+                    @Override
+                    protected void _onError(String error) {
+//                            RxToast.error(error);
+                    }
+                });
+    }
+
+    private void gainUserInfo(){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("merchantNo","100576");
+        jsonObject.addProperty("userId",getUserId());
+        jsonObject.addProperty("systemTime", Utils.formatData());
+
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        NetService dxyService = NetManager.getInstance().createString(NetService.class);
+        RxManager.getInstance().doNetSubscribe(dxyService.getUserId(body))
+                .subscribe(new RxNetSubscriber<String>() {
+                    @Override
+                    protected void _onNext(String s) {
+                        L.d("结束：" + s);
+                    }
+
+                    @Override
+                    protected void _onError(String error) {
+//                            RxToast.error(error);
+                    }
+                });
+    }
+
+    private void getDeviceInfo(String mac,String firmwareVersionNo){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("merchantNo","100576");
+        jsonObject.addProperty("userId",getUserId());
+        jsonObject.addProperty("systemTime", Utils.formatData());
+        jsonObject.addProperty("deviceSN", mac);
+        jsonObject.addProperty("firmwareVersionNo", firmwareVersionNo);
+
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        NetService dxyService = NetManager.getInstance().createString(NetService.class);
+        RxManager.getInstance().doNetSubscribe(dxyService.getUserId(body))
+                .subscribe(new RxNetSubscriber<String>() {
+                    @Override
+                    protected void _onNext(String s) {
+                        L.d("结束：" + s);
+                    }
+
+                    @Override
+                    protected void _onError(String error) {
+//                            RxToast.error(error);
+                    }
+                });
+    }
+
+
+    private void refreshHistoryData(String mac,String historyData){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("merchantNo","100576");
+        jsonObject.addProperty("userId",getUserId());
+        jsonObject.addProperty("systemTime", Utils.formatData());
+        jsonObject.addProperty("deviceSN", mac);
+        jsonObject.addProperty("historyData", historyData);
+
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        NetService dxyService = NetManager.getInstance().createString(NetService.class);
+        RxManager.getInstance().doNetSubscribe(dxyService.getUserId(body))
+                .subscribe(new RxNetSubscriber<String>() {
+                    @Override
+                    protected void _onNext(String s) {
+                        L.d("结束：" + s);
+                    }
+
+                    @Override
+                    protected void _onError(String error) {
+//                            RxToast.error(error);
+                    }
+                });
+    }
+
+
+
+
     @Override
     public void getGps(Location location) {
         Constants.Longitude = location.getLongitude();
         Constants.latitude = location.getLatitude();
 
 
-        ServiceAPI.getInstance().gainAppConfig(location, Utils.getVersionName(Main2Activity.this), new RxNetSubscriber<String>() {
-            @Override
-            protected void _onNext(String s) {
-                L.d("配置设备信息：" + s);
-            }
-        });
-
-        ServiceAPI.getInstance().gainUserInfo(new RxNetSubscriber<String>() {
-            @Override
-            protected void _onNext(String s) {
-                L.d("获取用户信息:" + s);
-            }
-        });
     }
 
 

@@ -28,7 +28,7 @@ import java.util.List;
 
 import cn.qqtheme.framework.picker.NumberPicker;
 import cn.qqtheme.framework.picker.OptionPicker;
-import lab.dxythch.com.netlib.rx.RxSubscriber;
+import lab.dxythch.com.netlib.utils.RxSubscriber;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 import laboratory.dxy.jack.com.jackupdate.util.ImageTakerHelper;
 

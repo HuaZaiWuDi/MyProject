@@ -26,24 +26,28 @@ import com.clj.fastble.data.BleScanState;
 import com.embednet.wdluo.JackYan.Constants;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.ble.BleTools;
+import com.embednet.wdluo.JackYan.net.NetService;
 import com.embednet.wdluo.JackYan.scanner.DeviceListAdapter;
 import com.embednet.wdluo.JackYan.scanner.ExtendedBluetoothDevice;
 import com.embednet.wdluo.JackYan.scanner.ScannerServiceParser;
 import com.embednet.wdluo.JackYan.service.BleService;
-import com.embednet.wdluo.JackYan.ui.SweetDialog;
 import com.embednet.wdluo.JackYan.util.L;
+import com.embednet.wdluo.JackYan.util.Utils;
 import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
+import com.google.gson.JsonObject;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
 import java.util.Set;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import lab.dxythch.com.netlib.net.ServiceAPI;
+import io.reactivex.functions.Action;
+import lab.dxythch.com.netlib.rx.NetManager;
+import lab.dxythch.com.netlib.rx.RxManager;
 import lab.dxythch.com.netlib.rx.RxNetSubscriber;
-import lab.dxythch.com.netlib.rx.RxSubscriber;
+import lab.dxythch.com.netlib.utils.RxSubscriber;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
+import okhttp3.RequestBody;
 
 import static com.embednet.wdluo.JackYan.MyApplication.bleManager;
 
@@ -70,45 +74,35 @@ public class ScnnerActivity extends BaseActivity {
 
                     getUserInfo().deviceSN = mac;
 
-                    final SweetAlertDialog dialog = new SweetDialog(ScnnerActivity.this, SweetAlertDialog.PROGRESS_TYPE)
-                            .setTitleText(getString(R.string.connectSuccess))
-                            .setContentText("正在进行设备绑定\n请保证网络通畅")
-                            .setConfirmText("ok")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+
+                    tipDialog.show();
+
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("merchantNo","100576");
+                    jsonObject.addProperty("userId",getUserId());
+                    jsonObject.addProperty("systemTime", Utils.formatData());
+                    jsonObject.addProperty("deviceSN", mac);
+
+                    RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+                    NetService dxyService = NetManager.getInstance().createString(NetService.class);
+                    RxManager.getInstance().doNetSubscribe(dxyService.getUserId(body))
+                            .doFinally(new Action() {
                                 @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                                    if (BuildConfig.DEBUG) {
-//                                        //登录成功
-//                                        startActivity(new Intent(ScnnerActivity.this, ScnnerActivity.class));
-//                                        finish();
-//                                    }
+                                public void run() throws Exception {
+                                    tipDialog.dismiss();
+                                }
+                            })
+                            .subscribe(new RxNetSubscriber<String>() {
+                                @Override
+                                protected void _onNext(String s) {
+                                    L.d("结束：" + s);
+                                }
+
+                                @Override
+                                protected void _onError(String error) {
+                                   bleStatus.setText(R.string.connectFail);
                                 }
                             });
-                    dialog.show();
-                    new CountDownTimer(1000 * 7, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                        }
-
-                        public void onFinish() {
-                            dialog.setTitleText("初始化失败")
-                                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        }
-                    };
-
-                    ServiceAPI.getInstance().bindDevice(mac, new RxNetSubscriber<String>() {
-                        @Override
-                        protected void _onNext(String s) {
-                            L.d("绑定设备成功：" + s);
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            super.onError(e);
-                            dialog.setTitleText("初始化失败")
-                                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        }
-                    });
 
                 } else {
                     circle_loading_view.stopFailure();

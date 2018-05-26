@@ -22,7 +22,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
-import lab.dxythch.com.netlib.rx.RxSubscriber;
+import lab.dxythch.com.netlib.utils.RxSubscriber;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
 

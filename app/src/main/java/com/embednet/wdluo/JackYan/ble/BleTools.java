@@ -75,11 +75,11 @@ public class BleTools {
     }
 
     private void write() {
-        TimeOut.postDelayed(reWrite, timeOut);
-        if (currentCount > reWriteCount) {
-            RxToast.error(getApplication().getString(R.string.doFail));
-            currentCount = 0;
-        } else
+//        TimeOut.postDelayed(reWrite, timeOut);
+//        if (currentCount > reWriteCount) {
+//            RxToast.error(getApplication().getString(R.string.doFail));
+//            currentCount = 0;
+//        } else
             bleManager.write(bleDevice, CHARACTERISTIC, CHARACTERISTIC, bytes, new BleWriteCallback() {
                 @Override
                 public void onWriteSuccess() {

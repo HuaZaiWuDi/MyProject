@@ -45,41 +45,48 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:26.1.0'
+
     //noinspection GradleCompatible
+
     //https://github.com/Jasonchenlijian/FastBle
     compile 'com.clj.fastble:FastBleLib:2.1.5'
+
     //加载进度控件https://github.com/jlmd/AnimatedCircleLoadingView
     compile 'com.github.jlmd:AnimatedCircleLoadingView:1.1.5@aar'
+
     //进度条 https://github.com/dudu90/FreshDownloadView
     compile 'com.pitt.fresh.library:freshdownloadview:1.0'
+
     //注释掉原有bugly的仓库
+
     //compile 'com.tencent.bugly:crashreport:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.3.2
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
+
     //    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
+
     //图表库
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
+
     //Glide
     compile 'com.github.bumptech.glide:glide:4.2.0'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
 
     //Bmob
+
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
+
     //    //bmob-sms ：Bmob单独为短信服务提供的包
     implementation 'cn.bmob.android:bmob-sms:1.0.1'
-//    implementation(project(path: ':shareutil')) {
-//        exclude module: 'Rxjava'
-//        exclude module: 'rxandroid'
-//    }
 
-//    implementation('cn.bmob.android:bmob-sdk:3.5.9') {
-////        exclude module:'gson'
-//    }
 
     implementation project(path: ':jackupdate')
+
     //注解
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
+
     //解决重复依赖，分包处理
     implementation 'com.android.support:multidex:1.0.3'
     implementation files('libs/libammsdk.jar')
@@ -93,7 +100,6 @@ dependencies {
         exclude module: 'support-core-utils'
     }
 
-
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
 
@@ -104,6 +110,9 @@ dependencies {
     compile('cn.qqtheme.framework:WheelPicker:latest.release') {
         exclude group: 'com.android.support'
     }
-    compile project(path: ':library')
     compile project(path: ':netlib')
+
+    //UI库，
+    //http://qmuiteam.com/android/get-started
+    implementation 'com.qmuiteam:qmui:1.0.6'
 }

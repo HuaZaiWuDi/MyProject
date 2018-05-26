@@ -1,7 +1,9 @@
 package com.embednet.wdluo.JackYan.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -14,6 +16,7 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,9 +28,13 @@ import com.embednet.wdluo.JackYan.MyApplication;
 import com.embednet.wdluo.JackYan.R;
 import com.embednet.wdluo.JackYan.module.UserInfo;
 import com.embednet.wdluo.JackYan.module.result.LoginResult;
-import com.embednet.wdluo.JackYan.ui.SweetDialog;
+import com.embednet.wdluo.JackYan.net.NetService;
 import com.embednet.wdluo.JackYan.util.L;
 import com.embednet.wdluo.JackYan.util.RxActivityUtils;
+import com.embednet.wdluo.JackYan.util.Utils;
+import com.google.gson.JsonObject;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.zhy.autolayout.AutoFrameLayout;
 import com.zhy.autolayout.AutoLayoutActivity;
 import com.zhy.autolayout.AutoLinearLayout;
@@ -38,10 +45,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import lab.dxythch.com.netlib.net.ServiceAPI;
+import lab.dxythch.com.netlib.rx.NetManager;
+import lab.dxythch.com.netlib.rx.RxManager;
 import lab.dxythch.com.netlib.rx.RxNetSubscriber;
 import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
+import okhttp3.RequestBody;
 
 /**
  * 项目名称：BLEPlatformSDKDemo
@@ -49,9 +57,11 @@ import laboratory.dxy.jack.com.jackupdate.util.StatusBarUtils;
  * 创建人：Jack
  * 创建时间：2018/1/11
  */
-public class BaseActivity extends AutoLayoutActivity {
+public class BaseActivity extends AppCompatActivity {
 
     protected SharedPreferences sharedPreferences;
+
+    public QMUITipDialog tipDialog;
 
     String titleText = "BaseActivity";
 
@@ -64,6 +74,8 @@ public class BaseActivity extends AutoLayoutActivity {
 //        L.d("测试代码");
         StatusBarUtils.from(this).setStatusBarColor(Color.parseColor("#333333")).process();
         RxActivityUtils.addActivity(this);
+
+        initDialog();
     }
 
     public void setBack() {
@@ -90,6 +102,15 @@ public class BaseActivity extends AutoLayoutActivity {
         TextView title = (TextView) findViewById(R.id.Title);
         if (title != null)
             title.setText(titleText);
+    }
+
+
+    private void initDialog() {
+        tipDialog = new QMUITipDialog.Builder(this)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("正在加载")
+                .create();
+        tipDialog.setCanceledOnTouchOutside(false);
     }
 
 
@@ -126,6 +147,7 @@ public class BaseActivity extends AutoLayoutActivity {
 
     @Override
     protected void onDestroy() {
+        if (tipDialog!=null)tipDialog.dismiss();
         super.onDestroy();
         L.d("【" + titleText + "】：onDestroy");
     }
@@ -211,77 +233,85 @@ public class BaseActivity extends AutoLayoutActivity {
     }
 
 
-    public void loginSuccess(final LoginResult result) {
-        L.d("登录信息：" + result.toString());
-        final SweetAlertDialog dialog = new SweetDialog(this, SweetAlertDialog.PROGRESS_TYPE)
-                .setTitleText(getString(R.string.loginSuccess))
-                .setContentText("正在进行初始化\n请保证网络通畅")
-                .setConfirmText("ok")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+    public void loginSuccess(final LoginResult result){
+        tipDialog.show();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("merchantNo","100576");
+        jsonObject.addProperty("systemTime", Utils.formatData());
+        jsonObject.addProperty("mapType","gps84");
+        jsonObject.addProperty("longitude","");
+        jsonObject.addProperty("latitude","");
+
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        NetService dxyService = NetManager.getInstance().createString(NetService.class);
+        RxManager.getInstance().doNetSubscribe(dxyService.getUserId(body))
+                .subscribe(new RxNetSubscriber<String>() {
                     @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        if (BuildConfig.DEBUG) {
-                            //登录成功
-                            startActivity(new Intent(BaseActivity.this, ScnnerActivity.class));
-                            finish();
-                        }
+                    protected void _onNext(String s) {
+                        L.d("结束：" + s);
+                        setUserId(s);
+                        saveUserInfo( result);
+                    }
+
+                    @Override
+                    protected void _onError(String error) {
+//                            RxToast.error(error);
                     }
                 });
-        dialog.show();
-        new CountDownTimer(1000 * 7, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
+    }
 
-            public void onFinish() {
-                dialog.setTitleText("初始化失败")
-                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            }
-        };
 
-        String wechat = result.getLoginType().equals(Constants.WECHAR) ? result.getUserInfo().getOpenId() : "";
-        String qq = result.getLoginType().equals(Constants.QQ) ? result.getUserInfo().getOpenId() : "";
 
-        ServiceAPI.getInstance().updateUserInfo(result.getUserInfo().getNickname(), result.getPhone(), result.getEmail(), wechat, qq, new RxNetSubscriber<String>() {
-            @Override
-            protected void _onNext(String s) {
-                L.d("更新用户信息：" + s);
+    private void saveUserInfo(final LoginResult result){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("merchantNo","100576");
+        jsonObject.addProperty("userId","100576");
+        jsonObject.addProperty("systemTime", Utils.formatData());
+        jsonObject.addProperty("userName",result.getUserInfo().getNickname());
+        jsonObject.addProperty("phoneNumber",result.getPhone());
+        jsonObject.addProperty("email","");
+        jsonObject.addProperty("weChatNo","");
+        jsonObject.addProperty("qqNo","");
 
-                UserInfo info = getUserInfo();
-                SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.putBoolean(Constants.isLogin, true);
-                edit.apply();
 
-                info.sex = result.getUserInfo().getSex() - 1;
-                info.name = result.getUserInfo().getNickname();
-                info.heardImgUrl = result.getUserInfo().getHeadImageUrl();
-                info.phone = result.getPhone();
-                info.email = result.getEmail();
-                putUserInfo(info);
-                L.d("用户信息：" + info.toString());
-                dialog.setTitleText("初始化成功")
-                        .showContentText(false)
-                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-
-                new Handler().postDelayed(new Runnable() {
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        NetService dxyService = NetManager.getInstance().createString(NetService.class);
+        RxManager.getInstance().doNetSubscribe(dxyService.getUserId(body))
+                .subscribe(new RxNetSubscriber<String>() {
                     @Override
-                    public void run() {
-                        dialog.dismissWithAnimation();
-                        //登录成功
-                        startActivity(new Intent(BaseActivity.this, ScnnerActivity.class));
-                        finish();
+                    protected void _onNext(String s) {
+                        L.d("结束：" + s);
+                        tipDialog.dismiss();
+
+                        UserInfo info = getUserInfo();
+                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                        edit.putBoolean(Constants.isLogin, true);
+                        edit.apply();
+
+                        info.sex = result.getUserInfo().getSex() - 1;
+                        info.name = result.getUserInfo().getNickname();
+                        info.heardImgUrl = result.getUserInfo().getHeadImageUrl();
+                        info.phone = result.getPhone();
+                        info.email = result.getEmail();
+                        putUserInfo(info);
+
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //登录成功
+                                startActivity(new Intent(BaseActivity.this, ScnnerActivity.class));
+                                finish();
+                            }
+                        }, 1000);
+
                     }
-                }, 1000);
-            }
 
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                dialog.setTitleText("初始化失败")
-                        .showContentText(false)
-                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            }
-
-        });
+                    @Override
+                    protected void _onError(String error) {
+//                            RxToast.error(error);
+                    }
+                });
     }
 
 }

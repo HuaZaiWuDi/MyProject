@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.embednet.wdluo.JackYan.R;
-import com.embednet.wdluo.JackYan.ui.SweetDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import cn.qqtheme.framework.picker.OptionPicker;
 
@@ -76,10 +76,10 @@ public class ControlActivity extends BaseActivity {
     }
 
     public void APP(View v) {
-        new SweetDialog(this)
-                .setDaration(2000)
-                .setTitleText(getString(R.string.isNewVersion))
-                .show();
+        new QMUITipDialog.Builder(this)
+                .setTipWord(getString(R.string.isNewVersion))
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_INFO)
+                .create().show();
     }
 
     public void DFU(View v) {
@@ -87,11 +87,13 @@ public class ControlActivity extends BaseActivity {
     }
 
     public void DeviceInfo(View v) {
-        new SweetDialog(this)
-                .setDaration(2000)
-                .setTitleText(getString(R.string.DeviceInfo))
-                .setContentText(getString(R.string.deviceInfo, "", "", "", ""))
-                .show();
+//        new SweetDialog(this)
+//                .setDaration(2000)
+//                .setTitleText(getString(R.string.DeviceInfo))
+//                .setContentText(getString(R.string.deviceInfo, "", "", "", ""))
+//                .show();
+
+
     }
 
 

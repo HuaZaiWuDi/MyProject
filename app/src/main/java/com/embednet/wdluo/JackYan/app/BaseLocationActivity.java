@@ -1,6 +1,8 @@
 package com.embednet.wdluo.JackYan.app;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -11,15 +13,13 @@ import android.support.v4.app.ActivityCompat;
 
 import com.embednet.wdluo.JackYan.Constants;
 import com.embednet.wdluo.JackYan.R;
-import com.embednet.wdluo.JackYan.ui.SweetDialog;
 import com.embednet.wdluo.JackYan.util.L;
 import com.embednet.wdluo.JackYan.util.RxLocationUtils;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import lab.dxythch.com.netlib.rx.RxSubscriber;
 import lab.dxythch.com.netlib.utils.RxNetUtils;
+import lab.dxythch.com.netlib.utils.RxSubscriber;
 import laboratory.dxy.jack.com.jackupdate.ui.RxToast;
 
 public abstract class BaseLocationActivity extends BaseActivity {
@@ -83,23 +83,21 @@ public abstract class BaseLocationActivity extends BaseActivity {
             L.d("checkSelfPermission");
             return;
         }
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, -1, 100, mLocationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 100, mLocationListener);
     }
 
     //----------------------------------------------------------------------------------------------检测GPS是否已打开 start
     private void gpsCheck() {
         if (!RxLocationUtils.isGpsEnabled(this)) {
-            new SweetDialog(this)
-                    .setTitleText("GPS未打开")
-                    .setContentText("您需要在系统设置中打开GPS方可采集数据")
-                    .setConfirmText("前往")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            AlertDialog dialog=new AlertDialog.Builder(this)
+                    .setTitle("GPS 未开启")
+                    .setMessage("您需要在系统设置中打开GPS方可采集数据")
+                    .setPositiveButton("前往", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            RxLocationUtils.openGpsSettings(sweetAlertDialog.getContext());
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            RxLocationUtils.openGpsSettings(getApplicationContext());
                         }
-                    })
-                    .show();
+                    }).show();
         } else {
             sheckPromission();
         }

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import lab.dxythch.com.netlib.utils.RxHttpException;
 
 /**
  * 项目名称：MyProject
@@ -16,18 +17,18 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class RxNetSubscriber<T> implements Observer<T> {
 
+
     String TAG = "【RxNetSubscriber】";
 
     @Override
     public void onSubscribe(Disposable d) {
-
     }
-
 
     @Override
     public void onError(Throwable e) {
         Log.e(TAG, "onError: " + e.getMessage());
-//        new RxHttpException().handleResponseError(e);
+        Log.e(TAG, "onError: " + e.toString());
+        _onError(new RxHttpException().handleResponseError(e));
     }
 
     @Override
@@ -41,25 +42,24 @@ public abstract class RxNetSubscriber<T> implements Observer<T> {
             JSONObject object = null;
             try {
                 object = new JSONObject((String) t);
-                String retCode = object.getString("ret_code");
+                String retCode = object.getString("code");
+                String msg = object.getString("msg");
                 int status = Integer.parseInt(retCode);
                 if (status == 0) {
-                    _onNext(t);
-                } else if (status == -1) {
-                    onError(new Throwable(object.getString("ret_msg")));
-
-                } else if (status == -3) {
-                    onError(new Throwable("参数异常"));
-                }
+                    String data = object.getString("data");
+                    _onNext((T) data);
+                } else
+                    _onError(msg);
             } catch (JSONException e) {
                 e.printStackTrace();
                 onError(new Throwable("异常"));
             }
         }
-
-
+        Log.v(TAG, "onNext: " + t);
     }
 
     protected abstract void _onNext(T t);
 
+
+    protected abstract void _onError(String error);
 }
